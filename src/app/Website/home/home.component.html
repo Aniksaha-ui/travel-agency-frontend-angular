@@ -9,100 +9,26 @@
 <!-- booking form section -->
 <section class="w3l-form-main py-5" id="book">
   <div class="container py-lg-5 py-md-4 py-2">
-    <form action="#" method="post" class="form-styles">
+    <form [formGroup]="tourForm" (ngSubmit)="onSubmit()" class="form-styles">
       <div class="">
         <label for="inputtextnumber" class="form-label">Date from:</label>
-        <input type="date" name="date" id="dateofbirth" required="" />
+        <input type="date" name="start_date" id="dateofbirth" required="" />
       </div>
+
       <div class="">
-        <label for="inputtextnumber" class="form-label">Destinations:</label>
-        <span class="input-group-btn">
-          <select class="btn btn-default" name="ext" required>
-            <option selected="">Select Location</option>
-            <option>Australia</option>
-            <option>London</option>
-            <option>India</option>
-            <option>Bangladesh</option>
-            <option>Saudi Arabia</option>
-            <option>America</option>
-            <option>Srilanka</option>
-          </select>
-        </span>
+        <label for="inputtextnumber" class="form-label">Date from:</label>
+        <input type="date" name="end_date" id="end_date" required="" />
       </div>
-      <div class="">
-        <label for="inputtextnumber" class="form-label">Activity:</label>
-        <span class="input-group-btn">
-          <select class="btn btn-default" name="ext" required>
-            <option selected="">Select Any</option>
-            <option>Adventure</option>
-            <option>Beache</option>
-            <option>City Tours</option>
-            <option>Cruises</option>
-            <option>Discovery</option>
-            <option>Historical</option>
-            <option>Relaxation Tours</option>
-          </select>
-        </span>
+      <div>
+        <label for="inputtextnumber" class="form-label">Date from:</label>
+        <input type="text" name="tour_name" id="tour_name" required="" />
       </div>
-      <div class="">
-        <label for="inputtextnumber" class="form-label">Guests:</label>
-        <span class="input-group-btn">
-          <select class="btn btn-default" name="ext" required>
-            <option selected="">0</option>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-            <option>6</option>
-          </select>
-        </span>
-      </div>
+
       <button class="btn btn-style" type="submit">Find Tour</button>
     </form>
   </div>
 </section>
 <!-- //booking form section -->
-
-<!-- about section -->
-<section class="w3l-aboutblock py-lg-5 py-4" id="about">
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="col-lg-6">
-        <img
-          src="assets/images/about.jpg"
-          alt=""
-          class="img-fluid radius-image"
-        />
-      </div>
-      <div class="col-lg-6 ps-xl-5 ps-lg-4 mt-lg-0 mt-5">
-        <div class="title-main">
-          <p>About Us</p>
-          <h3 class="title-style">Plan Your Trip with Tours</h3>
-        </div>
-        <p class="mt-3">
-          Lorem ipsum viverra feugiat. Pellen tesque libero ut justo, ultrices
-          in ligula. Semper at tempufddfel. Lorem ipsum dolor sit amet
-          consectetur adipisicing elit.
-        </p>
-        <ul class="mt-4 list-style-lis">
-          <li><i class="fas fa-check-circle"></i>2000+ Our Worldwide Guide</li>
-          <li class="mt-2">
-            <i class="fas fa-check-circle"></i>100% Trusted Tour Agency
-          </li>
-          <li class="mt-2">
-            <i class="fas fa-check-circle"></i>24+ Years of Experience
-          </li>
-          <li class="mt-2">
-            <i class="fas fa-check-circle"></i>100% Travelers are Happy
-          </li>
-        </ul>
-        <a href="contact.html" class="btn btn-style mt-5">Booking Now</a>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- //about section -->
 
 <!-- tours slider section -->
 <section class="w3l-index5 pb-5 pt-4">
@@ -119,7 +45,9 @@
       <div class="col-lg-3" *ngFor="let tour of tours">
         <div class="item">
           <div class="content-left-sec">
-            <a class="blog-link d-block zoom-image" href="tours.html"
+            <a
+              class="blog-link d-block zoom-image"
+              [routerLink]="['/tour', tour.id]"
               ><img
                 src="assets/images/s1.jpg"
                 class="img-fluid scale-image"
@@ -163,6 +91,46 @@
     </div>
   </div>
 </section>
+
+<!-- about section -->
+<section class="w3l-aboutblock py-lg-5 py-4" id="about">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        <img
+          src="assets/images/about.jpg"
+          alt=""
+          class="img-fluid radius-image"
+        />
+      </div>
+      <div class="col-lg-6 ps-xl-5 ps-lg-4 mt-lg-0 mt-5">
+        <div class="title-main">
+          <p>About Us</p>
+          <h3 class="title-style">Plan Your Trip with Tours</h3>
+        </div>
+        <p class="mt-3">
+          Lorem ipsum viverra feugiat. Pellen tesque libero ut justo, ultrices
+          in ligula. Semper at tempufddfel. Lorem ipsum dolor sit amet
+          consectetur adipisicing elit.
+        </p>
+        <ul class="mt-4 list-style-lis">
+          <li><i class="fas fa-check-circle"></i>2000+ Our Worldwide Guide</li>
+          <li class="mt-2">
+            <i class="fas fa-check-circle"></i>100% Trusted Tour Agency
+          </li>
+          <li class="mt-2">
+            <i class="fas fa-check-circle"></i>24+ Years of Experience
+          </li>
+          <li class="mt-2">
+            <i class="fas fa-check-circle"></i>100% Travelers are Happy
+          </li>
+        </ul>
+        <a href="contact.html" class="btn btn-style mt-5">Booking Now</a>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- //about section -->
 
 <!-- //tours slider section -->
 

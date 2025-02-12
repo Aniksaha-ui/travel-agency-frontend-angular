@@ -12,6 +12,7 @@ import { AboutComponent } from './Website/about/about.component';
 import { ContactComponent } from './Website/contact/contact.component';
 import { TourService } from './service/tour.service';
 import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,12 @@ import { HttpClientModule } from '@angular/common/http';
     AboutComponent,
     ContactComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+  ],
   providers: [TourService],
   bootstrap: [AppComponent],
 })
