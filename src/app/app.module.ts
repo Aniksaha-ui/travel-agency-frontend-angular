@@ -10,6 +10,8 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { AboutComponent } from './Website/about/about.component';
 import { ContactComponent } from './Website/contact/contact.component';
+import { TourService } from './service/tour.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -20,13 +22,10 @@ import { ContactComponent } from './Website/contact/contact.component';
     HeaderComponent,
     FooterComponent,
     AboutComponent,
-    ContactComponent
+    ContactComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  providers: [TourService],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
