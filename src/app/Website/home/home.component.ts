@@ -12,7 +12,7 @@ export class HomeComponent implements OnInit {
   tourForm: FormGroup = new FormGroup({
     start_date: new FormControl('', Validators.required),
     end_date: new FormControl('', Validators.required),
-    tour_name: new FormControl('', Validators.required),
+    trip_name: new FormControl('', Validators.required),
   });
 
   tours: any = [];
@@ -40,10 +40,12 @@ export class HomeComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.tourForm.valid) {
-      console.log('Form Submitted:', this.tourForm.value); // Log the form values
-    } else {
-      console.log('Form is invalid');
-    }
+    this.tourService.getAllTours(this.tourForm.value).subscribe((res: any) => {
+      if (res && res.data && res.data.length > 0) {
+        this.tours = res.data;
+      } else {
+        this.tours = [];
+      }
+    });
   }
 }

@@ -12,16 +12,31 @@
     <form [formGroup]="tourForm" (ngSubmit)="onSubmit()" class="form-styles">
       <div class="">
         <label for="inputtextnumber" class="form-label">Date from:</label>
-        <input type="date" name="start_date" id="dateofbirth" required="" />
+        <input
+          type="date"
+          formControlName="start_date"
+          id="dateofbirth"
+          required=""
+        />
       </div>
 
       <div class="">
         <label for="inputtextnumber" class="form-label">Date from:</label>
-        <input type="date" name="end_date" id="end_date" required="" />
+        <input
+          type="date"
+          formControlName="end_date"
+          id="end_date"
+          required=""
+        />
       </div>
       <div>
         <label for="inputtextnumber" class="form-label">Date from:</label>
-        <input type="text" name="tour_name" id="tour_name" required="" />
+        <input
+          type="text"
+          formControlName="trip_name"
+          id="trip_name"
+          required=""
+        />
       </div>
 
       <button class="btn btn-style" type="submit">Find Tour</button>

@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 export class TourService {
   constructor(private http: HttpClient) {}
 
-  getAllTours() {
-    return this.http.post(`${environment.apiBaseUrl}/trips`, {});
+  getAllTours(formData = {}) {
+    return this.http.post(`${environment.apiBaseUrl}/trips`, formData);
   }
 }
