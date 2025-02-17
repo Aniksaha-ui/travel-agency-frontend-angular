@@ -1,0 +1,43 @@
+body {
+  background: url("https://www.example.com/your-beautiful-image.jpg") no-repeat
+    center center fixed;
+  background-size: cover;
+  font-family: Arial, sans-serif;
+}
+
+.login-form {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.login-form h2 {
+  font-size: 1.5rem;
+  color: #2a3d63;
+}
+
+.login-form .form-control {
+  border-radius: 10px;
+}
+
+.login-form button {
+  background-color: #2a3d63;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.login-form button:hover {
+  background-color: #1f2a3b;
+}
+
+.text-center a {
+  color: #2a3d63;
+  text-decoration: none;
+}
+
+.text-center a:hover {
+  text-decoration: underline;
+}
