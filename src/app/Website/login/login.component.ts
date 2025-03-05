@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { AppdataService } from 'src/app/service/appdata.service';
+import { LoginService } from 'src/app/service/login.service';
 
 @Component({
   selector: 'app-login',
@@ -12,15 +14,20 @@ export class LoginComponent {
     password: new FormControl('', Validators.required),
   });
 
-  onSubmit(): void {
-    console.log(this.loginForm.value, '231');
+  constructor(
+    private loginService: LoginService,
+    private data: AppdataService
+  ) {}
 
-    // this.tourService.getAllTours(this.tourForm.value).subscribe((res: any) => {
-    //   if (res && res.data && res.data.length > 0) {
-    //     this.tours = res.data;
-    //   } else {
-    //     this.tours = [];
-    //   }
-    // });
+  onSubmit(): void {
+    this.loginService.login(this.loginForm.value).subscribe((res: any) => {
+      if (res.access_token) {
+        console.log(res);
+        localStorage.setItem('access_token', res.access_token);
+        localStorage.setItem('user', JSON.stringify(res.user));
+        this.data.userInfo.next(res);
+        this.data.loginStatus.next(true);
+      }
+    });
   }
 }

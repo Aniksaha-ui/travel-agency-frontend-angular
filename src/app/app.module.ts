@@ -11,9 +11,10 @@ import { FooterComponent } from './footer/footer.component';
 import { AboutComponent } from './Website/about/about.component';
 import { ContactComponent } from './Website/contact/contact.component';
 import { TourService } from './service/tour.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './Website/login/login.component';
+import { AuthInterceptor } from './auth.interceptor'; // Import your interceptor
 
 @NgModule({
   declarations: [
@@ -33,7 +34,14 @@ import { LoginComponent } from './Website/login/login.component';
     HttpClientModule,
     ReactiveFormsModule,
   ],
-  providers: [TourService],
+  providers: [
+    TourService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor, // Add the AuthInterceptor here
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
