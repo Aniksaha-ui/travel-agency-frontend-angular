@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AppdataService } from 'src/app/service/appdata.service';
 import { LoginService } from 'src/app/service/login.service';
 
@@ -16,7 +17,8 @@ export class LoginComponent {
 
   constructor(
     private loginService: LoginService,
-    private data: AppdataService
+    private data: AppdataService,
+    private router: Router
   ) {}
 
   onSubmit(): void {
@@ -25,8 +27,10 @@ export class LoginComponent {
         console.log(res);
         localStorage.setItem('access_token', res.access_token);
         localStorage.setItem('user', JSON.stringify(res.user));
+        localStorage.setItem('isLoggedIn', true.toString());
         this.data.userInfo.next(res);
         this.data.loginStatus.next(true);
+        this.router.navigate(['/']);
       }
     });
   }

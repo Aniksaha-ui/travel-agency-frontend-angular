@@ -31,8 +31,11 @@
           <li class="nav-item">
             <a class="nav-link" routerLink="/contact">Contact</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/contact">Login</a>
+          <li class="nav-item" *ngIf="!isLoggedIn">
+            <a class="nav-link" routerLink="/login">Login</a>
+          </li>
+          <li class="nav-item" *ngIf="isLoggedIn">
+            <a class="nav-link" routerLink="/">My Bookings</a>
           </li>
         </ul>
         <form
