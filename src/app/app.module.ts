@@ -14,7 +14,8 @@ import { TourService } from './service/tour.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './Website/login/login.component';
-import { AuthInterceptor } from './auth.interceptor'; // Import your interceptor
+import { AuthInterceptor } from './auth.interceptor';
+import { MybookingsComponent } from './Website/mybookings/mybookings.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { AuthInterceptor } from './auth.interceptor'; // Import your interceptor
     AboutComponent,
     ContactComponent,
     LoginComponent,
+    MybookingsComponent,
   ],
   imports: [
     BrowserModule,

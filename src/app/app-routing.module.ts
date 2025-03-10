@@ -5,6 +5,7 @@ import { TourComponent } from './Website/tour/tour.component';
 import { AboutComponent } from './Website/about/about.component';
 import { ContactComponent } from './Website/contact/contact.component';
 import { LoginComponent } from './Website/login/login.component';
+import { MybookingsComponent } from './Website/mybookings/mybookings.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'contact', component: ContactComponent },
   { path: 'about', component: AboutComponent },
   { path: 'tour/:id', component: TourComponent },
+  { path: 'my-bookings', component: MybookingsComponent },
 ];
 
 @NgModule({

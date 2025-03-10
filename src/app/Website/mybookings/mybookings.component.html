@@ -1,0 +1,32 @@
+<section class="w3l-contact-main py-5 mt-5" id="contact">
+  <div class="container py-lg-5 py-md-4 py-2">
+    <div
+      class="title-main text-center mx-auto mb-md-5 mb-4"
+      style="max-width: 600px"
+    >
+      <p>My bookings ({{ bookings.length }})</p>
+      <p class="title-style">Thanks for your bookings</p>
+      <table class="table table-bordered mt-5">
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">User Name</th>
+            <th scope="col">Trip Name</th>
+            <th scope="col">Seat</th>
+            <th scope="col">Status</th>
+            <th scope="col">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let booking of bookings">
+            <td>{{ booking?.user_id ?? "" }}</td>
+            <td>{{ booking.trip_name }}</td>
+            <td>{{ booking.seat_ids }}</td>
+            <td>{{ booking.status }}</td>
+            <td>{{ booking.created_at }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

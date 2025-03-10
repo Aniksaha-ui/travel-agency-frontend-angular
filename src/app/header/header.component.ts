@@ -10,8 +10,10 @@ export class HeaderComponent {
   constructor(private data: AppdataService) {}
   isLoggedIn = false;
   ngOnInit(): void {
-    this.data.loginState.subscribe((res) => {
-      this.isLoggedIn = res;
-    });
+    const loginState = JSON.parse(
+      localStorage.getItem('isLoggedIn') || 'false'
+    );
+    this.isLoggedIn = loginState;
+    this.data.loginStatus.next(loginState);
   }
 }
