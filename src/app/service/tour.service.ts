@@ -20,4 +20,11 @@ export class TourService {
       `http://travelbooking.infinitycodehubltd.com/public/api/trip/${tripId}`
     );
   }
+
+  getBookingLayout(tripId: any) {
+    return this.http.post(
+      `http://travelbooking.infinitycodehubltd.com/public/api/user/tripsummery`,
+      { trip_id: tripId }
+    );
+  }
 }

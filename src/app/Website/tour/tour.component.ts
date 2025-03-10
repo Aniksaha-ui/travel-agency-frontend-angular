@@ -15,7 +15,7 @@ export class TourComponent {
     private tourService: TourService,
     private route: ActivatedRoute,
     private router: Router,
-    private data: AppdataService
+    private data: AppdataService,
   ) {}
   ngOnInit(): void {
     this.data.loginStatus.subscribe((res) => {
@@ -31,5 +31,7 @@ export class TourComponent {
     });
   }
 
-  bookNow(tourId: any) {}
+  bookNow(tourId: any) {
+    this.router.navigate(['/book-tour', tourId]);
+    }
 }

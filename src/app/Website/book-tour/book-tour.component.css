@@ -1,0 +1,14 @@
+.seat-map {
+  max-width: 400px;
+  margin: auto;
+}
+
+.seat-btn {
+  width: 60px;
+  height: 60px;
+  font-size: 16px;
+}
+
+.btn-danger {
+  cursor: not-allowed;
+}

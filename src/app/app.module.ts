@@ -16,6 +16,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './Website/login/login.component';
 import { AuthInterceptor } from './auth.interceptor';
 import { MybookingsComponent } from './Website/mybookings/mybookings.component';
+import { BookTourComponent } from './Website/book-tour/book-tour.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { MybookingsComponent } from './Website/mybookings/mybookings.component';
     ContactComponent,
     LoginComponent,
     MybookingsComponent,
+    BookTourComponent,
   ],
   imports: [
     BrowserModule,
