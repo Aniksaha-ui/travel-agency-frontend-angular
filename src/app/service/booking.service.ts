@@ -8,10 +8,16 @@ export class BookingService {
   constructor(private http: HttpClient) {}
 
   findBookings() {
-    return this.http.post('http://127.0.0.1:8000/api/mybookings', {});
+    return this.http.post(
+      'http://travelbooking.infinitycodehubltd.com/public/api  /mybookings',
+      {}
+    );
   }
 
   bookTour(data: any) {
-    return this.http.post('http://127.0.0.1:8000/api/booking', data);
+    return this.http.post(
+      'http://travelbooking.infinitycodehubltd.com/public/api  /booking',
+      data
+    );
   }
 }
