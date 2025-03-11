@@ -8,9 +8,6 @@ export class LoginService {
   constructor(private http: HttpClient) {}
 
   login(data: any) {
-    return this.http.post(
-      'http://travelbooking.infinitycodehubltd.com/public/api/login',
-      data
-    );
+    return this.http.post('http://127.0.0.1:8000/api/login', data);
   }
 }

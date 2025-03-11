@@ -1,0 +1,162 @@
+<section
+  class="w3l-contact-main"
+  id="contact"
+  style="margin-top: 10%; margin-bottom: 20%"
+>
+  <div class="container mt-4">
+    <div class="row">
+      <!-- Seat Layout Section -->
+      <div class="col-md-8">
+        <h3 class="text-center mb-4">Bus Seat Layout</h3>
+        <div class="d-flex justify-content-center">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="bus-layout">
+                <div class="row">
+                  <!-- Display Seat Buttons -->
+                  <div *ngFor="let seat of getUniqueSeats()" class="col-3 p-2">
+                    <button
+                      class="btn seat-btn w-100"
+                      (click)="toggleSeat(seat)"
+                      [ngClass]="{
+                        'btn-success':
+                          seat.is_available === 1 && !isSeatSelected(seat),
+                        'btn-primary': isSeatSelected(seat),
+                        'btn-danger disabled': seat.is_available === 0
+                      }"
+                    >
+                      {{ seat.seat_number }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment Information Section -->
+      <div class="col-md-4">
+        <h3 class="text-center mb-4">Payment Information</h3>
+        <div class="login-form p-4 border rounded shadow-lg">
+          <h2 class="text-center mb-4">Travel Agency Login</h2>
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <!-- Total Amount Field -->
+            <div class="mb-3">
+              <label for="payment_amount" class="form-label"
+                >Amount {{ calculateTotalAmount() }}</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                formControlName="amount"
+                id="payment_amount"
+                [value]="calculateTotalAmount()"
+                placeholder="Enter Total Amount"
+              />
+            </div>
+
+            <!-- Payment Method Select Field -->
+            <div class="mb-3">
+              <label for="payment_method" class="form-label"
+                >Payment Method</label
+              >
+              <select
+                class="form-control"
+                formControlName="payment_method"
+                id="payment_method"
+              >
+                <option value="" disabled selected>
+                  Select Payment Method
+                </option>
+                <option value="bkash">Bkash</option>
+                <option value="nagad">Nagad</option>
+                <option value="card">Card</option>
+              </select>
+            </div>
+
+            <!-- Card Number Field -->
+            <div class="mb-3" *ngIf="loginForm.value.payment_method === 'card'">
+              <label for="card" class="form-label">Card Number</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="card"
+                id="card"
+                placeholder="Enter card number"
+              />
+            </div>
+
+            <!-- Nagad Number Field -->
+            <div
+              class="mb-3"
+              *ngIf="loginForm.value.payment_method === 'nagad'"
+            >
+              <label for="nagad" class="form-label">Nagad Number</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="nagad"
+                id="nagad"
+                placeholder="Enter Nagad number"
+              />
+            </div>
+
+            <!-- Bkash Number Field -->
+            <div
+              class="mb-3"
+              *ngIf="loginForm.value.payment_method === 'bkash'"
+            >
+              <label for="bkash" class="form-label">Bkash Number</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="bkash"
+                id="bkash"
+                placeholder="Enter Bkash number"
+              />
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary w-100">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Selected Seats Table -->
+    <div class="mt-5">
+      <h4 class="text-center">Selected Seats</h4>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover text-center">
+          <thead class="table-dark">
+            <tr>
+              <th>#</th>
+              <th>Seat Number</th>
+              <th>Trip ID</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let seat of selectedSeats; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td class="fw-bold text-success">{{ seat.seat_number }}</td>
+              <td>{{ seat.trip_id }}</td>
+              <td>
+                <button
+                  class="btn btn-sm btn-danger"
+                  (click)="toggleSeat(seat)"
+                >
+                  Remove
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div *ngIf="selectedSeats.length === 0" class="text-center text-muted">
+          No seats selected
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,14 +1,22 @@
-.seat-map {
-  max-width: 400px;
-  margin: auto;
+.bus-layout {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
 .seat-btn {
   width: 60px;
   height: 60px;
   font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
 }
 
-.btn-danger {
-  cursor: not-allowed;
+.btn-booked {
+  background-color: #f55a42;
+}
+
+.btn-available {
+  background-color: #48ce4d;
 }
