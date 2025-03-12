@@ -14,15 +14,15 @@
               <div class="bus-layout">
                 <div class="row">
                   <!-- Display Seat Buttons -->
-                  <div *ngFor="let seat of getUniqueSeats()" class="col-3 p-2">
+                  <div *ngFor="let seat of seatLayout" class="col-3 p-2">
                     <button
                       class="btn seat-btn w-100"
                       (click)="toggleSeat(seat)"
                       [ngClass]="{
-                        'btn-success':
-                          seat.is_available === 1 && !isSeatSelected(seat),
+                        'btn-available':
+                          +seat.is_available === 1 && !isSeatSelected(seat),
                         'btn-primary': isSeatSelected(seat),
-                        'btn-danger disabled': seat.is_available === 0
+                        'btn-booked disabled': +seat.is_available === 0
                       }"
                     >
                       {{ seat.seat_number }}

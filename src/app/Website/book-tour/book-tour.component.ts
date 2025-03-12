@@ -50,7 +50,7 @@ export class BookTourComponent {
         uniqueSeats.set(seat.seat_id, seat);
       }
     });
-
+    console.log(Array.from(uniqueSeats.values()));
     return Array.from(uniqueSeats.values());
   }
 

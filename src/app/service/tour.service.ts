@@ -10,20 +10,20 @@ export class TourService {
 
   getAllTours(formData = {}) {
     return this.http.post(
-      `http://travelbooking.infinitycodehubltd.com/public/api  /trips`,
+      `https://travelbooking.infinitycodehubltd.com/public/api/trips`,
       formData
     );
   }
 
   getSingleTour(tripId: any) {
     return this.http.get(
-      `http://travelbooking.infinitycodehubltd.com/public/api  /trip/${tripId}`
+      `https://travelbooking.infinitycodehubltd.com/public/api/trip/${tripId}`
     );
   }
 
   getBookingLayout(tripId: any) {
     return this.http.post(
-      `http://travelbooking.infinitycodehubltd.com/public/api  /user/tripsummery`,
+      `https://travelbooking.infinitycodehubltd.com/public/api/user/tripsummery`,
       {
         trip_id: tripId,
       }

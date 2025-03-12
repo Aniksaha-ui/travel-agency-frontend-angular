@@ -9,14 +9,14 @@ export class BookingService {
 
   findBookings() {
     return this.http.post(
-      'http://travelbooking.infinitycodehubltd.com/public/api  /mybookings',
+      'https://travelbooking.infinitycodehubltd.com/public/api/mybookings',
       {}
     );
   }
 
   bookTour(data: any) {
     return this.http.post(
-      'http://travelbooking.infinitycodehubltd.com/public/api  /booking',
+      'https://travelbooking.infinitycodehubltd.com/public/api/booking',
       data
     );
   }

@@ -9,7 +9,7 @@ export class LoginService {
 
   login(data: any) {
     return this.http.post(
-      'http://travelbooking.infinitycodehubltd.com/public/api  /login',
+      'https://travelbooking.infinitycodehubltd.com/public/api/login',
       data
     );
   }
