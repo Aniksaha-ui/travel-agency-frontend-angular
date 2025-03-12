@@ -42,18 +42,6 @@ export class BookTourComponent {
     });
   }
 
-  // Function to get unique seats
-  getUniqueSeats() {
-    const uniqueSeats = new Map();
-    this.seatLayout.forEach((seat) => {
-      if (!uniqueSeats.has(seat.seat_id)) {
-        uniqueSeats.set(seat.seat_id, seat);
-      }
-    });
-    console.log(Array.from(uniqueSeats.values()));
-    return Array.from(uniqueSeats.values());
-  }
-
   // Function to toggle seat selection
   toggleSeat(seat: any) {
     if (seat.is_available === '0') return; // Prevent selection if seat is unavailable
@@ -80,7 +68,7 @@ export class BookTourComponent {
   // Form submission handler
   onSubmit(): void {
     console.log(this.loginForm.value, 'payment_method');
-    console.log(this.selectedSeats, 'selectedSeats');
+    // console.log(this.selectedSeats, 'selectedSeats');
     const requestData = {
       seatinfo: this.selectedSeats,
       paymentinfo: this.loginForm.value,
@@ -88,13 +76,16 @@ export class BookTourComponent {
     console.log(requestData, 'requestData');
     this.bookingService.bookTour(requestData).subscribe((res: any) => {
       if (res.status === 'success') {
-        this.router.navigate(['/mybookings']);
+        this.router.navigate(['/my-bookings']);
       }
     });
     // Add payment and booking logic here
   }
 
   calculateTotalAmount(): number {
-    return this.selectedSeats.length;
+    this.loginForm.patchValue({
+      amount: this.selectedSeats.length * this.tripData.price,
+    });
+    return this.selectedSeats.length * this.tripData.price;
   }
 }
