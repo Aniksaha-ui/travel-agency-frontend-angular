@@ -7,6 +7,7 @@ import { ContactComponent } from './Website/contact/contact.component';
 import { LoginComponent } from './Website/login/login.component';
 import { MybookingsComponent } from './Website/mybookings/mybookings.component';
 import { BookTourComponent } from './Website/book-tour/book-tour.component';
+import { BookingInvoiceComponent } from './Website/booking-invoice/booking-invoice.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'tour/:id', component: TourComponent },
   { path: 'my-bookings', component: MybookingsComponent },
   { path: 'book-tour/:id', component: BookTourComponent },
+  { path: 'book-invoice/:id', component: BookingInvoiceComponent },
 ];
 
 @NgModule({

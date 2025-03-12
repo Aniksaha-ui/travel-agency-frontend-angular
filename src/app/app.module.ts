@@ -17,6 +17,7 @@ import { LoginComponent } from './Website/login/login.component';
 import { AuthInterceptor } from './auth.interceptor';
 import { MybookingsComponent } from './Website/mybookings/mybookings.component';
 import { BookTourComponent } from './Website/book-tour/book-tour.component';
+import { BookingInvoiceComponent } from './Website/booking-invoice/booking-invoice.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { BookTourComponent } from './Website/book-tour/book-tour.component';
     LoginComponent,
     MybookingsComponent,
     BookTourComponent,
+    BookingInvoiceComponent,
   ],
   imports: [
     BrowserModule,

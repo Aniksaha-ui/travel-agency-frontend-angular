@@ -1,0 +1,92 @@
+<!-- invoice.component.html -->
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8">
+      <!-- Invoice Card -->
+      <div class="card mt-5 mb-5">
+        <div class="card-body">
+          <!-- Invoice Header -->
+          <div class="text-center mb-4">
+            <h3><strong>Invoice</strong></h3>
+            <p>Booking Confirmation</p>
+          </div>
+
+          <!-- Booking Info Section -->
+          <div class="row">
+            <div class="col-6">
+              <h5><strong>Booking ID:</strong> {{ invoiceData.booking_id }}</h5>
+              <h6>
+                <strong>Transaction Reference:</strong>
+                {{ invoiceData.transaction_reference }}
+              </h6>
+            </div>
+            <div class="col-6 text-right">
+              <h6>
+                <strong>Payment Status:</strong>
+                {{ invoiceData.payment.status }}
+              </h6>
+              <h6>
+                <strong>Payment Method:</strong>
+                {{ invoiceData.payment.method }}
+              </h6>
+            </div>
+          </div>
+          <hr />
+
+          <!-- User Info Section -->
+          <div class="row">
+            <div class="col-6">
+              <h5><strong>User Information</strong></h5>
+              <p><strong>Name:</strong> {{ invoiceData.user.name }}</p>
+              <p><strong>Email:</strong> {{ invoiceData.user.email }}</p>
+            </div>
+            <div class="col-6 text-right">
+              <h5><strong>Trip Information</strong></h5>
+              <p>
+                <strong>Trip Name:</strong> {{ invoiceData.trip.trip_name }}
+              </p>
+            </div>
+          </div>
+          <hr />
+
+          <!-- Seats Info Section -->
+          <div class="row">
+            <div class="col-12">
+              <h5><strong>Selected Seats</strong></h5>
+              <ul class="list-unstyled">
+                <li *ngFor="let seat of invoiceData.seats">
+                  <strong>Seat Number:</strong> {{ seat.seat_number }}
+                </li>
+              </ul>
+            </div>
+          </div>
+          <hr />
+
+          <!-- Payment Information Section -->
+          <div class="row">
+            <div class="col-12">
+              <h5><strong>Payment Information</strong></h5>
+              <p>
+                <strong>Card Number:</strong> **** **** ****
+                {{ invoiceData.payment.card.slice(-4) }}
+              </p>
+              <p *ngIf="invoiceData.payment.nagad">
+                Nagad: {{ invoiceData.payment.nagad }}
+              </p>
+              <p *ngIf="invoiceData.payment.bkash">
+                Bkash: {{ invoiceData.payment.bkash }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Footer Section -->
+          <div class="text-center mt-4">
+            <button class="btn btn-success" (click)="downloadInvoice()">
+              Download Invoice
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
