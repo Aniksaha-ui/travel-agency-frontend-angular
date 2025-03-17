@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { BookingService } from 'src/app/service/booking.service';
+import { TourService } from 'src/app/service/tour.service';
 
 @Component({
   selector: 'app-booking-invoice',
@@ -6,39 +9,28 @@ import { Component } from '@angular/core';
   styleUrls: ['./booking-invoice.component.css'],
 })
 export class BookingInvoiceComponent {
-  invoiceData = {
-    booking_id: 8,
-    transaction_reference: 'ACSX68JWMP',
-    user: {
-      name: 'Anik Saha',
-      email: 'sahaanik104@gmail.com',
-    },
-    trip: {
-      trip_id: 1,
-      trip_name: 'Grand Trip Faridpur',
-    },
-    payment: {
-      status: 'payment init',
-      method: 'card',
-      nagad: null,
-      bkash: null,
-      card: '4706614431298592',
-    },
-    seats: [
-      {
-        seat_id: 15,
-        seat_number: 'A1',
-      },
-      {
-        seat_id: 16,
-        seat_number: 'A2',
-      },
-    ],
-  };
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private tourService: TourService,
+    private bookingService: BookingService
+  ) {}
 
-  constructor() {}
+  invoiceData: any = {};
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.paramMap.subscribe((params) => {
+      this.bookingService
+        .bookingInvoice(params.get('id'))
+        .subscribe((res: any) => {
+          if (res.data) {
+            console.log(res.data[0]);
+
+            this.invoiceData = res.data[0];
+          }
+        });
+    });
+  }
 
   downloadInvoice() {
     // Logic to download the invoice

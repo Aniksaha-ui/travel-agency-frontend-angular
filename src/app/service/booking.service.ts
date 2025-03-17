@@ -20,4 +20,11 @@ export class BookingService {
       data
     );
   }
+
+  bookingInvoice(booking_id: any) {
+    return this.http.post(
+      'https://travelbooking.infinitycodehubltd.com/public/api/invoice',
+      { booking_id: booking_id }
+    );
+  }
 }

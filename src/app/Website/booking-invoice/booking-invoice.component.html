@@ -54,6 +54,10 @@
             <div class="col-12">
               <h5><strong>Selected Seats</strong></h5>
               <ul class="list-unstyled">
+                {{
+                  invoiceData.seats | json
+                }}
+
                 <li *ngFor="let seat of invoiceData.seats">
                   <strong>Seat Number:</strong> {{ seat.seat_number }}
                 </li>
