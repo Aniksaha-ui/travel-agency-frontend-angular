@@ -37,6 +37,8 @@ export class BookTourComponent {
           if (res.data) {
             this.tripData = res.data.tripSummaries[0];
             this.seatLayout = res.data.seat_layout;
+
+            console.log(this.seatLayout.length, '123');
           }
         });
     });
