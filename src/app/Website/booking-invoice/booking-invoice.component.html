@@ -54,12 +54,8 @@
             <div class="col-12">
               <h5><strong>Selected Seats</strong></h5>
               <ul class="list-unstyled">
-                {{
-                  invoiceData.seats | json
-                }}
-
                 <li *ngFor="let seat of invoiceData.seats">
-                  <strong>Seat Number:</strong> {{ seat.seat_number }}
+                  <strong>Seat Number:{{ seat.seat_number ?? "N/A" }} </strong>
                 </li>
               </ul>
             </div>
@@ -74,10 +70,10 @@
                 <strong>Card Number:</strong> **** **** ****
                 {{ invoiceData.payment.card.slice(-4) }}
               </p>
-              <p *ngIf="invoiceData.payment.nagad">
+              <p *ngIf="invoiceData.payment && invoiceData.payment.nagad">
                 Nagad: {{ invoiceData.payment.nagad }}
               </p>
-              <p *ngIf="invoiceData.payment.bkash">
+              <p *ngIf="invoiceData.payment && invoiceData.payment.bkash">
                 Bkash: {{ invoiceData.payment.bkash }}
               </p>
             </div>
