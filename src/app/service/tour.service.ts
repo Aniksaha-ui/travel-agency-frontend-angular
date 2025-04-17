@@ -22,4 +22,10 @@ export class TourService {
       trip_id: tripId,
     });
   }
+  getAllPackages() {
+    return this.http.get(`${this.baseUrl}/packages`);
+  }
+  
+
+
 }

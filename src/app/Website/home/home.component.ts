@@ -16,10 +16,19 @@ export class HomeComponent implements OnInit {
   });
 
   tours: any = [];
+  packages : any = [];
 
   constructor(private tourService: TourService) {}
   ngOnInit(): void {
     this.getAllTourInformation();
+    this.getAllPackageInformation();
+  }
+  getAllPackageInformation() {
+    this.tourService.getAllPackages().subscribe((res: any) => {
+      if (res && res.data && res.data.length > 0) {
+        this.packages = res.data;
+      }
+    });
   }
 
   getAllTourInformation() {
