@@ -158,35 +158,62 @@
 <div class="container py-5">
   <h2 class="text-center mb-4 fw-bold">Top Travel Packages</h2>
   <div class="row g-4">
-    <div class="col-md-6 col-lg-4" *ngFor="let pack of packages.slice(0,9)">
-      <div class="card h-100 border-0 shadow-lg rounded-4 overflow-hidden">
-        <div class="position-relative" style="height: 180px; background: url('http://swiftjourney.infinitycodehubltd.com/assets/images/s1.jpg') center/cover no-repeat;">
-          <div class="position-absolute bottom-0 start-0 bg-dark bg-opacity-50 text-white p-2 rounded-end">
-            <small *ngIf="pack.includes_hotel" class="me-2"><i class="bi bi-house-door-fill"></i> Hotel</small>
-            <small *ngIf="pack.includes_meal" class="me-2"><i class="bi bi-egg-fried"></i> Meal</small>
-            <small *ngIf="pack.includes_bus"><i class="bi bi-bus-front-fill"></i> Bus</small>
+    <div class="col-md-6 col-lg-4" *ngFor="let pack of packages.slice(0, 9)">
+      <div
+        class="card h-100 border-0 shadow-lg rounded-4 overflow-hidden"
+        (click)="handlePackageDetails(pack.id)"
+      >
+        <div
+          class="position-relative"
+          style="
+            height: 180px;
+            background: url('http://swiftjourney.infinitycodehubltd.com/assets/images/s1.jpg')
+              center/cover no-repeat;
+          "
+        >
+          <div
+            class="position-absolute bottom-0 start-0 bg-dark bg-opacity-50 text-white p-2 rounded-end"
+          >
+            <small *ngIf="pack.includes_hotel" class="me-2"
+              ><i class="bi bi-house-door-fill"></i> Hotel</small
+            >
+            <small *ngIf="pack.includes_meal" class="me-2"
+              ><i class="bi bi-egg-fried"></i> Meal</small
+            >
+            <small *ngIf="pack.includes_bus"
+              ><i class="bi bi-bus-front-fill"></i> Bus</small
+            >
           </div>
         </div>
         <div class="card-body p-3">
           <h5 class="fw-bold mb-1">{{ pack.name }}</h5>
-          <p class="text-muted small mb-2" [title]="pack.description">{{ pack.description | slice:0:75 }}...</p>
+          <p class="text-muted small mb-2" [title]="pack.description">
+            {{ pack.description | slice : 0 : 75 }}...
+          </p>
 
-          <p class="mb-1"><i class="bi bi-geo-alt-fill text-danger me-1"></i>
+          <p class="mb-1">
+            <i class="bi bi-geo-alt-fill text-danger me-1"></i>
             <strong>{{ pack.trip.route_name }}</strong>
           </p>
 
           <p class="mb-2">
             <i class="bi bi-clock-history text-primary me-1"></i>
-            <small>{{ pack.trip.departure_time | date:'MMM d' }} → {{ pack.trip.arrival_time | date:'MMM d' }}</small>
+            <small
+              >{{ pack.trip.departure_time | date : "MMM d" }} →
+              {{ pack.trip.arrival_time | date : "MMM d" }}</small
+            >
           </p>
 
           <p class="fw-bold text-success mb-3">
             <i class="bi bi-currency-dollar"></i>
-            ৳{{ pack.pricing[0].adult_price }} <small class="text-muted">(adult)</small>
+            ৳{{ pack.pricing[0].adult_price }}
+            <small class="text-muted">(adult)</small>
           </p>
 
           <div class="d-grid">
-            <button class="btn btn-outline-primary rounded-pill">View Details</button>
+            <button class="btn btn-outline-primary rounded-pill">
+              View Details
+            </button>
           </div>
         </div>
       </div>
@@ -194,9 +221,7 @@
   </div>
 </div>
 
-
 <!-- package section  -->
-
 
 <!-- stats section -->
 <section class="w3_stats py-5" id="stats">

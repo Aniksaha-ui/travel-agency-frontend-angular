@@ -18,6 +18,7 @@ import { AuthInterceptor } from './auth.interceptor';
 import { MybookingsComponent } from './Website/mybookings/mybookings.component';
 import { BookTourComponent } from './Website/book-tour/book-tour.component';
 import { BookingInvoiceComponent } from './Website/booking-invoice/booking-invoice.component';
+import { PackageDetailsComponent } from './Website/packages/package-details/package-details.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { BookingInvoiceComponent } from './Website/booking-invoice/booking-invoi
     MybookingsComponent,
     BookTourComponent,
     BookingInvoiceComponent,
+    PackageDetailsComponent,
   ],
   imports: [
     BrowserModule,

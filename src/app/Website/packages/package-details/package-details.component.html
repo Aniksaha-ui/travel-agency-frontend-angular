@@ -1,0 +1,104 @@
+<div class="page-container" style="margin-top: 5%">
+  <div class="package-header">
+    <h1>{{ packageData.name }}</h1>
+    <p>{{ packageData.description }}</p>
+  </div>
+
+  <!-- Two Column Layout -->
+  <div class="content-section">
+    <!-- Package Info -->
+    <div class="info-section">
+      <div class="card details-card">
+        <h2>Package Information</h2>
+        <ul>
+          <li>
+            <strong>Location:</strong>
+            {{ packageData.location || "Not specified" }}
+          </li>
+          <li>
+            <strong>Duration:</strong>
+            {{ packageData.duration || "3 Days 2 Nights" }}
+          </li>
+          <li>
+            <strong>Accommodation:</strong>
+            {{ packageData.accommodation || "Included" }}
+          </li>
+          <li>
+            <strong>Transportation:</strong>
+            {{ packageData.transportation || "Included" }}
+          </li>
+          <li>
+            <strong>Base Price (Adult):</strong> {{ packageData.price }} BDT
+          </li>
+          <li>
+            <strong>Child Discount:</strong>
+            {{ getChildDiscount() | number : "1.0-2" }}%
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Booking Form -->
+    <div class="form-section">
+      <div class="card booking-card">
+        <form [formGroup]="bookingForm" (ngSubmit)="submitBooking()">
+          <h3>Book This Package</h3>
+
+          <!-- Adults -->
+          <div class="form-group">
+            <label>Adults</label>
+            <div class="counter">
+              <button type="button" (click)="decrement('adults')">−</button>
+              <input type="number" formControlName="adults" readonly />
+              <button type="button" (click)="increment('adults')">+</button>
+            </div>
+          </div>
+
+          <!-- Children -->
+          <div class="form-group">
+            <label>Children</label>
+            <div class="counter">
+              <button type="button" (click)="decrement('children')">−</button>
+              <input type="number" formControlName="children" readonly />
+              <button type="button" (click)="increment('children')">+</button>
+            </div>
+          </div>
+
+          <!-- Total -->
+          <div class="form-group">
+            <label>Total Cost</label>
+            <input type="text" formControlName="totalAmount" readonly />
+          </div>
+
+          <!-- Payment -->
+          <div formGroupName="paymentinfo" class="form-group">
+            <label>Payment Method</label>
+            <select formControlName="payment_method">
+              <option value="">Select</option>
+              <option value="bkash">bKash</option>
+              <option value="nagad">Nagad</option>
+              <option value="card">Card</option>
+            </select>
+
+            <div *ngIf="paymentMethod === 'bkash'" class="payment-field">
+              <label>bKash Number</label>
+              <input formControlName="bkash" placeholder="Enter bKash number" />
+            </div>
+
+            <div *ngIf="paymentMethod === 'nagad'" class="payment-field">
+              <label>Nagad Number</label>
+              <input formControlName="nagad" placeholder="Enter Nagad number" />
+            </div>
+
+            <div *ngIf="paymentMethod === 'card'" class="payment-field">
+              <label>Card Number</label>
+              <input formControlName="card" placeholder="Enter Card number" />
+            </div>
+          </div>
+
+          <button type="submit" class="btn-submit">Confirm Booking</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { TourService } from 'src/app/service/tour.service';
 
@@ -16,9 +17,9 @@ export class HomeComponent implements OnInit {
   });
 
   tours: any = [];
-  packages : any = [];
+  packages: any = [];
 
-  constructor(private tourService: TourService) {}
+  constructor(private tourService: TourService, private router: Router) {}
   ngOnInit(): void {
     this.getAllTourInformation();
     this.getAllPackageInformation();
@@ -56,5 +57,9 @@ export class HomeComponent implements OnInit {
         this.tours = [];
       }
     });
+  }
+
+  handlePackageDetails(packageId: any) {
+    this.router.navigateByUrl(`/package/details/${packageId}`);
   }
 }
