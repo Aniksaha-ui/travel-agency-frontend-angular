@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PackageService } from 'src/app/service/package.service';
 
@@ -13,6 +13,7 @@ export class PackageDetailsComponent implements OnInit {
   bookingForm!: FormGroup;
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private packageService: PackageService
@@ -102,8 +103,19 @@ export class PackageDetailsComponent implements OnInit {
   submitBooking(): void {
     if (this.bookingForm.valid) {
       const formData = this.bookingForm.getRawValue();
-      console.log('Booking Submitted:', formData);
-      // Submit to backend API here
+      const paymentInfo = {
+        ...formData.paymentinfo,
+        amount: formData.totalAmount,
+      };
+      const bookingData = {
+        ...formData,
+        paymentinfo: paymentInfo,
+      };
+      this.packageService.bookPackage(bookingData).subscribe((res: any) => {
+        if (res.data) {
+          this.router.navigate(['/my-bookings']);
+        }
+      });
     } else {
       this.bookingForm.markAllAsTouched();
     }

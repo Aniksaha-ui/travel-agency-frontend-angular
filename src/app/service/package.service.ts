@@ -11,4 +11,7 @@ export class PackageService {
   getPackageDetails(packageId: any) {
     return this.http.get(`${this.baseUrl}/packages/${packageId}`);
   }
+  bookPackage(data: any) {
+    return this.http.post(`${this.baseUrl}/packages/booking`, data);
+  }
 }
