@@ -8,7 +8,10 @@ import { AppdataService } from '../service/appdata.service';
 })
 export class HeaderComponent {
   constructor(private data: AppdataService) {}
-  isLoggedIn = false;
+  isLogin = false;
+  isLoggedIn = this.data.loginStatus.subscribe((data) => {
+    this.isLogin = data ?? localStorage.getItem('isLoggedIn');
+  });
   ngOnInit(): void {
     const loginState = JSON.parse(
       localStorage.getItem('isLoggedIn') || 'false'

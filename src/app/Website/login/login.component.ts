@@ -27,7 +27,7 @@ export class LoginComponent {
         console.log(res);
         localStorage.setItem('access_token', res.access_token);
         localStorage.setItem('user', JSON.stringify(res.user));
-        localStorage.setItem('isLoggedIn', true.toString());
+        localStorage.setItem('isLoggedIn', JSON.stringify(true));
         this.data.userInfo.next(res);
         this.data.loginStatus.next(true);
         this.router.navigate(['/']);
