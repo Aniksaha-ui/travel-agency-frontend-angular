@@ -13,6 +13,7 @@
             <th scope="col">Seat</th>
             <th scope="col">Status</th>
             <th scope="col">Date</th>
+            <th scope="col">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -26,7 +27,7 @@
             <td>{{ booking.created_at }}</td>
             <td>
               <a class="nav-link" [routerLink]="['/book-invoice', booking.id]"
-                >Invoice</a
+                >Invoice view</a
               >
             </td>
           </tr>

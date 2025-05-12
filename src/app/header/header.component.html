@@ -37,6 +37,12 @@
           <li class="nav-item" *ngIf="isLogin">
             <a class="nav-link" routerLink="/my-bookings">My Bookings</a>
           </li>
+          <li class="nav-item" *ngIf="isLogin">
+            <a class="nav-link" routerLink="/refund">Refund</a>
+          </li>
+          <li class="nav-item" *ngIf="isLogin">
+            <p (click)="logout()" class="nav-link">Logout</p>
+          </li>
         </ul>
         <form
           action="#search"

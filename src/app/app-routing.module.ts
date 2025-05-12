@@ -9,6 +9,7 @@ import { MybookingsComponent } from './Website/mybookings/mybookings.component';
 import { BookTourComponent } from './Website/book-tour/book-tour.component';
 import { BookingInvoiceComponent } from './Website/booking-invoice/booking-invoice.component';
 import { PackageDetailsComponent } from './Website/packages/package-details/package-details.component';
+import { RefundComponent } from './Website/refund/refund/refund.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'book-tour/:id', component: BookTourComponent },
   { path: 'book-invoice/:id', component: BookingInvoiceComponent },
   { path: 'package/details/:id', component: PackageDetailsComponent },
+  { path: 'refund', component: RefundComponent },
 ];
 
 @NgModule({

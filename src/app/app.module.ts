@@ -19,6 +19,7 @@ import { MybookingsComponent } from './Website/mybookings/mybookings.component';
 import { BookTourComponent } from './Website/book-tour/book-tour.component';
 import { BookingInvoiceComponent } from './Website/booking-invoice/booking-invoice.component';
 import { PackageDetailsComponent } from './Website/packages/package-details/package-details.component';
+import { RefundComponent } from './Website/refund/refund/refund.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { PackageDetailsComponent } from './Website/packages/package-details/pack
     BookTourComponent,
     BookingInvoiceComponent,
     PackageDetailsComponent,
+    RefundComponent,
   ],
   imports: [
     BrowserModule,
