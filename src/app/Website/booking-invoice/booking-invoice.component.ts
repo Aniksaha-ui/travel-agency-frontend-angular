@@ -24,8 +24,6 @@ export class BookingInvoiceComponent {
         .bookingInvoice(params.get('id'))
         .subscribe((res: any) => {
           if (res.data) {
-            console.log(res.data[0]);
-
             this.invoiceData = res.data[0];
           }
         });

@@ -16,4 +16,12 @@ export class MybookingsComponent {
     });
     console.log(this.bookings);
   }
+
+  cancelBooking(id: any) {
+    this.bookingService.cancelBooking(id).subscribe((response: any) => {
+      this.bookings = this.bookings.map((booking: any) =>
+        booking.id === id ? { ...booking, status: 'cancelled' } : booking
+      );
+    });
+  }
 }

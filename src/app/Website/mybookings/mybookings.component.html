@@ -14,6 +14,7 @@
             <th scope="col">Status</th>
             <th scope="col">Date</th>
             <th scope="col">Action</th>
+            <th scope="col">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -29,6 +30,14 @@
               <a class="nav-link" [routerLink]="['/book-invoice', booking.id]"
                 >Invoice view</a
               >
+            </td>
+            <td>
+              <button
+                class="btn btn-danger"
+                (click)="cancelBooking(booking.id)"
+              >
+                Cancel
+              </button>
             </td>
           </tr>
         </tbody>

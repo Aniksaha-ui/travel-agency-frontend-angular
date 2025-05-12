@@ -39,8 +39,6 @@ export class PackageDetailsComponent implements OnInit {
         this.packageService
           .getPackageDetails(packageId)
           .subscribe((res: any) => {
-            console.log(res.data, 'res');
-
             if (res.data) {
               this.packageData = res.data;
               this.bookingForm.patchValue({

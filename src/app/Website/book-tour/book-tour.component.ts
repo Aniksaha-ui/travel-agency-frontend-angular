@@ -37,8 +37,6 @@ export class BookTourComponent {
           if (res.data) {
             this.tripData = res.data.tripSummaries[0];
             this.seatLayout = res.data.seat_layout;
-
-            console.log(this.seatLayout.length, '123');
           }
         });
     });
@@ -69,13 +67,10 @@ export class BookTourComponent {
 
   // Form submission handler
   onSubmit(): void {
-    console.log(this.loginForm.value, 'payment_method');
-    // console.log(this.selectedSeats, 'selectedSeats');
     const requestData = {
       seatinfo: this.selectedSeats,
       paymentinfo: this.loginForm.value,
     };
-    console.log(requestData, 'requestData');
     this.bookingService.bookTour(requestData).subscribe((res: any) => {
       if (res.status === 'success') {
         this.router.navigate(['/my-bookings']);

@@ -21,4 +21,8 @@ export class BookingService {
       booking_id: booking_id,
     });
   }
+
+  cancelBooking(id: any) {
+    return this.http.post(`${this.baseUrl}/booking/cancle`, { id: id });
+  }
 }
