@@ -28,6 +28,7 @@ export class TourComponent {
         if (res.data) {
           this.tourInfo = res.data;
         }
+        console.log('Tour Info:', this.tourInfo);
       });
 
       this.tourService
