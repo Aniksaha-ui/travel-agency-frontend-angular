@@ -25,7 +25,8 @@ export class TourService {
   getAllPackages() {
     return this.http.get(`${this.baseUrl}/packages`);
   }
-  
 
-
+  getPackageByTripId(tripId: any) {
+    return this.http.get(`${this.baseUrl}/tripwisepackages/${tripId}`);
+  }
 }

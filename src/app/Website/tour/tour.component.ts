@@ -9,13 +9,14 @@ import { TourService } from 'src/app/service/tour.service';
   styleUrls: ['./tour.component.css'],
 })
 export class TourComponent {
+  relatedTours: any;
   tourInfo: any;
   isLoggedIn = false;
   constructor(
     private tourService: TourService,
     private route: ActivatedRoute,
     private router: Router,
-    private data: AppdataService,
+    private data: AppdataService
   ) {}
   ngOnInit(): void {
     this.data.loginStatus.subscribe((res) => {
@@ -28,10 +29,22 @@ export class TourComponent {
           this.tourInfo = res.data;
         }
       });
+
+      this.tourService
+        .getPackageByTripId(params.get('id'))
+        .subscribe((res: any) => {
+          if (res.message === 'success') {
+            this.relatedTours = res.data;
+          }
+        });
     });
   }
 
   bookNow(tourId: any) {
     this.router.navigate(['/book-tour', tourId]);
-    }
+  }
+
+  handlePackageDetails(packageId: any) {
+    this.router.navigateByUrl(`/package/details/${packageId}`);
+  }
 }
