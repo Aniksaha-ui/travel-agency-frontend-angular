@@ -1,87 +1,135 @@
 .tour-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Automatically adjust columns */
-    gap: 20px; /* Space between cards */
-    padding: 20px;
-  }
-  
-  .tour-card {
-    background: linear-gradient(135deg, #ff6f61, #ff9a8b);
-    border-radius: 15px;
-    color: #fff;
-    overflow: hidden;
-    font-family: Arial, sans-serif;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s;
-  }
-  
-  .tour-card:hover {
-    transform: translateY(-10px);
-  }
-  
-  .tour-card-header {
-    padding: 15px;
-    background: #ff4e5f;
-    text-align: center;
-  }
-  
-  .trip-name {
-    font-size: 1.5em;
-    margin: 0;
-  }
-  
-  .tour-card-body {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px;
-  }
-  
-  .tour-info {
-    flex: 1;
-  }
-  
-  .tour-info p {
-    margin: 5px 0;
-    font-size: 0.9em;
-  }
-  
-  .tour-image img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 10px;
-  }
-  
-  .tour-card-footer {
-    padding: 10px;
-    background: #ff6f61;
-    text-align: center;
-  }
-  
-  .book-now-btn {
-    background-color: #fff;
-    color: #ff4e5f;
-    padding: 10px 20px;
-    font-size: 1em;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .book-now-btn:hover {
-    background-color: #ff9a8b;
-  }
-  
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(300px, 1fr)
+  ); /* Automatically adjust columns */
+  gap: 20px; /* Space between cards */
+  padding: 20px;
+}
 
-  .card {
-    transition: all 0.3s ease-in-out;
-  }
-  .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  }
-  .card-body p {
-    margin-bottom: 0.5rem;
-  }
-  
+.tour-card {
+  background: linear-gradient(135deg, #ff6f61, #ff9a8b);
+  border-radius: 15px;
+  color: #fff;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.tour-card:hover {
+  transform: translateY(-10px);
+}
+
+.tour-card-header {
+  padding: 15px;
+  background: #ff4e5f;
+  text-align: center;
+}
+
+.trip-name {
+  font-size: 1.5em;
+  margin: 0;
+}
+
+.tour-card-body {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+}
+
+.tour-info {
+  flex: 1;
+}
+
+.tour-info p {
+  margin: 5px 0;
+  font-size: 0.9em;
+}
+
+.tour-image img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.tour-card-footer {
+  padding: 10px;
+  background: #ff6f61;
+  text-align: center;
+}
+
+.book-now-btn {
+  background-color: #fff;
+  color: #ff4e5f;
+  padding: 10px 20px;
+  font-size: 1em;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.book-now-btn:hover {
+  background-color: #ff9a8b;
+}
+
+.card {
+  transition: all 0.3s ease-in-out;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+.card-body p {
+  margin-bottom: 0.5rem;
+}
+.tour-card-wrapper {
+  background-color: #f5f6fa; /* matches your image */
+  border-radius: 20px;
+}
+
+.tour-image {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+.rating-list i {
+  font-size: 0.9rem;
+}
+
+.tour-card {
+  transition: all 0.3s ease;
+  background-color: #fefefe;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  border-radius: 16px;
+}
+
+.tour-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.tour-card-img {
+  width: 220px;
+  height: 220px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+}
+
+.tour-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.tour-card:hover .tour-card-img img {
+  transform: scale(1.05);
+}

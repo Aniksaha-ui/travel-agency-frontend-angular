@@ -52,8 +52,8 @@
       class="title-main text-center mx-auto mb-md-5 mb-4"
       style="max-width: 600px"
     >
-      <p>Featured tours</p>
-      <h3 class="title-style">Most Popular Tours</h3>
+      <p>Upcoming tours</p>
+      <h3 class="title-style">Check Out Our Upcoming Tours</h3>
     </div>
 
     <div class="row">
@@ -63,10 +63,11 @@
             <a
               class="blog-link d-block zoom-image"
               [routerLink]="['/tour', tour.id]"
-              ><img
-                src="assets/images/s1.jpg"
-                class="img-fluid scale-image"
-                alt=""
+            >
+              <img
+                [src]="environment.imageBaseUrl + tour.image"
+                alt="{{ tour.trip_name }}"
+                class="img-fluid"
             /></a>
             <div class="blog-info">
               <ul class="rating-list mb-2">
@@ -108,6 +109,80 @@
         </div>
       </div>
     </div>
+
+    <!-- <div class="row bg-light px-2 py-3">
+      <div class="col-md-12 mb-4" *ngFor="let tour of tours">
+        <div
+          class="tour-card d-flex flex-column flex-md-row shadow-sm border-0 rounded-4 overflow-hidden"
+          [routerLink]="['/tour', tour.id]"
+          style="cursor: pointer"
+        >
+          <div class="tour-card-img">
+            <img
+              [src]="environment.imageBaseUrl + tour.image"
+              alt="{{ tour.trip_name }}"
+              class="img-fluid"
+            />
+          </div>
+
+          <div
+            class="p-4 flex-fill d-flex flex-column justify-content-between bg-white"
+          >
+            <div>
+              <h5 class="fw-semibold text-dark mb-2">
+                {{ tour.trip_name }} - Package Tour with Flight and Hotel
+              </h5>
+
+              <p class="text-muted mb-2">
+                <i class="fas fa-map-marker-alt text-secondary me-2"></i>
+                {{ tour.location || "Cox's Bazar" }}
+              </p>
+
+              <p class="text-muted small mb-2">
+                <i class="far fa-clock me-1"></i>
+                {{
+                  calculateDateDifference(tour.start_date, tour.end_date) + 1
+                }}
+                Day(s) &nbsp;&nbsp; <i class="fas fa-users me-1"></i> From 2 to
+                6 people
+              </p>
+
+              <ul class="list-inline text-warning small mb-2">
+                <li class="list-inline-item"><i class="fas fa-star"></i></li>
+                <li class="list-inline-item"><i class="fas fa-star"></i></li>
+                <li class="list-inline-item"><i class="fas fa-star"></i></li>
+                <li class="list-inline-item"><i class="fas fa-star"></i></li>
+                <li class="list-inline-item">
+                  <i class="fas fa-star-half-alt"></i>
+                </li>
+                <li class="list-inline-item text-muted ms-1">4.07</li>
+              </ul>
+
+              <p class="small text-muted mt-3">
+                80% refund available if canceled 21+ days before experience
+                start.
+              </p>
+            </div>
+
+            <div
+              class="d-flex justify-content-between align-items-center mt-3 flex-wrap"
+            >
+              <div>
+                <small class="text-muted">Starting From</small><br />
+                <span class="fs-5 fw-bold text-primary"
+                  >BDT {{ tour.price }}</span
+                ><br />
+                <small class="text-muted">Per Person</small>
+              </div>
+
+              <button class="btn btn-outline-primary btn-sm mt-2 mt-md-0">
+                Explore <i class="fas fa-arrow-right ms-1"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
   </div>
 </section>
 
@@ -167,7 +242,7 @@
           class="position-relative"
           style="
             height: 180px;
-            background: url('http://swiftjourney.infinitycodehubltd.com/assets/images/s1.jpg')
+            background: url({{ pack.image }})
               center/cover no-repeat;
           "
         >
@@ -205,11 +280,13 @@
               {{ pack.trip.arrival_time | date : "MMM d" }}</small
             >
           </p>
-
           <p class="fw-bold text-success mb-3">
             <i class="bi bi-currency-dollar"></i>
-            ৳{{ pack.pricing[0].adult_price }}
-            <small class="text-muted">(adult)</small>
+            Adult Price: ৳{{ pack.pricing[0].adult_price }}
+          </p>
+          <p class="fw-bold text-success mb-3">
+            <i class="bi bi-currency-dollar"></i>
+            Child Price: ৳{{ pack.pricing[0].child_price }}
           </p>
 
           <div class="d-grid">

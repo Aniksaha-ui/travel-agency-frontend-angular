@@ -1,13 +1,11 @@
 <!-- Hero Section -->
 <section class="tour-hero position-relative text-white mt-5">
   <img
-  [src]="'https://travelbooking.infinitycodehubltd.com/public/storage/' + (tourInfo.image || 'travel/gLweU0J3EuPWsVUXLmanCs7icEXyiKX3F1SymDu2.jpg')"
-  alt="Tour Image"
-  class="hero-img"
-/>
+    [src]="environment.imageBaseUrl + tourInfo.image"
     alt="Tour Image"
     class="hero-img"
   />
+  alt="Tour Image" class="hero-img" />
   <div class="overlay"></div>
   <div
     class="hero-text text-center position-absolute top-50 start-50 translate-middle"

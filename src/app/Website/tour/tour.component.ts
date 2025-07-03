@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppdataService } from 'src/app/service/appdata.service';
 import { TourService } from 'src/app/service/tour.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-tour',
@@ -12,6 +13,8 @@ export class TourComponent {
   relatedTours: any;
   tourInfo: any;
   isLoggedIn = false;
+  environment = environment;
+
   constructor(
     private tourService: TourService,
     private route: ActivatedRoute,

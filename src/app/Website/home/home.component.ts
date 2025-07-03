@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { TourService } from 'src/app/service/tour.service';
+import { DEFAULT_PACKAGE_IMAGE } from 'src/app/utils/constants/constants';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -18,6 +20,8 @@ export class HomeComponent implements OnInit {
 
   tours: any = [];
   packages: any = [];
+  defaultImageForPackage = DEFAULT_PACKAGE_IMAGE;
+  environment = environment;
 
   constructor(private tourService: TourService, private router: Router) {}
   ngOnInit(): void {
