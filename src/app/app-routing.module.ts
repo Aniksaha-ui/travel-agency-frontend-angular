@@ -10,11 +10,12 @@ import { BookTourComponent } from './Website/book-tour/book-tour.component';
 import { BookingInvoiceComponent } from './Website/booking-invoice/booking-invoice.component';
 import { PackageDetailsComponent } from './Website/packages/package-details/package-details.component';
 import { RefundComponent } from './Website/refund/refund/refund.component';
+import { TourPageComponent } from './Website/tour-page/tour-page.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'tours', component: TourComponent },
+  { path: 'tours', component: TourPageComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'about', component: AboutComponent },
   { path: 'tour/:id', component: TourComponent },

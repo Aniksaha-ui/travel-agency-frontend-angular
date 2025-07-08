@@ -11,7 +11,9 @@
   <div class="container py-lg-5 py-md-4 py-2">
     <form [formGroup]="tourForm" (ngSubmit)="onSubmit()" class="form-styles">
       <div class="">
-        <label for="inputtextnumber" class="form-label">Date from:</label>
+        <label for="inputtextnumber" class="form-label"
+          >&nbsp;&nbsp;&nbsp;Date from:</label
+        >
         <input
           type="date"
           formControlName="start_date"
@@ -21,7 +23,9 @@
       </div>
 
       <div class="">
-        <label for="inputtextnumber" class="form-label">Date from:</label>
+        <label for="inputtextnumber" class="form-label"
+          >&nbsp;&nbsp;&nbsp;Date to:</label
+        >
         <input
           type="date"
           formControlName="end_date"
@@ -30,13 +34,10 @@
         />
       </div>
       <div>
-        <label for="inputtextnumber" class="form-label">Date from:</label>
-        <input
-          type="text"
-          formControlName="trip_name"
-          id="trip_name"
-          required=""
-        />
+        <label for="inputtextnumber" class="form-label"
+          >Search Route/Place:</label
+        >
+        <input type="text" formControlName="trip_name" id="trip_name" />
       </div>
 
       <button class="btn btn-style" type="submit">Find Tour</button>
