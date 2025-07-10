@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
     end_date: new FormControl('', Validators.required),
     trip_name: new FormControl('', Validators.required),
   });
-
+  defultImage = DEFAULT_PACKAGE_IMAGE;
   tours: any = [];
   packages: any = [];
   defaultImageForPackage = DEFAULT_PACKAGE_IMAGE;

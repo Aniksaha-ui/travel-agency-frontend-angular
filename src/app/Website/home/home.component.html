@@ -66,8 +66,11 @@
               [routerLink]="['/tour', tour.id]"
             >
               <img
-                [src]="environment.imageBaseUrl + tour.image"
-                alt="{{ tour.trip_name }}"
+                [src]="
+                  tour.image === null
+                    ? defultImage
+                    : environment.imageBaseUrl + tour.image
+                "
                 class="img-fluid"
             /></a>
             <div class="blog-info">
