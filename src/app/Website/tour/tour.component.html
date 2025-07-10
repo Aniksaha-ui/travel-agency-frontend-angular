@@ -1,7 +1,11 @@
 <!-- Hero Section -->
 <section class="tour-hero position-relative text-white mt-5">
   <img
-    [src]="environment.imageBaseUrl + tourInfo.image"
+    [src]="
+      tourInfo.image === null
+        ? defultImage
+        : environment.imageBaseUrl + tourInfo.image
+    "
     alt="Tour Image"
     class="hero-img"
   />

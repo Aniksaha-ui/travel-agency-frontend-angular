@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppdataService } from 'src/app/service/appdata.service';
 import { TourService } from 'src/app/service/tour.service';
+import { DEFAULT_PACKAGE_IMAGE } from 'src/app/utils/constants/constants';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -14,7 +15,7 @@ export class TourComponent {
   tourInfo: any;
   isLoggedIn = false;
   environment = environment;
-
+  defultImage = DEFAULT_PACKAGE_IMAGE;
   constructor(
     private tourService: TourService,
     private route: ActivatedRoute,
