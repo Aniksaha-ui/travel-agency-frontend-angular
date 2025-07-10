@@ -1,3 +1,46 @@
+<section class="w3l-form-main py-5 mt-5" id="book">
+  <div class="container py-lg-5 py-md-4 py-2">
+    <form [formGroup]="tourForm" (ngSubmit)="onSubmit()" class="form-styles">
+      <div class="">
+        <label for="inputtextnumber" class="form-label"
+          >&nbsp;&nbsp;&nbsp;Date from:</label
+        >
+        <input
+          type="date"
+          formControlName="start_date"
+          id="dateofbirth"
+          required=""
+        />
+      </div>
+
+      <div class="">
+        <label for="inputtextnumber" class="form-label"
+          >&nbsp;&nbsp;&nbsp;Date to:</label
+        >
+        <input
+          type="date"
+          formControlName="end_date"
+          id="end_date"
+          required=""
+        />
+      </div>
+      <div>
+        <label for="inputtextnumber" class="form-label"
+          >Search Route/Place:</label
+        >
+        <input
+          type="text"
+          formControlName="trip_name"
+          id="trip_name"
+          required=""
+        />
+      </div>
+
+      <button class="btn btn-style" type="submit">Find Tour</button>
+    </form>
+  </div>
+</section>
+
 <section class="w3l-index5 pb-5 pt-4">
   <div class="container py-lg-5 py-md-4 py-2">
     <div
@@ -7,6 +50,61 @@
       <p>Upcoming tours</p>
       <h3 class="title-style">Check Out Our Upcoming Tours</h3>
     </div>
+
+    <!-- <div class="row">
+      <div class="col-lg-3" *ngFor="let tour of tours">
+        <div class="item">
+          <div class="content-left-sec">
+            <a
+              class="blog-link d-block zoom-image"
+              [routerLink]="['/tour', tour.id]"
+            >
+              <img
+                [src]="environment.imageBaseUrl + tour.image"
+                alt="{{ tour.trip_name }}"
+                class="img-fluid"
+            /></a>
+            <div class="blog-info">
+              <ul class="rating-list mb-2">
+                <li><i class="fas fa-star" aria-hidden="true"></i></li>
+                <li><i class="fas fa-star" aria-hidden="true"></i></li>
+                <li><i class="fas fa-star" aria-hidden="true"></i></li>
+                <li><i class="fas fa-star" aria-hidden="true"></i></li>
+                <li><i class="fas fa-star-half-alt"></i></li>
+                <li class="ms-1">4.07</li>
+              </ul>
+              <a [routerLink]="['/tour', tour.id]" class="to-title">{{
+                tour.trip_name
+              }}</a>
+              <p class="mt-1">
+                <i class="fas fa-map-marker-alt me-1"></i
+                >{{ tour.location ?? "Dhaka" }}
+              </p>
+              <div class="to-price mt-2">
+                <label>Trip Cost</label> <span>{{ tour.price }}</span>
+              </div>
+              <div
+                class="d-flex align-items-center justify-content-between mt-4"
+              >
+                <p>
+                  <i class="far fa-clock me-1"></i
+                  >{{
+                    calculateDateDifference(tour.start_date, tour.end_date) + 1
+                  }}
+                  Days
+                </p>
+                <a
+                  [routerLink]="['/tour', tour.id]"
+                  class="btn btn-style btn-style-primary"
+                  >Explore<i class="fas fa-arrow-right"></i
+                ></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
     <div class="row bg-light px-2 py-3">
       <div class="col-md-12 mb-4" *ngFor="let tour of tours">
         <div
@@ -21,7 +119,6 @@
                   ? defultImage
                   : environment.imageBaseUrl + tour.image
               "
-              alt="{{ tour.trip_name }}"
               class="img-fluid"
             />
           </div>
@@ -31,7 +128,7 @@
           >
             <div>
               <h5 class="fw-semibold text-dark mb-2">
-                {{ tour.trip_name }}
+                {{ tour.trip_name }} - Package Tour with Flight and Hotel
               </h5>
 
               <p class="text-muted mb-2">
