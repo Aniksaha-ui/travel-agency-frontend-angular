@@ -11,6 +11,7 @@ import { BookingInvoiceComponent } from './Website/booking-invoice/booking-invoi
 import { PackageDetailsComponent } from './Website/packages/package-details/package-details.component';
 import { RefundComponent } from './Website/refund/refund/refund.component';
 import { TourPageComponent } from './Website/tour-page/tour-page.component';
+import { HotelDetailsComponent } from './Website/hotel/hotel-details/hotel-details.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -19,7 +20,7 @@ const routes: Routes = [
   { path: 'contact', component: ContactComponent },
   { path: 'about', component: AboutComponent },
   { path: 'tour/:id', component: TourComponent },
-  { path: 'hotel/:id', component: TourComponent },
+  { path: 'hotel/:id', component: HotelDetailsComponent },
   { path: 'my-bookings', component: MybookingsComponent },
   { path: 'book-tour/:id', component: BookTourComponent },
   { path: 'book-invoice/:id', component: BookingInvoiceComponent },

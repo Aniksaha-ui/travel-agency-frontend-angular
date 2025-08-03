@@ -3,40 +3,80 @@
 <!-- //header -->
 
 <!-- banner section -->
-<app-slider></app-slider>
+<!-- <app-slider></app-slider> -->
 
-<section class="w3l-form-main py-5" id="book">
+<section
+  class="w3l-form-main py-5"
+  style="margin-top: 2% !important; padding: 8% !important"
+  [style.background]="
+    'url(' + 'assets/images/banner4.jpg' + ') no-repeat center/cover'
+  "
+  id="book"
+>
   <div class="container py-lg-5 py-md-4 py-2">
     <!-- Grid layout with trip and hotel sections -->
-    <div class="row">
-      <div class="col-6 col-md-2 mb-4">
+
+    <div class="row justify-content-center">
+      <div class="col-6 col-md-3 mb-4">
         <div
-          class="card"
+          class="card h-100"
           [ngClass]="{
             'bg-primary': currentComponent === 'trip',
-            'bg-secondary': currentComponent !== 'trip'
+            'bg-light': currentComponent !== 'trip'
           }"
           (click)="toggleComponent('trip')"
         >
-          <div class="card-body text-center">
-            <i class="fas fa-plane-departure fs-2 text-white mb-2"></i>
-            <h5 class="card-title text-white">Trip</h5>
+          <div
+            class="card-body text-center d-flex flex-column justify-content-center"
+          >
+            <i
+              class="fas fa-plane-departure fs-2 mb-2"
+              [ngClass]="{
+                'text-white': currentComponent === 'trip',
+                'text-dark': currentComponent !== 'trip'
+              }"
+            ></i>
+            <h5
+              class="card-title"
+              [ngClass]="{
+                'text-white': currentComponent === 'trip',
+                'text-dark': currentComponent !== 'trip'
+              }"
+            >
+              {{ text.TRIP }}
+            </h5>
           </div>
         </div>
       </div>
 
-      <div class="col-6 col-md-2 mb-4">
+      <div class="col-6 col-md-3 mb-4">
         <div
-          class="card"
+          class="card h-100"
           [ngClass]="{
             'bg-info': currentComponent === 'hotel',
-            'bg-secondary': currentComponent !== 'hotel'
+            'bg-light': currentComponent !== 'hotel'
           }"
           (click)="toggleComponent('hotel')"
         >
-          <div class="card-body text-center">
-            <i class="fas fa-hotel fs-2 text-white mb-2"></i>
-            <h5 class="card-title text-white">Hotel</h5>
+          <div
+            class="card-body text-center d-flex flex-column justify-content-center"
+          >
+            <i
+              class="fas fa-hotel fs-2 mb-2"
+              [ngClass]="{
+                'text-white': currentComponent === 'hotel',
+                'text-dark': currentComponent !== 'hotel'
+              }"
+            ></i>
+            <h5
+              class="card-title"
+              [ngClass]="{
+                'text-white': currentComponent === 'hotel',
+                'text-dark': currentComponent !== 'hotel'
+              }"
+            >
+              {{ text.HOTEL }}
+            </h5>
           </div>
         </div>
       </div>
@@ -46,7 +86,9 @@
     <div *ngIf="currentComponent === 'trip'">
       <form [formGroup]="tourForm" (ngSubmit)="onSubmit()" class="form-styles">
         <div class="">
-          <label for="inputtextnumber" class="form-label">Date from:</label>
+          <label for="inputtextnumber" class="form-label"
+            >{{ text.TRIP_DATE_FORM }}:</label
+          >
           <input
             type="date"
             formControlName="start_date"
@@ -56,7 +98,9 @@
         </div>
 
         <div class="">
-          <label for="inputtextnumber" class="form-label">Date to:</label>
+          <label for="inputtextnumber" class="form-label"
+            >{{ text.TRIP_DATE_TO }}:</label
+          >
           <input
             type="date"
             formControlName="end_date"
@@ -66,19 +110,23 @@
         </div>
         <div>
           <label for="inputtextnumber" class="form-label"
-            >Search Route/Place:</label
+            >{{ text.TRIP_SEARCH_PLACE }}:</label
           >
           <input type="text" formControlName="trip_name" id="trip_name" />
         </div>
 
-        <button class="btn btn-style" type="submit">Find Tour</button>
+        <button class="btn btn-style mt-1" type="submit">
+          {{ text.TOUR_SEARCH }}
+        </button>
       </form>
     </div>
 
     <div *ngIf="currentComponent === 'hotel'">
       <form [formGroup]="hotelForm" (ngSubmit)="onSubmit()" class="form-styles">
         <div class="">
-          <label for="hotel_name" class="form-label">Hotel Name:</label>
+          <label for="hotel_name" class="form-label"
+            >{{ text.HOTEL_NAME }}:</label
+          >
           <input
             type="text"
             formControlName="hotel_name"
@@ -88,12 +136,14 @@
         </div>
 
         <div class="">
-          <label for="city" class="form-label">City:</label>
+          <label for="city" class="form-label">{{ text.HOTEL_CITY }}:</label>
           <input type="text" formControlName="city" id="city" required="" />
         </div>
 
         <div class="">
-          <label for="country" class="form-label">Country:</label>
+          <label for="country" class="form-label"
+            >{{ text.HOTEL_COUNTRY }}:</label
+          >
           <input
             type="text"
             formControlName="country"
@@ -103,7 +153,9 @@
         </div>
 
         <div class="">
-          <label for="max_occupancy" class="form-label">Max Occupancy:</label>
+          <label for="max_occupancy" class="form-label"
+            >{{ text.HOTEL_MAX_OCCUPANCY }}:</label
+          >
           <input
             type="number"
             formControlName="max_occupancy"
@@ -112,7 +164,9 @@
           />
         </div>
 
-        <button class="btn btn-style" type="submit">Find Hotel</button>
+        <button class="btn btn-style" type="submit">
+          {{ text.HOTEL_SEARCH }}
+        </button>
       </form>
     </div>
   </div>
@@ -125,8 +179,8 @@
       class="title-main text-center mx-auto mb-md-5 mb-4"
       style="max-width: 600px"
     >
-      <p>Upcoming tours</p>
-      <h3 class="title-style">Check Out Our Upcoming Tours</h3>
+      <p>{{ text.UPCOMING_TOURS }}</p>
+      <h3 class="title-style">{{ text.CHECK_OUT_OUR_UPCOMING_TOURS }}</h3>
     </div>
 
     <div class="row">
@@ -194,8 +248,8 @@
       class="title-main text-center mx-auto mb-md-5 mb-4"
       style="max-width: 600px"
     >
-      <p>Upcoming tours</p>
-      <h3 class="title-style">Explore Our Best Hotels</h3>
+      <p>Hotels</p>
+      <h3 class="title-style">{{ text.EXPLORE_OUR_BEST_HOTELS }}</h3>
     </div>
 
     <div class="row">
@@ -229,19 +283,21 @@
                 {{ hotel.country }}
               </p>
               <div class="to-price mt-2">
-                <label>Trip Cost</label> <span>{{ hotel.price }}</span>
+                <label>Trip Cost</label>
+                <span> {{ hotel.price_per_night }}</span>
               </div>
               <div
                 class="d-flex align-items-center justify-content-between mt-4"
               >
                 <p>
-                  <i class="far fa-clock me-1"></i
-                  >{{
-                    calculateDateDifference(hotel.start_date, hotel.end_date) +
-                      1
-                  }}
+                  <i class="far fa-clock me-1"></i>{{ hotel.season_start }} -
+                  {{ hotel.season_end }}
                   Days
                 </p>
+              </div>
+              <div
+                class="d-flex align-items-center justify-content-center mt-4"
+              >
                 <a
                   [routerLink]="['/hotel', hotel.id]"
                   class="btn btn-style btn-style-primary"

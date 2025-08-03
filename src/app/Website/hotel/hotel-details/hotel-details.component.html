@@ -1,0 +1,229 @@
+<!-- Hero Section with Slider -->
+<section class="hotel-hero position-relative text-white">
+  <div class="hero-images">
+    <img
+      [src]="
+        hotel.photos.length > 0 ? hotel.photos[0] : 'assets/default-hotel.jpg'
+      "
+      alt="Hotel Image"
+      class="hero-img"
+    />
+    <div class="overlay"></div>
+  </div>
+
+  <div
+    class="hero-text text-center position-absolute top-50 start-50 translate-middle"
+  >
+    <h1 class="display-3 fw-bold text-shadow">{{ hotel.name }}</h1>
+    <p class="lead mb-3">
+      <i class="fas fa-map-marker-alt"></i> {{ hotel.city }} • ⭐
+      {{ hotel.star_rating || "No rating" }}
+    </p>
+    <a
+      href="{{ hotel.website }}"
+      target="_blank"
+      class="btn btn-gradient px-5 py-3 mt-2"
+      >Visit Website</a
+    >
+  </div>
+</section>
+
+<!-- Stats Cards -->
+<section class="py-5 bg-white">
+  <div class="container">
+    <div class="row text-center g-4">
+      <div
+        class="col-md-4"
+        *ngFor="
+          let card of [
+            {
+              icon: 'fa-map-marked-alt',
+              title: 'Location',
+              value: hotel.location
+            },
+            { icon: 'fa-envelope', title: 'Email', value: hotel.email },
+            {
+              icon: 'fa-concierge-bell',
+              title: 'Facilities',
+              value: hotel.facilities
+            }
+          ]
+        "
+      >
+        <div class="detail-card p-4 shadow-lg rounded-lg">
+          <i class="fas {{ card.icon }} fs-1 text-primary mb-3"></i>
+          <h6 class="text-uppercase text-muted">{{ card.title }}</h6>
+          <p class="fw-bold fs-5">{{ card.value }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section class="bg-light py-5">
+  <div class="container text-center">
+    <h2 class="text-primary fw-bold mb-4">About {{ hotel.name }}</h2>
+    <p
+      class="fs-5 text-muted mx-auto"
+      style="max-width: 850px; line-height: 1.8"
+    >
+      {{ hotel.description }}
+    </p>
+  </div>
+</section>
+
+<!-- Room Cards -->
+<div class="container py-5">
+  <h2 class="text-center mb-5 fw-bold section-title">Available Rooms</h2>
+  <div class="row g-4">
+    <div class="col-md-6" *ngFor="let room of hotel.rooms">
+      <div
+        class="card room-card h-100 shadow-lg border-0 rounded-4 overflow-hidden"
+      >
+        <div class="room-card-header">
+          <i class="fas fa-bed"></i>
+          Room #{{ room.room_id }} - {{ room.prices[0].type_name }}
+        </div>
+        <div class="card-body">
+          <p><strong>Size:</strong> {{ room.room_size }}</p>
+          <p><strong>Max Occupancy:</strong> {{ room.max_occupancy }}</p>
+          <p><strong>Amenities:</strong> {{ room.amenities }}</p>
+          <table class="table price-table">
+            <thead>
+              <tr>
+                <th>Season Start</th>
+                <th>Season End</th>
+                <th>Price Per Night (BDT)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let price of room.prices">
+                <td>
+                  <i class="fas fa-calendar-alt text-primary"></i>
+                  <span class="ms-1">{{ price.season_start }}</span>
+                </td>
+                <td>{{ price.season_end }}</td>
+                <td class="fw-bold">{{ price.price_per_night }} BDT/night</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Booking Form -->
+<section class="cta-book bg-gradient text-white py-5 text-center">
+  <div class="container">
+    <h3 class="mb-3 fw-bold">Book Your Stay</h3>
+    <p class="lead">Reserve now and enjoy the best deals for your stay.</p>
+
+    <form
+      [formGroup]="bookingForm"
+      (ngSubmit)="onSubmit()"
+      class="bg-white p-4 rounded shadow text-start mt-4 animate-form"
+    >
+      <div class="row">
+        <!-- Room select -->
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-bold">Select Room</label>
+          <select
+            class="form-control"
+            formControlName="hotel_room_id"
+            #roomSelect
+            (change)="onRoomSelect(roomSelect.value)"
+          >
+            <option value="">-- Select Room --</option>
+            <option *ngFor="let room of hotel.rooms" [value]="room.room_id">
+              Room #{{ room.room_id }} (Max {{ room.max_occupancy }} persons)
+            </option>
+          </select>
+        </div>
+
+        <!-- Dates -->
+        <div class="col-md-3 mb-3">
+          <label class="fw-bold">Check-in Date</label>
+          <input
+            type="date"
+            class="form-control"
+            formControlName="check_in_date"
+            (change)="calculateCost()"
+          />
+        </div>
+
+        <div class="col-md-3 mb-3">
+          <label class="fw-bold">Check-out Date</label>
+          <input
+            type="date"
+            class="form-control"
+            formControlName="check_out_date"
+            (change)="calculateCost()"
+          />
+        </div>
+
+        <!-- Persons -->
+        <div class="col-md-3 mb-3">
+          <label class="fw-bold">Total Persons</label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="total_persons"
+          />
+        </div>
+
+        <!-- Payment Method -->
+        <div class="col-md-3 mb-3">
+          <label class="fw-bold">Payment Method</label>
+          <select class="form-control" formControlName="payment_method">
+            <option value="">-- Select --</option>
+            <option value="card">Card</option>
+            <option value="bkash">bKash</option>
+            <option value="nagad">Nagad</option>
+          </select>
+        </div>
+
+        <!-- Conditional fields -->
+        <div
+          class="col-md-6 mb-3"
+          *ngIf="bookingForm.value.payment_method === 'card'"
+        >
+          <label class="fw-bold">Card Number</label>
+          <input type="text" class="form-control" formControlName="card" />
+        </div>
+        <div
+          class="col-md-6 mb-3"
+          *ngIf="bookingForm.value.payment_method === 'bkash'"
+        >
+          <label class="fw-bold">bKash Number</label>
+          <input type="text" class="form-control" formControlName="bkash" />
+        </div>
+        <div
+          class="col-md-6 mb-3"
+          *ngIf="bookingForm.value.payment_method === 'nagad'"
+        >
+          <label class="fw-bold">Nagad Number</label>
+          <input type="text" class="form-control" formControlName="nagad" />
+        </div>
+      </div>
+
+      <!-- Total Cost -->
+      <div class="mb-3 text-center">
+        <h5>
+          Total Cost: <strong>{{ totalCost | number }} BDT</strong>
+        </h5>
+      </div>
+
+      <div class="text-center">
+        <button
+          type="submit"
+          class="btn btn-gradient px-5 py-3"
+          [disabled]="bookingForm.invalid"
+        >
+          Confirm Booking
+        </button>
+      </div>
+    </form>
+  </div>
+</section>

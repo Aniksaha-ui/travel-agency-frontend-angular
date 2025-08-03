@@ -21,6 +21,7 @@ import { BookingInvoiceComponent } from './Website/booking-invoice/booking-invoi
 import { PackageDetailsComponent } from './Website/packages/package-details/package-details.component';
 import { RefundComponent } from './Website/refund/refund/refund.component';
 import { TourPageComponent } from './Website/tour-page/tour-page.component';
+import { HotelDetailsComponent } from './Website/hotel/hotel-details/hotel-details.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { TourPageComponent } from './Website/tour-page/tour-page.component';
     PackageDetailsComponent,
     RefundComponent,
     TourPageComponent,
+    HotelDetailsComponent,
   ],
   imports: [
     BrowserModule,

@@ -12,4 +12,12 @@ export class HotelServiceService {
   getHotels(data: any) {
     return this.http.post(`${this.baseUrl}/hotels`, data);
   }
+
+  getSingleHotel(hotelId: any) {
+    return this.http.get(`${this.baseUrl}/hotel/${hotelId}`);
+  }
+
+  bookingHotel(data: any) {
+    return this.http.post(`${this.baseUrl}/hotel/booking`, data);
+  }
 }

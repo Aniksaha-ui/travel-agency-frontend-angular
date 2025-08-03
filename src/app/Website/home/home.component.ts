@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { HotelServiceService } from 'src/app/service/hotel-service.service';
 import { TourService } from 'src/app/service/tour.service';
 import { DEFAULT_PACKAGE_IMAGE } from 'src/app/utils/constants/constants';
+import { textConstants } from 'src/app/utils/constants/textConstants';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -32,6 +33,7 @@ export class HomeComponent implements OnInit {
   packages: any = [];
   defaultImageForPackage = DEFAULT_PACKAGE_IMAGE;
   environment = environment;
+  text = textConstants;
 
   constructor(
     private tourService: TourService,
@@ -41,11 +43,20 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.getAllTourInformation();
     this.getAllPackageInformation();
+    this.getAllHotelInformation();
   }
   getAllPackageInformation() {
     this.tourService.getAllPackages().subscribe((res: any) => {
       if (res && res.data && res.data.length > 0) {
         this.packages = res.data;
+      }
+    });
+  }
+
+  getAllHotelInformation() {
+    this.hotelService.getHotels({}).subscribe((res: any) => {
+      if (res && res.data && res.data.length > 0) {
+        this.hotels = res.data;
       }
     });
   }
