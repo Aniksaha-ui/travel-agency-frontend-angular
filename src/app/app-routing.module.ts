@@ -19,6 +19,7 @@ const routes: Routes = [
   { path: 'contact', component: ContactComponent },
   { path: 'about', component: AboutComponent },
   { path: 'tour/:id', component: TourComponent },
+  { path: 'hotel/:id', component: TourComponent },
   { path: 'my-bookings', component: MybookingsComponent },
   { path: 'book-tour/:id', component: BookTourComponent },
   { path: 'book-invoice/:id', component: BookingInvoiceComponent },
