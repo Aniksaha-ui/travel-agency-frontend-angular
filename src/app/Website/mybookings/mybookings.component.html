@@ -1,47 +1,76 @@
 <section class="w3l-contact-main py-5 mt-5" id="contact">
   <div class="container py-lg-5 py-md-4 py-2">
     <div class="title-main text-center mx-auto mb-md-5 mb-4">
-      <p>My bookings ({{ bookings.length }})</p>
-      <p class="title-style">Thanks for your bookings</p>
-      <table class="table table-bordered mt-5">
-        <thead>
-          <tr>
-            <th scope="col">Id</th>
-            <th scope="col">User Name</th>
-            <th scope="col">User Email</th>
-            <th scope="col">Trip Name</th>
-            <th scope="col">Seat</th>
-            <th scope="col">Status</th>
-            <th scope="col">Date</th>
-            <th scope="col">Action</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let booking of bookings">
-            <td>{{ booking?.id }}</td>
-            <td>{{ booking?.name ?? "" }}</td>
-            <td>{{ booking?.email ?? "" }}</td>
-            <td>{{ booking.trip_name }}</td>
-            <td>{{ booking.seat_ids }}</td>
-            <td>{{ booking.status }}</td>
-            <td>{{ booking.created_at }}</td>
-            <td>
-              <a class="nav-link" [routerLink]="['/book-invoice', booking.id]"
-                >Invoice view</a
-              >
-            </td>
-            <td>
-              <button
-                class="btn btn-danger"
-                (click)="cancelBooking(booking.id)"
-              >
-                Cancel
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <p class="text-muted fs-5">
+        My Bookings <span class="badge bg-primary">{{ bookings.length }}</span>
+      </p>
+      <h2 class="title-style mb-4">Thanks for your bookings</h2>
+
+      <div class="card shadow-lg border-0">
+        <div class="card-body p-4">
+          <div class="table-responsive">
+            <table
+              class="table table-hover table-bordered align-middle text-center"
+            >
+              <thead class="table-dark">
+                <tr>
+                  <th>Booking Id</th>
+                  <th>Trip Name</th>
+                  <th>Package Name</th>
+                  <th>Hotel Name</th>
+                  <th>Seat</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                  <th colspan="2">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let booking of bookings">
+                  <td>{{ booking?.id }}</td>
+                  <td>{{ booking.trip_name }}</td>
+                  <td>{{ booking.package_name }}</td>
+                  <td>{{ booking.hotel_name }}</td>
+                  <td>{{ booking.seat_ids }}</td>
+                  <td>
+                    <span
+                      [ngClass]="{
+                        'badge bg-success': booking.status === 'confirmed',
+                        'badge bg-warning text-dark':
+                          booking.status === 'pending',
+                        'badge bg-danger': booking.status === 'cancelled'
+                      }"
+                    >
+                      {{ booking.status }}
+                    </span>
+                  </td>
+                  <td>{{ booking.created_at | date : "longDate" }}</td>
+                  <td>
+                    <a
+                      class="btn btn-outline-primary btn-sm"
+                      [routerLink]="['/book-invoice', booking.id]"
+                    >
+                      <i class="bi bi-receipt"></i> Invoice
+                    </a>
+                  </td>
+                  <td
+                    *ngIf="
+                      booking.status !== 'cancelled' &&
+                      booking.booking_type !== 'hotel booking'
+                    "
+                  >
+                    <button
+                      class="btn btn-outline-danger btn-sm"
+                      (click)="cancelBooking(booking.id)"
+                    >
+                      <i class="bi bi-x-circle"></i> Cancel
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
