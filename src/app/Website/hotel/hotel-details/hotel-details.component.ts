@@ -83,7 +83,7 @@ export class HotelDetailsComponent implements OnInit {
       const days = this.getDaysDiff(checkIn, checkOut);
       let total = 0;
 
-      for (let i = 0; i < days; i++) {
+      for (let i = 0; i <= days; i++) {
         const currentDate = new Date(checkIn);
         currentDate.setDate(checkIn.getDate() + i);
 
@@ -94,7 +94,7 @@ export class HotelDetailsComponent implements OnInit {
             new Date(p.season_end)
           )
         );
-
+        
         total += priceObj ? parseFloat(priceObj.price_per_night) : 0;
       }
       this.totalCost = total;
