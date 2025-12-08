@@ -3,3 +3,4 @@ export const DEFAULT_PACKAGE_IMAGE =
 
 export const DEFAULT_PACKAGE_IMAGE_2 =
   'https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcTQ3mKVyBOhBpvuBh6urSpJGbH5iH-HMmoF9Sw4NpU4ans7jDejZRSefYuQLZTHeE2-P6JteGLITr53wSbzMF6vhiqhWERfwsLi_OQ66w';
+

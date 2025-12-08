@@ -22,6 +22,8 @@ import { PackageDetailsComponent } from './Website/packages/package-details/pack
 import { RefundComponent } from './Website/refund/refund/refund.component';
 import { TourPageComponent } from './Website/tour-page/tour-page.component';
 import { HotelDetailsComponent } from './Website/hotel/hotel-details/hotel-details.component';
+import { AddTicketsComponent } from './Website/ticket/add-tickets/add-tickets.component';
+import { CustomerTicketListComponent } from './Website/ticket/customer-ticket-list/customer-ticket-list.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +43,8 @@ import { HotelDetailsComponent } from './Website/hotel/hotel-details/hotel-detai
     RefundComponent,
     TourPageComponent,
     HotelDetailsComponent,
+    AddTicketsComponent,
+    CustomerTicketListComponent,
   ],
   imports: [
     BrowserModule,

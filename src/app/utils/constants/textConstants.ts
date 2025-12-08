@@ -14,3 +14,9 @@ export const textConstants = {
   CHECK_OUT_OUR_UPCOMING_TOURS: 'Check Out Our Upcoming Tours',
   EXPLORE_OUR_BEST_HOTELS: 'Explore Our Best Hotels',
 };
+
+
+
+
+export const ticketStatus = ['pending','resolved','declined'];
+export const ticketResolvedStatus = ['pending','processing','closed'];

@@ -1,0 +1,68 @@
+<section class="w3l-contact-main py-5 mt-5" id="contact">
+  <div class="container py-lg-5 py-md-4 py-2">
+
+    <!-- Title -->
+    <div class="title-main text-center mx-auto mb-md-5 mb-4">
+      <p class="title-style">Tickets</p>
+
+
+    </div>
+
+    <!-- 🌟 CREATE TICKET FORM BELOW -->
+    <div class="row justify-content-center mt-5">
+      <div class="col-lg-7 col-md-9">
+
+        <div class="card shadow-lg border-0 rounded-4">
+          <div class="card-header bg-primary text-white text-center py-3 rounded-top-4">
+            <h4 class="mb-0">Create Support Ticket</h4>
+          </div>
+
+          <div class="card-body p-4">
+
+            <form [formGroup]="ticketForm" (ngSubmit)="submitTicket()" enctype="multipart/form-data">
+              
+              <!-- Title -->
+              <div class="mb-3">
+                <label class="form-label">Title</label>
+                <input type="text" formControlName="title" class="form-control form-control-lg"
+                  placeholder="Enter ticket title">
+              </div>
+
+              <!-- Description -->
+              <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea formControlName="description" rows="4" class="form-control"
+                  placeholder="Write your issue in detail"></textarea>
+              </div>
+
+              <!-- Attachment -->
+              <div class="mb-3">
+                <label class="form-label">Attachment</label>
+                <input type="file" class="form-control" (change)="onFileChange($event)">
+                <small class="text-muted">Upload screenshot or image (optional)</small>
+              </div>
+
+              <!-- Remarks -->
+              <div class="mb-3">
+                <label class="form-label">Remarks</label>
+                <input type="text" formControlName="remarks" class="form-control"
+                  placeholder="Notes or additional info">
+              </div>
+
+              <!-- Submit Button -->
+              <div class="d-grid">
+                <button type="submit" class="btn btn-primary btn-lg">
+                  Submit Ticket
+                </button>
+              </div>
+
+            </form>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
