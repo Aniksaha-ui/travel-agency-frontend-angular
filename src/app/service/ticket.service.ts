@@ -15,4 +15,8 @@ export class TicketService {
     return this.http.get(`${this.baseUrl}/user/ticketList`, {});
   }
 
+  addTicket(data:any){
+    return this.http.post(`${this.baseUrl}/user/createTicket`,data)
+  }
+
 }

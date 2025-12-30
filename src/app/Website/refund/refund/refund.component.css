@@ -1,0 +1,200 @@
+/* Section */
+.ticket-section {
+  padding: 40px 0;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Title */
+.custom-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2d2d2d;
+}
+
+.custom-title span {
+  color: #6b4eff;
+}
+
+.subtitle {
+  font-size: 1rem;
+  margin-top: 5px;
+  opacity: 0.7;
+}
+
+/* Ticket Card */
+.custom-ticket-card {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(12px);
+  padding: 22px;
+  border-radius: 18px;
+  border: 1px solid rgba(140, 130, 255, 0.25);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.25s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+}
+
+.custom-ticket-card::before {
+  content: "";
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 110px;
+  height: 110px;
+  background: rgba(107, 78, 255, 0.2);
+  border-radius: 50%;
+  filter: blur(30px);
+  transition: 0.3s;
+}
+
+.custom-ticket-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
+
+.custom-ticket-card:hover::before {
+  background: rgba(107, 78, 255, 0.35);
+  width: 140px;
+  height: 140px;
+  filter: blur(40px);
+}
+
+/* Header */
+.ticket-header h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2e2e2e;
+  margin-bottom: 12px;
+}
+
+/* Remarks */
+.remarks {
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* Status row */
+.ticket-info {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Status badges */
+.status {
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: white;
+}
+
+.status.resolved {
+  background: #6b4eff;
+}
+.status.pending {
+  background: #f7b500;
+  color: #000;
+}
+.status.review {
+  background: #4dc9ff;
+  color: #000;
+}
+.status.success {
+  background: #00c853;
+}
+.status.fail {
+  background: #ff3b3b;
+}
+
+/* ================== MODAL ==================== */
+/* Modal main content */
+.custom-modal-content {
+  background: rgba(28, 28, 38, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 25px;
+  color: #fff;
+  border: 1px solid rgba(125, 91, 255, 0.5);
+}
+
+/* Header */
+.custom-modal-header h2 {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #bfa7ff;
+}
+
+/* Footer */
+.custom-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.close-btn {
+  padding: 8px 24px;
+  background: #7d5bff;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  transition: 0.2s;
+}
+.close-btn:hover {
+  background: #6a49ff;
+}
+
+/* Modal fields */
+.modal-field label {
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+.modal-field div {
+  font-size: 1rem;
+  margin-top: 4px;
+}
+
+/* Status badges */
+.status-badge {
+  display: inline-block;
+  padding: 5px 14px;
+  border-radius: 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.status-badge.pending {
+  background: #f7b500;
+  color: #000;
+}
+.status-badge.review {
+  background: #4dc9ff;
+  color: #000;
+}
+.status-badge.success {
+  background: #00c853;
+}
+.status-badge.fail {
+  background: #ff3b3b;
+}
+
+/* Resolved status */
+.status-badge.resolved {
+  background: #7d5bff;
+}
+.status-badge.not-resolved {
+  background: #555;
+}
+
+/* Attachment */
+.modal-attachment {
+  width: 100%;
+  height: 280px;
+  object-fit: contain;
+  border-radius: 14px;
+  margin-top: 8px;
+}

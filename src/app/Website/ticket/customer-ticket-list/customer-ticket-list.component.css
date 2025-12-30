@@ -28,7 +28,7 @@
   padding: 22px;
   border-radius: 18px;
   border: 1px solid rgba(140, 130, 255, 0.25);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
   transition: all 0.25s ease;
   cursor: pointer;
   position: relative;
@@ -51,7 +51,7 @@
 
 .custom-ticket-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
 }
 
 .custom-ticket-card:hover::before {
@@ -92,11 +92,23 @@
   color: white;
 }
 
-.status.resolved { background: #6b4eff; }
-.status.pending  { background: #f7b500; color: #000; }
-.status.review   { background: #4dc9ff; color: #000; }
-.status.success  { background: #00c853; }
-.status.fail     { background: #ff3b3b; }
+.status.resolved {
+  background: #6b4eff;
+}
+.status.pending {
+  background: #f7b500;
+  color: #000;
+}
+.status.review {
+  background: #4dc9ff;
+  color: #000;
+}
+.status.success {
+  background: #00c853;
+}
+.status.fail {
+  background: #ff3b3b;
+}
 
 /* ================== MODAL ==================== */
 /* Modal main content */
@@ -155,14 +167,28 @@
   color: #fff;
 }
 
-.status-badge.pending  { background: #f7b500; color: #000; }
-.status-badge.review   { background: #4dc9ff; color: #000; }
-.status-badge.success  { background: #00c853; }
-.status-badge.fail     { background: #ff3b3b; }
+.status-badge.pending {
+  background: #f7b500;
+  color: #000;
+}
+.status-badge.review {
+  background: #4dc9ff;
+  color: #000;
+}
+.status-badge.success {
+  background: #00c853;
+}
+.status-badge.fail {
+  background: #ff3b3b;
+}
 
 /* Resolved status */
-.status-badge.resolved { background: #7d5bff; }
-.status-badge.not-resolved { background: #555; }
+.status-badge.resolved {
+  background: #7d5bff;
+}
+.status-badge.not-resolved {
+  background: #555;
+}
 
 /* Attachment */
 .modal-attachment {

@@ -1,32 +1,158 @@
-<section class="w3l-contact-main py-5 mt-5" id="contact">
-  <div class="container py-lg-5 py-md-4 py-2">
-    <div class="title-main text-center mx-auto mb-md-5 mb-4">
-      <p>My Refund ({{ refunds.length }})</p>
-      <p class="title-style">Refund Request Details</p>
-      <table class="table table-bordered mt-5">
-        <thead>
-          <tr>
-            <th scope="col">Booking Id</th>
-            <th scope="col">Reason</th>
-            <th scope="col">Trip Name</th>
-            <th scope="col">Departure Time</th>
-            <th scope="col">Arrival Time</th>
-            <th scope="col">Trip Price</th>
-            <th scope="col">Refund Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let refund of refunds">
-            <td>{{ refund?.booking_id }}</td>
-            <td>{{ refund?.reason ?? "" }}</td>
-            <td>{{ refund.trip_name }}</td>
-            <td>{{ refund.departure_time }}</td>
-            <td>{{ refund.arrival_time }}</td>
-            <td>{{ refund.price }}</td>
-            <td>{{ refund?.amount ?? "" }}</td>
-          </tr>
-        </tbody>
-      </table>
+<section class="ticket-section mt-5">
+  <div class="container">
+    <div class="row align-items-center mb-5">
+      <!-- Title -->
+      <div class="col-md-8">
+        <div class="custom-title text-md-start text-center">
+          My Refunds <span>({{ refunds.length }})</span>
+          <div class="subtitle">Refund Request Details</div>
+        </div>
+      </div>
+
+      <!-- Button -->
+    </div>
+
+    <!-- Refund Cards -->
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4" *ngFor="let refund of refunds">
+        <div class="custom-ticket-card" (click)="openRefundModal(refund)">
+          <div class="ticket-header">
+            <h3>Booking ID: {{ refund.booking_id }}</h3>
+          </div>
+
+          <div class="ticket-body">
+            <p class="remarks">
+              <strong>Reason:</strong>
+              {{ refund.reason || "No reason provided" }}
+            </p>
+
+            <p class="remarks"><strong>Trip:</strong> {{ refund.trip_name }}</p>
+
+            <p class="remarks">
+              <strong>Departure:</strong>
+              {{ formatDateTime(refund.departure_time) }} <br />
+              <strong>Arrival:</strong>
+              {{ formatDateTime(refund.arrival_time) }}
+            </p>
+
+            <div class="ticket-info">
+              <span class="status review">Price: ৳ {{ refund.price }}</span>
+              <span class="status success"
+                >Refund: ৳ {{ refund.amount || 0 }}</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div class="col-12 text-center" *ngIf="refunds.length === 0">
+        <p class="remarks">No refund requests found</p>
+      </div>
     </div>
   </div>
 </section>
+
+<!-- Refund Modal -->
+<div class="modal fade custom-modal" id="refundModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content custom-modal-content">
+      <div class="custom-modal-header">
+        <h2>Refund Details</h2>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+
+      <div class="custom-modal-body" *ngIf="selectedRefund">
+        <div class="row g-3">
+          <div class="col-md-4">
+            <div class="modal-field">
+              <label>Booking ID</label>
+              <div>{{ selectedRefund.booking_id }}</div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="modal-field">
+              <label>Seats</label>
+              <div>{{ selectedRefund.seat_ids || "—" }}</div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="modal-field">
+              <label>Reason</label>
+              <div>{{ selectedRefund.reason || "—" }}</div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="modal-field">
+              <label>Trip Name</label>
+              <div>{{ selectedRefund.trip_name }}</div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="modal-field">
+              <label>Departure</label>
+              <div>{{ formatDateTime(selectedRefund.departure_time) }}</div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="modal-field">
+              <label>Arrival</label>
+              <div>{{ formatDateTime(selectedRefund.arrival_time) }}</div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="modal-field">
+              <label>Price</label>
+              <div>৳ {{ selectedRefund.price }}</div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="modal-field">
+              <label>Refund Amount</label>
+              <div>৳ {{ selectedRefund.amount || 0 }}</div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="modal-field">
+              <label>Booking Type</label>
+              <div>{{ selectedRefund.booking_type }}</div>
+            </div>
+          </div>
+
+          <div class="col-12" *ngIf="selectedRefund.description">
+            <div class="modal-field">
+              <label>Description</label>
+              <div>{{ selectedRefund.description }}</div>
+            </div>
+          </div>
+
+          <div class="col-12" *ngIf="selectedRefund.image">
+            <div class="modal-field">
+              <label>Trip Image</label>
+              <img
+                [src]="imageBaseUrl + selectedRefund.image"
+                class="modal-attachment"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="custom-modal-footer">
+        <button class="close-btn" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

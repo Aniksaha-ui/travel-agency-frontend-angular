@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { TicketService } from 'src/app/service/ticket.service';
 import { ticketResolvedStatus, ticketStatus } from 'src/app/utils/constants/textConstants';
 import { environment } from 'src/environments/environment';
@@ -19,7 +20,7 @@ export class CustomerTicketListComponent {
   ticketStatus = ticketStatus;
   ticketResolvedStatus = ticketResolvedStatus;
 
-  constructor(private ticketService: TicketService) {}
+  constructor(private ticketService: TicketService,private router: Router) {}
 
   selectedTicket: any = null;
   modal: any;
@@ -46,5 +47,10 @@ export class CustomerTicketListComponent {
 
       }
     });
+  }
+
+
+  addNewTickets(){
+     this.router.navigate(['/add/tickets']);
   }
 }
