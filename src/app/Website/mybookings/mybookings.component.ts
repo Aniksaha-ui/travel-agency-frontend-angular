@@ -14,7 +14,6 @@ export class MybookingsComponent {
     this.bookingService.findBookings().subscribe((response: any) => {
       this.bookings = response.data;
     });
-    console.log(this.bookings);
   }
 
   cancelBooking(id: any) {

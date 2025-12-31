@@ -1,4 +1,4 @@
-.title-style {
+/* .title-style {
   font-weight: 600;
   font-size: 2.2rem;
   color: #0d6efd;
@@ -11,4 +11,142 @@
 .table td,
 .table th {
   vertical-align: middle;
+} */
+
+
+.booking-section {
+  background: #f5f7fb;
+  padding: 60px 20px;
+  font-family: "Inter", sans-serif;
+}
+
+.booking-container {
+  max-width: 1300px;
+  margin: auto;
+}
+
+.booking-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.booking-card {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.card-header-gradient {
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+}
+
+.booking-id {
+  font-weight: 600;
+}
+
+/* Status */
+.status {
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.status.confirmed {
+  background: #22c55e;
+}
+
+.status.pending {
+  background: #f59e0b;
+}
+
+.status.cancelled {
+  background: #ef4444;
+}
+
+/* Body */
+.card-body {
+  padding: 20px;
+  flex: 1;
+}
+
+.info-block {
+  margin-bottom: 14px;
+}
+
+.info-block label {
+  font-size: 12px;
+  color: #64748b;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.info-block p,
+.info-block span {
+  font-size: 14px;
+  color: #0f172a;
+  font-weight: 500;
+}
+
+/* Row */
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.seat {
+  background: #eef2ff;
+  color: #4338ca;
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+}
+
+.date {
+  color: #64748b;
+}
+
+/* Actions */
+.card-actions {
+  display: flex;
+  gap: 12px;
+  padding: 18px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  border: none;
+  cursor: pointer;
+}
+
+.invoice-btn {
+  background: linear-gradient(135deg, #4f46e5, #818cf8);
+  color: #fff;
+}
+
+.cancel-btn {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: #fff;
+}
+
+/* Mobile */
+@media (max-width: 520px) {
+  .info-row {
+    flex-direction: column;
+  }
 }

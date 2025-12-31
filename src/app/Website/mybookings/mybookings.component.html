@@ -1,74 +1,78 @@
-<section class="w3l-contact-main py-5 mt-5" id="contact">
-  <div class="container py-lg-5 py-md-4 py-2">
-    <div class="title-main text-center mx-auto mb-md-5 mb-4">
-      <p class="text-muted fs-5">
-        My Bookings <span class="badge bg-primary">{{ bookings.length }}</span>
-      </p>
-      <h2 class="title-style mb-4">Thanks for your bookings</h2>
 
-      <div class="card shadow-lg border-0">
-        <div class="card-body p-4">
-          <div class="table-responsive">
-            <table
-              class="table table-hover table-bordered align-middle text-center"
-            >
-              <thead class="table-dark">
-                <tr>
-                  <th>Booking Id</th>
-                  <th>Trip Name</th>
-                  <th>Package Name</th>
-                  <th>Hotel Name</th>
-                  <th>Seat</th>
-                  <th>Status</th>
-                  <th>Date</th>
-                  <th colspan="2">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let booking of bookings">
-                  <td>{{ booking?.id }}</td>
-                  <td>{{ booking.trip_name }}</td>
-                  <td>{{ booking.package_name }}</td>
-                  <td>{{ booking.hotel_name }}</td>
-                  <td>{{ booking.seat_ids }}</td>
-                  <td>
-                    <span
-                      [ngClass]="{
-                        'badge bg-success': booking.status === 'confirmed',
-                        'badge bg-warning text-dark':
-                          booking.status === 'pending',
-                        'badge bg-danger': booking.status === 'cancelled'
-                      }"
-                    >
-                      {{ booking.status }}
-                    </span>
-                  </td>
-                  <td>{{ booking.created_at | date : "longDate" }}</td>
-                  <td>
-                    <a
-                      class="btn btn-outline-primary btn-sm"
-                      [routerLink]="['/book-invoice', booking.id]"
-                    >
-                      <i class="bi bi-receipt"></i> Invoice
-                    </a>
-                  </td>
-                  <td
-                    *ngIf="
-                      booking.status !== 'cancelled' &&
-                      booking.booking_type !== 'hotel booking'
-                    "
-                  >
-                    <button
-                      class="btn btn-outline-danger btn-sm"
-                      (click)="cancelBooking(booking.id)"
-                    >
-                      <i class="bi bi-x-circle"></i> Cancel
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+<section class="booking-section" id="contact">
+  <h3 style="text-align: center; color:blue ; margin:40px 0px" >My Bookings</h3>
+  <div class="booking-container">
+    <div class="booking-grid">
+      <div class="booking-card" *ngFor="let booking of bookings">
+        <!-- Header -->
+        <div class="card-header-gradient">
+          <span class="booking-id">Booking #{{ booking?.id }}</span>
+
+          <span
+            [ngClass]="{
+              'status confirmed': booking.status === 'confirmed',
+              'status pending': booking.status === 'pending',
+              'status cancelled': booking.status === 'cancelled'
+            }"
+          >
+            {{ booking.status | titlecase }}
+          </span>
+        </div>
+
+        <!-- Body -->
+        <div class="card-body">
+          <!-- Trip Booking -->
+          <div class="info-block" *ngIf="booking.trip_name">
+            <label>Trip Name</label>
+            <p>{{ booking.trip_name }}</p>
           </div>
+
+          <!-- Package Booking -->
+          <div class="info-block" *ngIf="booking.package_name">
+            <label>Package Name</label>
+            <p>{{ booking.package_name }}</p>
+          </div>
+
+          <!-- Hotel Booking -->
+          <div class="info-block" *ngIf="booking.hotel_name">
+            <label>Hotel</label>
+            <p>{{ booking.hotel_name }}</p>
+          </div>
+
+          <div class="info-row">
+            <div class="info-block">
+              <label>Seat</label>
+              <span class="seat">{{ booking.seat_ids }}</span>
+            </div>
+
+            <div class="info-block">
+              <label>Date</label>
+              <span class="date">
+                {{ booking.created_at | date : "mediumDate" }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="card-actions">
+          <a
+            class="btn invoice-btn"
+            [routerLink]="['/book-invoice', booking.id]"
+          >
+            Invoice
+          </a>
+
+          <button
+            *ngIf="
+              booking.status !== 'cancelled' &&
+              booking.booking_type !== 'hotel booking'
+            "
+            class="btn cancel-btn"
+            (click)="cancelBooking(booking.id)"
+          >
+            Cancel
+          </button>
         </div>
       </div>
     </div>

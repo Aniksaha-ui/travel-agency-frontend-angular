@@ -1,135 +1,119 @@
-<div class="container mt-5" style="margin-top: 10% !important;">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="card shadow">
-        <div class="card-body p-4">
-          <!-- Header -->
-          <div class="text-center mb-4">
-            <h3 class="fw-bold">Invoice</h3>
-            <p class="text-muted mb-0">Issued by TravelInfinityCodeHub</p>
-          </div>
-
-          <hr />
-
-          <!-- Booking Details -->
-          <h5 class="mb-3 fw-bold">Booking Details</h5>
-          <table class="table table-bordered">
-            <tbody>
-              <tr>
-                <th>Invoice No.</th>
-                <td>INV-00{{ invoiceData.booking_id }}</td>
-              </tr>
-              <tr>
-                <th>Booking ID</th>
-                <td>{{ invoiceData.booking_id }}</td>
-              </tr>
-              <tr>
-                <th>Booking Type</th>
-                <td class="text-capitalize">{{ invoiceData.booking_type }}</td>
-              </tr>
-
-              <!-- Hotel Info -->
-              <tr *ngIf="invoiceData.booking_type === 'hotel booking'">
-                <th>Hotel Name</th>
-                <td>{{ invoiceData.hotel_name || 'N/A' }}</td>
-              </tr>
-
-              <!-- Trip Info -->
-              <ng-container *ngIf="invoiceData.booking_type === 'trip'">
-                <tr>
-                  <th>Trip Name</th>
-                  <td>{{ invoiceData.trip_name || 'N/A' }}</td>
-                </tr>
-                <tr>
-                  <th>Departure Time</th>
-                  <td>{{ invoiceData.departure_time || 'N/A' }}</td>
-                </tr>
-                <tr>
-                  <th>Arrival Time</th>
-                  <td>{{ invoiceData.arrival_time || 'N/A' }}</td>
-                </tr>
-                <tr>
-                  <th>Seat Numbers</th>
-                  <td>{{ invoiceData.seat_numbers || 'N/A' }}</td>
-                </tr>
-              </ng-container>
-
-              <!-- Package Info -->
-              <tr *ngIf="invoiceData.booking_type === 'package'">
-                <th>Package Name</th>
-                <td>{{ invoiceData.package_name || 'N/A' }}</td>
-              </tr>
-
-              <!-- Common Fields -->
-              <tr>
-                <th>Booking Status</th>
-                <td class="text-capitalize">{{ invoiceData.booking_status }}</td>
-              </tr>
-              <tr>
-                <th>Payment Status</th>
-                <td class="text-capitalize">{{ invoiceData.payment_status }}</td>
-              </tr>
-              <tr>
-                <th>Payment Method</th>
-                <td class="text-capitalize">{{ invoiceData.payment_method }}</td>
-              </tr>
-              <tr *ngIf="invoiceData.payment_method === 'card' && invoiceData.card">
-                <th>Card Number</th>
-                <td>•••• •••• •••• {{ invoiceData.card.slice(-4) }}</td>
-              </tr>
-              <tr>
-                <th>Transaction Ref.</th>
-                <td>{{ invoiceData.transaction_reference || 'N/A' }}</td>
-              </tr>
-              <tr>
-              
-                <th>Date</th>
-                <td></td>
-              </tr>
-                <tr>
-                  <th>Seat Numbers</th>
-                  <td>{{ invoiceData.seat_numbers || 'N/A' }}</td>
-                </tr>
-            </tbody>
-          </table>
-
-          <!-- Payment Summary -->
-          <h5 class="mb-3 fw-bold mt-4">Payment Summary</h5>
-          <table class="table table-bordered">
-            <thead class="table-light">
-              <tr>
-                <th>Description</th>
-                <th>Amount (BDT)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  {{
-                    invoiceData.booking_type === 'hotel booking'
-                      ? 'Hotel Booking Fee'
-                      : invoiceData.booking_type === 'trip'
-                      ? 'Trip Booking Fee'
-                      : 'Package Booking Fee'
-                  }}
-                </td>
-                <td>{{ invoiceData.total_payment_amount }}</td>
-              </tr>
-              <tr>
-                <th>Total Amount Paid</th>
-                <th>{{ invoiceData.total_payment_amount }}</th>
-              </tr>
-            </tbody>
-          </table>
-
-          <!-- Footer -->
-          <div class="text-center mt-4">
-            <button class="btn btn-primary" (click)="downloadInvoice()">
-              Download Invoice
-            </button>
-          </div>
-        </div>
+<div class="invoice-page">
+  <div class="invoice-container">
+    <!-- Header -->
+    <div class="invoice-top">
+      <div style="color:white">
+        <h1>Travel Invoice</h1>
+        <p>Issued by TravelInfinityCodeHub</p>
       </div>
+      <div class="invoice-number">
+        <span>Invoice</span>
+        <strong>INV-00{{ invoiceData.booking_id }}</strong>
+      </div>
+    </div>
+
+    <!-- Booking Info -->
+    <div class="invoice-block">
+      <h3>Booking Details</h3>
+      <table class="invoice-table">
+        <tbody>
+          <tr>
+            <th>Booking ID</th>
+            <td>{{ invoiceData.booking_id }}</td>
+          </tr>
+          <tr>
+            <th>Booking Type</th>
+            <td class="capitalize">{{ invoiceData.booking_type }}</td>
+          </tr>
+
+          <!-- Hotel -->
+          <tr *ngIf="invoiceData.booking_type === 'hotel booking'">
+            <th>Hotel Name</th>
+            <td>{{ invoiceData.hotel_name || 'N/A' }}</td>
+          </tr>
+
+          <!-- Trip -->
+          <ng-container *ngIf="invoiceData.booking_type === 'trip'">
+            <tr>
+              <th>Trip Name</th>
+              <td>{{ invoiceData.trip_name || 'N/A' }}</td>
+            </tr>
+            <tr>
+              <th>Departure Time</th>
+              <td>{{ invoiceData.departure_time || 'N/A' }}</td>
+            </tr>
+            <tr>
+              <th>Arrival Time</th>
+              <td>{{ invoiceData.arrival_time || 'N/A' }}</td>
+            </tr>
+            <tr>
+              <th>Seat Numbers</th>
+              <td>{{ invoiceData.seat_numbers || 'N/A' }}</td>
+            </tr>
+          </ng-container>
+
+          <!-- Package -->
+          <tr *ngIf="invoiceData.booking_type === 'package'">
+            <th>Package Name</th>
+            <td>{{ invoiceData.package_name || 'N/A' }}</td>
+          </tr>
+
+          <tr>
+            <th>Booking Status</th>
+            <td class="capitalize">{{ invoiceData.booking_status }}</td>
+          </tr>
+          <tr>
+            <th>Payment Status</th>
+            <td class="capitalize">{{ invoiceData.payment_status }}</td>
+          </tr>
+          <tr>
+            <th>Payment Method</th>
+            <td class="capitalize">{{ invoiceData.payment_method }}</td>
+          </tr>
+          <tr *ngIf="invoiceData.payment_method === 'card' && invoiceData.card">
+            <th>Card</th>
+            <td>•••• •••• •••• {{ invoiceData.card.slice(-4) }}</td>
+          </tr>
+          <tr>
+            <th>Transaction Ref</th>
+            <td>{{ invoiceData.transaction_reference || 'N/A' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Payment -->
+    <div class="invoice-block highlight">
+      <h3>Payment Summary</h3>
+      <table class="invoice-table">
+        <tbody>
+          <tr>
+            <td>
+              {{
+                invoiceData.booking_type === 'hotel booking'
+                  ? 'Hotel Booking Fee'
+                  : invoiceData.booking_type === 'trip'
+                  ? 'Trip Booking Fee'
+                  : 'Package Booking Fee'
+              }}
+            </td>
+            <td class="amount">
+              {{ invoiceData.total_payment_amount }} BDT
+            </td>
+          </tr>
+          <tr class="total">
+            <th>Total Paid</th>
+            <th>{{ invoiceData.total_payment_amount }} BDT</th>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Footer -->
+    <div class="invoice-action">
+      <button class="download-btn" (click)="downloadInvoice()">
+        Download Invoice
+      </button>
     </div>
   </div>
 </div>
