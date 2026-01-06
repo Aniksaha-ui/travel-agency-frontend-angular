@@ -17,6 +17,5 @@ export const textConstants = {
 
 
 
-
 export const ticketStatus = ['pending','resolved','declined'];
 export const ticketResolvedStatus = ['pending','processing','closed'];
