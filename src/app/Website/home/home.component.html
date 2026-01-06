@@ -366,11 +366,12 @@
       >
         <div
           class="position-relative"
+          [style.background-image]="'url(' + environment.imageBaseUrl + pack.image + ')'"
           style="
             height: 180px;
-            background: url({{ pack.image }})
-              center/cover no-repeat;
-          "
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;"
         >
           <div
             class="position-absolute bottom-0 start-0 bg-dark bg-opacity-50 text-white p-2 rounded-end"
