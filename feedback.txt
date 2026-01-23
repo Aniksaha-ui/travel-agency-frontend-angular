@@ -1,0 +1,13 @@
+travel booking frontend(angular)
+1. Hotel website view not working
+2. ticket modal status and resolved status design changed
+3. add ticket form design should be more attractive and more responsive
+4. Contact us page context change
+5. Remove map or use current location
+6. Send Queries will be removed
+7. Menu tickets will be support/complain
+8. trip,package and hotel will section will say "No trip/package/hotel is available right now" when there is no active trip
+9. use constant for all static contents so that it can be changed in future
+
+
+

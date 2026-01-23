@@ -1,27 +1,67 @@
-# TravelAgencyFrontend
+# Swift Journey – Travel Agency User Panel
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.16.
+Swift Journey is a modern **Travel Agency User Panel** built using **Angular**, offering users an interactive and seamless experience for booking trips, packages, hotels, and managing tickets and refunds.
 
-## Development server
+🌐 **Live Link:**  
+http://swiftjourney.infinitycodehubltd.com/
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+---
 
-## Code scaffolding
+## ✨ Features
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### 🧳 Trip Management
+- View different types of trips
+- Search for trips
+- View trip details
+- Interactive seat booking
+- Book trips online
 
-## Build
+### 📦 Package Management
+- View different travel packages
+- Search packages
+- View package details
+- Book packages online
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### 🏨 Hotel Booking
+- Search hotels
+- View hotel details
+- Book hotels online
 
-## Running unit tests
+### 🎫 Ticket & Refund
+- Generate tickets
+- View ticket details
+- Request refunds
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### 🔍 Search System
+- Search for trips, packages, and hotels
 
-## Running end-to-end tests
+### 📄 Pages
+- Home
+- About
+- Trip
+- Contact
+- Details pages for trips, packages, and hotels
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+---
 
-## Further help
+## 🛠️ Technology Stack
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- **Frontend:** Angular
+- **Language:** TypeScript
+- **Styling:** CSS / Bootstrap
+- **Architecture:** Component-based Single Page Application (SPA)
+
+---
+
+## ⚙️ Installation & Setup
+
+### Prerequisites
+- Node.js (v14 or higher)
+- Angular CLI
+
+### Steps
+```bash
+git clone <repository-url>
+cd swift-journey-user-panel
+npm install
+ng serve

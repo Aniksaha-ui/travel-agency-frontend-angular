@@ -26,7 +26,7 @@ export class BookTourComponent {
     private router: Router,
     private route: ActivatedRoute,
     private tourService: TourService,
-    private bookingService: BookingService
+    private bookingService: BookingService,
   ) {}
 
   ngOnInit(): void {
@@ -47,7 +47,7 @@ export class BookTourComponent {
     if (seat.is_available === '0') return; // Prevent selection if seat is unavailable
 
     const index = this.selectedSeats.findIndex(
-      (s) => s.seat_id === seat.seat_id
+      (s) => s.seat_id === seat.seat_id,
     );
     if (index === -1) {
       this.selectedSeats.push({
@@ -72,11 +72,15 @@ export class BookTourComponent {
       paymentinfo: this.loginForm.value,
     };
     this.bookingService.bookTour(requestData).subscribe((res: any) => {
-      if (res.status === 'success') {
+      if (res.status.toUpperCase() === 'SUCCESS') {
+        if (res && res.data && res.data.redirected_url) {
+          window.location.href = res.data.redirected_url;
+        }
+         
         this.router.navigate(['/my-bookings']);
       }
     });
-    // Add payment and booking logic here
+    
   }
 
   calculateTotalAmount(): number {
