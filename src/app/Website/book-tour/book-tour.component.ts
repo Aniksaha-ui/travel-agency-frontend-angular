@@ -76,11 +76,10 @@ export class BookTourComponent {
         if (res && res.data && res.data.redirected_url) {
           window.location.href = res.data.redirected_url;
         }
-         
+
         this.router.navigate(['/my-bookings']);
       }
     });
-    
   }
 
   calculateTotalAmount(): number {
