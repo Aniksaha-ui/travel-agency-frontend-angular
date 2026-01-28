@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PackageService } from 'src/app/service/package.service';
+import { environment } from 'src/environments/environment';
+import { DEFAULT_PACKAGE_IMAGE } from 'src/app/utils/constants/constants';
 
 @Component({
   selector: 'app-package-details',
@@ -11,6 +13,9 @@ import { PackageService } from 'src/app/service/package.service';
 export class PackageDetailsComponent implements OnInit {
   packageData: any = {};
   bookingForm!: FormGroup;
+  isLoading = true;
+  environment = environment;
+  defultImage = DEFAULT_PACKAGE_IMAGE;
 
   constructor(
     private router: Router,
@@ -36,15 +41,22 @@ export class PackageDetailsComponent implements OnInit {
     this.route.paramMap.subscribe((params) => {
       const packageId = params.get('id');
       if (packageId) {
+        this.isLoading = true;
         this.packageService
           .getPackageDetails(packageId)
-          .subscribe((res: any) => {
-            if (res.data) {
-              this.packageData = res.data;
-              this.bookingForm.patchValue({
-                package_id: res.data.id,
-              });
-              this.calculateTotal();
+          .subscribe({
+            next: (res: any) => {
+              if (res.data) {
+                this.packageData = res.data;
+                this.bookingForm.patchValue({
+                  package_id: res.data.id,
+                });
+                this.calculateTotal();
+              }
+              this.isLoading = false;
+            },
+            error: () => {
+              this.isLoading = false;
             }
           });
       }

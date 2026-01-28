@@ -1,103 +1,230 @@
-<div class="page-container" style="margin-top: 5%">
-  <div class="package-header">
-    <h1>{{ packageData.name }}</h1>
-    <p>{{ packageData.description }}</p>
+<!-- Loader -->
+<div *ngIf="isLoading" class="loader-container">
+  <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+    <span class="visually-hidden">Loading...</span>
   </div>
+</div>
 
-  <!-- Two Column Layout -->
-  <div class="content-section">
-    <!-- Package Info -->
-    <div class="info-section">
-      <div class="card details-card">
-        <h2>Package Information</h2>
-        <ul>
-          <li>
-            <strong>Location:</strong>
-            {{ packageData.location || "Not specified" }}
-          </li>
-          <li>
-            <strong>Duration:</strong>
-            {{ packageData.duration || "3 Days 2 Nights" }}
-          </li>
-          <li>
-            <strong>Accommodation:</strong>
-            {{ packageData.accommodation || "Included" }}
-          </li>
-          <li>
-            <strong>Transportation:</strong>
-            {{ packageData.transportation || "Included" }}
-          </li>
-          <li>
-            <strong>Base Price (Adult):</strong> {{ packageData.price }} BDT
-          </li>
-          <li>
-            <strong>Child Discount:</strong>
-            {{ getChildDiscount() | number : "1.0-2" }}%
-          </li>
-        </ul>
+<div *ngIf="!isLoading && packageData" class="animate-fade-in pb-5">
+  <!-- Hero Section -->
+  <section class="package-hero position-relative">
+    <div class="hero-image-wrapper">
+      <img 
+        [src]="packageData.image ? environment.imageBaseUrl + packageData.image : defultImage" 
+        class="hero-img" 
+        alt="Package Image"
+      >
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="container h-100 position-relative z-1">
+      <div class="row h-100 align-items-end pb-5">
+        <div class="col-lg-8 text-white">
+          <span class="badge bg-warning text-dark mb-3 px-3 py-2 rounded-pill text-uppercase fw-bold tracking-wide animate-fade-down">
+            <i class="fas fa-crown me-1"></i> Premium Package
+          </span>
+          <h1 class="display-3 fw-bold mb-3 animate-fade-up">{{ packageData.name }}</h1>
+          <div class="d-flex flex-wrap gap-4 text-white-50 animate-fade-up" style="animation-delay: 0.1s;">
+            <div class="d-flex align-items-center">
+              <i class="fas fa-map-marker-alt text-warning me-2"></i>
+              <span>{{ packageData.trip?.route_name }}</span>
+            </div>
+            <div class="d-flex align-items-center">
+              <i class="far fa-clock text-warning me-2"></i>
+              <span>3 Days / 2 Nights</span> <!-- Static as per previous default, or dynamic if available -->
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+  </section>
 
-    <!-- Booking Form -->
-    <div class="form-section">
-      <div class="card booking-card">
-        <form [formGroup]="bookingForm" (ngSubmit)="submitBooking()">
-          <h3>Book This Package</h3>
-
-          <!-- Adults -->
-          <div class="form-group">
-            <label>Adults</label>
-            <div class="counter">
-              <button type="button" (click)="decrement('adults')">−</button>
-              <input type="number" formControlName="adults" readonly />
-              <button type="button" (click)="increment('adults')">+</button>
+  <div class="container relative-overlap-container">
+    <div class="row g-4">
+      <!-- Left Column: Details -->
+      <div class="col-lg-8">
+        <!-- Highlights Bar -->
+        <div class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden">
+          <div class="card-body p-4">
+            <div class="row text-center divide-cols-small">
+              <div class="col-md-4">
+                <div class="d-flex flex-column align-items-center">
+                  <div class="icon-circle-sm bg-primary-soft text-primary mb-2">
+                    <i class="fas fa-bus"></i>
+                  </div>
+                  <small class="text-muted text-uppercase fw-bold">Transport</small>
+                  <span class="fw-bold">{{ packageData.includes_bus == '1' ? 'Included' : 'Not Included' }}</span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="d-flex flex-column align-items-center">
+                  <div class="icon-circle-sm bg-success-soft text-success mb-2">
+                    <i class="fas fa-utensils"></i>
+                  </div>
+                  <small class="text-muted text-uppercase fw-bold">Meals</small>
+                  <span class="fw-bold">{{ packageData.includes_meal == '1' ? 'Included' : 'Not Included' }}</span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="d-flex flex-column align-items-center">
+                  <div class="icon-circle-sm bg-warning-soft text-warning mb-2">
+                    <i class="fas fa-hotel"></i>
+                  </div>
+                  <small class="text-muted text-uppercase fw-bold">Hotel</small>
+                  <span class="fw-bold">{{ packageData.includes_hotel == '1' ? 'Included' : 'Not Included' }}</span>
+                </div>
+              </div>
             </div>
           </div>
+        </div>
 
-          <!-- Children -->
-          <div class="form-group">
-            <label>Children</label>
-            <div class="counter">
-              <button type="button" (click)="decrement('children')">−</button>
-              <input type="number" formControlName="children" readonly />
-              <button type="button" (click)="increment('children')">+</button>
+        <!-- Description -->
+        <div class="mb-5">
+           <h3 class="fw-bold mb-4 text-dark">Package Overview</h3>
+           <p class="text-muted lh-lg fs-5">{{ packageData.description }}</p>
+        </div>
+
+        <!-- Inclusions & Exclusions -->
+        <div class="row g-4 mb-5">
+          <div class="col-md-6">
+            <div class="card h-100 border-0 bg-success-soft rounded-4">
+              <div class="card-body p-4">
+                <h5 class="fw-bold text-success mb-3"><i class="fas fa-check-circle me-2"></i>What's Included</h5>
+                <ul class="list-unstyled mb-0">
+                  <li *ngFor="let item of packageData.inclusions" class="d-flex align-items-start mb-2">
+                    <i class="fas fa-check text-success mt-1 me-2 smaller-icon"></i>
+                    <span>{{ item }}</span>
+                  </li>
+                  <li *ngIf="!packageData.inclusions?.length" class="text-muted fst-italic">No specific inclusions listed.</li>
+                </ul>
+              </div>
             </div>
           </div>
-
-          <!-- Total -->
-          <div class="form-group">
-            <label>Total Cost</label>
-            <input type="text" formControlName="totalAmount" readonly />
-          </div>
-
-          <!-- Payment -->
-          <div formGroupName="paymentinfo" class="form-group">
-            <label>Payment Method</label>
-            <select formControlName="payment_method">
-              <option value="">Select</option>
-              <option value="bkash">bKash</option>
-              <option value="nagad">Nagad</option>
-              <option value="card">Card</option>
-            </select>
-
-            <div *ngIf="paymentMethod === 'bkash'" class="payment-field">
-              <label>bKash Number</label>
-              <input formControlName="bkash" placeholder="Enter bKash number" />
-            </div>
-
-            <div *ngIf="paymentMethod === 'nagad'" class="payment-field">
-              <label>Nagad Number</label>
-              <input formControlName="nagad" placeholder="Enter Nagad number" />
-            </div>
-
-            <div *ngIf="paymentMethod === 'card'" class="payment-field">
-              <label>Card Number</label>
-              <input formControlName="card" placeholder="Enter Card number" />
+          <div class="col-md-6">
+            <div class="card h-100 border-0 bg-danger-soft rounded-4">
+              <div class="card-body p-4">
+                <h5 class="fw-bold text-danger mb-3"><i class="fas fa-times-circle me-2"></i>What's Excluded</h5>
+                <ul class="list-unstyled mb-0">
+                  <li *ngFor="let item of packageData.exclusions" class="d-flex align-items-start mb-2">
+                    <i class="fas fa-times text-danger mt-1 me-2 smaller-icon"></i>
+                    <span>{{ item }}</span>
+                  </li>
+                  <li *ngIf="!packageData.exclusions?.length" class="text-muted fst-italic">No specific exclusions listed.</li>
+                </ul>
+              </div>
             </div>
           </div>
+        </div>
 
-          <button type="submit" class="btn-submit">Confirm Booking</button>
-        </form>
+        <!-- Trip Details Timeline -->
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+          <div class="card-body p-4">
+             <h4 class="fw-bold mb-4">Trip Schedule</h4>
+             <div class="d-flex justify-content-between align-items-center border p-3 rounded-3 bg-light">
+                <div class="text-center">
+                  <p class="mb-1 text-muted small">Departure</p>
+                  <h5 class="fw-bold mb-0">{{ packageData.trip?.departure_at }}</h5>
+                  <small class="text-primary">{{ packageData.trip?.departure_time | date:'mediumDate' }}</small>
+                </div>
+                <div class="flex-grow-1 mx-4 position-relative text-center">
+                  <div style="height: 2px; background: #dee2e6; position: absolute; top: 50%; width: 100%; z-index: 0;"></div>
+                  <i class="fas fa-bus text-primary position-relative bg-light px-2" style="z-index: 1;"></i>
+                  <p class="mt-2 mb-0 small text-muted">{{ packageData.trip?.vehicle_id }} (Coach)</p>
+                </div>
+                <div class="text-center">
+                  <p class="mb-1 text-muted small">Arrival</p>
+                  <h5 class="fw-bold mb-0">{{ packageData.trip?.arrival_at }}</h5>
+                  <small class="text-primary">{{ packageData.trip?.arrival_time | date:'mediumDate' }}</small>
+                </div>
+             </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Booking Form (Sticky) -->
+      <div class="col-lg-4">
+        <div class="sticky-sidebar" style="top: 100px; z-index: 100;">
+          <div class="card border-0 shadow-lg rounded-4 overflow-hidden booking-card-wrapper">
+            <div class="card-header bg-primary text-white p-4 text-center border-0">
+               <p class="mb-0 opacity-75 text-uppercase small fw-bold">Starting from</p>
+               <h2 class="fw-bold mb-0">
+                 {{ packageData.pricing?.[0]?.adult_price | currency: 'BDT ':'symbol':'1.0-0' }}
+                 <span class="fs-6 fw-normal opacity-75">/ person</span>
+               </h2>
+            </div>
+            <div class="card-body p-4">
+              <form [formGroup]="bookingForm" (ngSubmit)="submitBooking()">
+                
+                <!-- Adult Counter -->
+                <div class="mb-3 d-flex justify-content-between align-items-center border-bottom pb-3">
+                  <div>
+                    <span class="d-block fw-bold">Adults</span>
+                    <small class="text-muted">{{ packageData.pricing?.[0]?.adult_price | currency: 'BDT ':'symbol':'1.0-0' }}</small>
+                  </div>
+                  <div class="counter-group">
+                    <button type="button" class="btn btn-sm btn-outline-secondary rounded-circle" (click)="decrement('adults')"><i class="fas fa-minus"></i></button>
+                    <input type="number" formControlName="adults" readonly class="form-control-plaintext text-center fw-bold mx-2" style="width: 30px;">
+                    <button type="button" class="btn btn-sm btn-outline-primary rounded-circle" (click)="increment('adults')"><i class="fas fa-plus"></i></button>
+                  </div>
+                </div>
+
+                <!-- Child Counter -->
+                <div class="mb-4 d-flex justify-content-between align-items-center border-bottom pb-3">
+                  <div>
+                    <span class="d-block fw-bold">Children</span>
+                    <small class="text-muted">{{ packageData.pricing?.[0]?.child_price | currency: 'BDT ':'symbol':'1.0-0' }}</small>
+                    <span class="badge bg-success-soft text-success ms-1" style="font-size: 0.7em;">{{ getChildDiscount() | number:'1.0-0' }}% OFF</span>
+                  </div>
+                  <div class="counter-group">
+                    <button type="button" class="btn btn-sm btn-outline-secondary rounded-circle" (click)="decrement('children')"><i class="fas fa-minus"></i></button>
+                    <input type="number" formControlName="children" readonly class="form-control-plaintext text-center fw-bold mx-2" style="width: 30px;">
+                    <button type="button" class="btn btn-sm btn-outline-primary rounded-circle" (click)="increment('children')"><i class="fas fa-plus"></i></button>
+                  </div>
+                </div>
+
+                <!-- Total -->
+                <div class="d-flex justify-content-between align-items-center mb-4 p-3 bg-light rounded-3">
+                   <span class="fw-bold text-muted">Total Cost</span>
+                   <span class="fw-bold fs-4 text-primary">{{ bookingForm.get('totalAmount')?.value | currency: 'BDT ':'symbol':'1.0-0' }}</span>
+                </div>
+
+                <!-- Payment Method -->
+                <div class="mb-4" formGroupName="paymentinfo">
+                  <label class="form-label fw-bold">Payment Method</label>
+                  <select formControlName="payment_method" class="form-select form-select-lg">
+                    <option value="">Select Method</option>
+                    <option value="bkash">bKash</option>
+                    <option value="nagad">Nagad</option>
+                    <option value="card">Credit Card</option>
+                  </select>
+
+                  <!-- Dynamic Payment Fields -->
+                   <div *ngIf="paymentMethod === 'bkash'" class="mt-3 animate-fade-in">
+                      <div class="d-flex align-items-center bg-light p-2 rounded mb-2">
+                         <img src="https://logos-download.com/wp-content/uploads/2022/01/BKash_Logo_icon.png" alt="bkash" height="20" class="me-2">
+                         <small class="text-muted">Pay with bKash</small>
+                      </div>
+                      <input formControlName="bkash" class="form-control" placeholder="Enter bKash Number">
+                   </div>
+                   <div *ngIf="paymentMethod === 'nagad'" class="mt-3 animate-fade-in">
+                      <div class="d-flex align-items-center bg-light p-2 rounded mb-2">
+                         <img src="https://download.logo.wine/logo/Nagad/Nagad-Logo.wine.png" alt="nagad" height="20" class="me-2">
+                         <small class="text-muted">Pay with Nagad</small>
+                      </div>
+                      <input formControlName="nagad" class="form-control" placeholder="Enter Nagad Number">
+                   </div>
+                   <div *ngIf="paymentMethod === 'card'" class="mt-3 animate-fade-in">
+                      <input formControlName="card" class="form-control" placeholder="Card Number">
+                   </div>
+                </div>
+
+                <button type="submit" [disabled]="bookingForm.invalid" class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm hover-lift">
+                  Confirm Booking <i class="fas fa-arrow-right ms-2"></i>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

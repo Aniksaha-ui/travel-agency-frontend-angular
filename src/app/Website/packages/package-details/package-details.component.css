@@ -1,231 +1,161 @@
-/* .container {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.card {
-  transition: all 0.3s ease-in-out;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-}
-
-.card-header {
-  background: linear-gradient(135deg, #f4a261, #e76f51);
-  border-top-left-radius: 1rem !important;
-  border-top-right-radius: 1rem !important;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-h2,
-h4,
-h5 {
-  font-weight: 700;
-}
-
-.badge {
-  font-size: 0.95rem;
-  padding: 0.4em 0.75em;
-}
-
-.btn-outline-secondary {
-  width: 40px;
-  height: 40px;
-  font-size: 1.2rem;
-  padding: 0;
-}
-
-.input-group input.form-control {
-  font-weight: 600;
-  font-size: 1.1rem;
-}
-
-.card-body ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-.card-body ul li::before {
-  content: "✔";
-  color: #2a9d8f;
-  font-weight: bold;
-  margin-right: 8px;
-}
-
-.card-body ul li {
-  margin-bottom: 0.5rem;
-}
-
-select.form-select,
-input.form-control {
-  border-radius: 0.5rem;
-  border: 1px solid #ced4da;
-  transition: border-color 0.2s ease;
-}
-
-select.form-select:focus,
-input.form-control:focus {
-  border-color: #2a9d8f;
-  box-shadow: 0 0 0 0.2rem rgba(42, 157, 143, 0.25);
-}
-
-.btn-success {
-  font-size: 1.1rem;
-  padding: 0.6rem 1.5rem;
-  border-radius: 0.5rem;
-  transition: background 0.3s;
-}
-
-.btn-success:hover {
-  background-color: #2a9d8f;
-  color: white;
-}
-
-.bg-gradient {
-  color: white;
-  background: linear-gradient(135deg, #f4a261, #e76f51);
-}
-
-@media (max-width: 768px) {
-  .btn-outline-secondary {
-    width: 35px;
-    height: 35px;
-    font-size: 1rem;
+/* Global */
+:host {
+    display: block;
+    font-family: 'Ubuntu', sans-serif;
+    color: #4a4a4a;
   }
-
-  .input-group input.form-control {
-    font-size: 1rem;
+  
+  /* Loader */
+  .loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    width: 100%;
   }
-} */
-
-.page-container {
-  padding: 30px;
-  background: #f0f4f8;
-  font-family: "Segoe UI", sans-serif;
-}
-
-.package-header {
-  background: #fff;
-  padding: 20px 25px;
-  border-radius: 12px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
-  margin-bottom: 25px;
-}
-
-.package-header h1 {
-  margin-bottom: 10px;
-  color: #2c3e50;
-  font-size: 28px;
-}
-
-.package-header p {
-  color: #555;
-  font-size: 16px;
-}
-
-.content-section {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 25px;
-}
-
-.info-section {
-  flex: 1 1 60%;
-}
-
-.form-section {
-  flex: 1 1 35%;
-}
-
-.card {
-  background: white;
-  border-radius: 10px;
-  padding: 25px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.details-card h2 {
-  font-size: 22px;
-  margin-bottom: 15px;
-  color: #34495e;
-}
-
-.details-card ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-.details-card li {
-  padding: 6px 0;
-  border-bottom: 1px dashed #eee;
-  color: #444;
-}
-
-.booking-card h3 {
-  margin-bottom: 20px;
-  color: #2980b9;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-label {
-  font-weight: 600;
-  display: block;
-  margin-bottom: 6px;
-}
-
-input,
-select {
-  width: 100%;
-  padding: 8px 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 15px;
-}
-
-.counter {
-  display: flex;
-  align-items: center;
-}
-
-.counter input {
-  width: 60px;
-  text-align: center;
-  margin: 0 8px;
-}
-
-.counter button {
-  width: 32px;
-  height: 32px;
-  font-size: 18px;
-  font-weight: bold;
-  border-radius: 50%;
-  background-color: #3498db;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-.payment-field {
-  margin-top: 10px;
-}
-
-.btn-submit {
-  background-color: #27ae60;
-  color: white;
-  border: none;
-  padding: 12px;
-  width: 100%;
-  font-weight: bold;
-  font-size: 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-.btn-submit:hover {
-  background-color: #1e8449;
-}
+  
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in forwards;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  /* Hero Section */
+  .package-hero {
+    height: 60vh;
+    min-height: 400px;
+    background-color: #000;
+    overflow: hidden;
+    margin-bottom: 2rem;
+  }
+  
+  .hero-image-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1);
+    transition: transform 10s ease;
+  }
+  
+  .package-hero:hover .hero-img {
+    transform: scale(1.05);
+  }
+  
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.2) 100%);
+  }
+  
+  .badge {
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+  }
+  
+  /* Layout */
+  .relative-overlap-container {
+    position: relative;
+    z-index: 10;
+    margin-top: -80px;
+  }
+  
+  @media (max-width: 991px) {
+    .relative-overlap-container {
+      margin-top: -40px;
+    }
+    .package-hero {
+        height: 50vh;
+    }
+  }
+  
+  /* Details Section */
+  .divide-cols-small > [class*='col-']:not(:last-child) {
+    border-right: 1px solid rgba(0,0,0,0.05);
+  }
+  
+  .icon-circle-sm {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+  }
+  
+  .bg-primary-soft { background-color: rgba(13, 110, 253, 0.1); }
+  .bg-success-soft { background-color: rgba(25, 135, 84, 0.1); }
+  .bg-warning-soft { background-color: rgba(255, 193, 7, 0.1); }
+  .bg-danger-soft { background-color: rgba(220, 53, 69, 0.1); }
+  
+  .smaller-icon {
+      font-size: 0.8em;
+  }
+  
+  /* Booking Form (Sticky) */
+  .sticky-sidebar {
+    position: sticky;
+    top: 120px; 
+    /* Requires one of the parent containers to not have overflow: hidden if body scrolls, 
+       but here we are good as long as 'page-container' doesn't constrain height unexpectedly */
+  }
+  
+  .booking-card-wrapper {
+      transition: all 0.3s ease;
+      border: 1px solid rgba(0,0,0,0.05) !important;
+  }
+  
+  .form-control, .form-select {
+      border-radius: 0.5rem;
+      padding: 0.75rem 1rem;
+      border-color: #dee2e6;
+  }
+  
+  .form-control:focus, .form-select:focus {
+      border-color: var(--bs-primary);
+      box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+  }
+  
+  .counter-group {
+      display: flex;
+      align-items: center;
+  }
+  
+  /* Animations */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .animate-fade-down {
+    animation: fadeDown 0.8s ease-out forwards;
+  }
+  
+  .animate-fade-up {
+    animation: fadeUp 0.8s ease-out forwards;
+  }
+  
+  .hover-lift {
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .hover-lift:not(:disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  }
