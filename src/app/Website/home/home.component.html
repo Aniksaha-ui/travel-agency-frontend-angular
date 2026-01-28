@@ -1,239 +1,147 @@
-<!-- header -->
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-overlay"></div>
+  <div class="hero-content container">
+    <h1 class="hero-title">Welcome to ShareTrip!</h1>
+    <p class="hero-subtitle">Find Flights, Hotels, Visa & Holidays</p>
+  </div>
+</section>
 
-<!-- //header -->
-
-<!-- banner section -->
-<!-- <app-slider></app-slider> -->
-
-<section
-  class="w3l-form-main py-5"
-  style="margin-top: 2% !important; padding: 8% !important"
-  [style.background]="
-    'url(' + 'assets/images/banner4.jpg' + ') no-repeat center/cover'
-  "
-  id="book"
->
-  <div class="container py-lg-5 py-md-4 py-2">
-    <!-- Grid layout with trip and hotel sections -->
-
-    <div class="row justify-content-center">
-      <div class="col-6 col-md-3 mb-4">
-        <div
-          class="card h-100"
-          [ngClass]="{
-            'bg-primary': currentComponent === 'trip',
-            'bg-light': currentComponent !== 'trip'
-          }"
-          (click)="toggleComponent('trip')"
-        >
-          <div
-            class="card-body text-center d-flex flex-column justify-content-center"
-          >
-            <i
-              class="fas fa-plane-departure fs-2 mb-2"
-              [ngClass]="{
-                'text-white': currentComponent === 'trip',
-                'text-dark': currentComponent !== 'trip'
-              }"
-            ></i>
-            <h5
-              class="card-title"
-              [ngClass]="{
-                'text-white': currentComponent === 'trip',
-                'text-dark': currentComponent !== 'trip'
-              }"
-            >
-              {{ text.TRIP }}
-            </h5>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-6 col-md-3 mb-4">
-        <div
-          class="card h-100"
-          [ngClass]="{
-            'bg-info': currentComponent === 'hotel',
-            'bg-light': currentComponent !== 'hotel'
-          }"
-          (click)="toggleComponent('hotel')"
-        >
-          <div
-            class="card-body text-center d-flex flex-column justify-content-center"
-          >
-            <i
-              class="fas fa-hotel fs-2 mb-2"
-              [ngClass]="{
-                'text-white': currentComponent === 'hotel',
-                'text-dark': currentComponent !== 'hotel'
-              }"
-            ></i>
-            <h5
-              class="card-title"
-              [ngClass]="{
-                'text-white': currentComponent === 'hotel',
-                'text-dark': currentComponent !== 'hotel'
-              }"
-            >
-              {{ text.HOTEL }}
-            </h5>
-          </div>
-        </div>
-      </div>
+<!-- Floating Search Widget -->
+<section class="search-widget-container">
+  <div class="search-widget">
+    <!-- Tabs -->
+    <div class="search-tabs">
+      <button 
+        class="tab-btn" 
+        [class.active]="currentComponent === 'trip'" 
+        (click)="toggleComponent('trip')"
+      >
+        <i class="fas fa-plane"></i> Flight / Trip
+      </button>
+      <button 
+        class="tab-btn" 
+        [class.active]="currentComponent === 'hotel'" 
+        (click)="toggleComponent('hotel')"
+      >
+        <i class="fas fa-hotel"></i> Hotel
+      </button>
+      <button class="tab-btn" disabled>
+        <i class="fas fa-passport"></i> Visa
+      </button>
     </div>
 
-    <!-- Conditionally displayed forms based on currentComponent value -->
+    <!-- Trip Form -->
     <div *ngIf="currentComponent === 'trip'">
-      <form [formGroup]="tourForm" (ngSubmit)="onSubmit()" class="form-styles">
-        <div class="">
-          <label for="inputtextnumber" class="form-label"
-            >{{ text.TRIP_DATE_FORM }}:</label
-          >
+      <form [formGroup]="tourForm" (ngSubmit)="onSubmit()" class="search-form-grid">
+        <div class="form-group">
+          <label>{{ text.TRIP_SEARCH_PLACE }}:</label>
+          <input
+            type="text"
+            formControlName="trip_name"
+            class="form-control-custom"
+            placeholder="Search city, or place"
+          />
+        </div>
+        <div class="form-group">
+          <label>{{ text.TRIP_DATE_FORM }}:</label>
           <input
             type="date"
             formControlName="start_date"
-            id="dateofbirth"
-            required=""
+            class="form-control-custom"
+            required
           />
         </div>
-
-        <div class="">
-          <label for="inputtextnumber" class="form-label"
-            >{{ text.TRIP_DATE_TO }}:</label
-          >
+        <div class="form-group">
+          <label>{{ text.TRIP_DATE_TO }}:</label>
           <input
             type="date"
             formControlName="end_date"
-            id="end_date"
-            required=""
+            class="form-control-custom"
+            required
           />
         </div>
-        <div>
-          <label for="inputtextnumber" class="form-label"
-            >{{ text.TRIP_SEARCH_PLACE }}:</label
-          >
-          <input type="text" formControlName="trip_name" id="trip_name" />
+        <div class="form-group">
+          <button class="btn-search" type="submit">
+            <i class="fas fa-search me-2"></i> {{ text.TOUR_SEARCH }}
+          </button>
         </div>
-
-        <button class="btn btn-style mt-1" type="submit">
-          {{ text.TOUR_SEARCH }}
-        </button>
       </form>
     </div>
 
+    <!-- Hotel Form -->
     <div *ngIf="currentComponent === 'hotel'">
-      <form [formGroup]="hotelForm" (ngSubmit)="onSubmit()" class="form-styles">
-        <div class="">
-          <label for="hotel_name" class="form-label"
-            >{{ text.HOTEL_NAME }}:</label
-          >
+      <form [formGroup]="hotelForm" (ngSubmit)="onSubmit()" class="search-form-grid">
+        <div class="form-group">
+          <label>{{ text.HOTEL_NAME }}:</label>
           <input
             type="text"
             formControlName="hotel_name"
-            id="hotel_name"
-            required=""
+            class="form-control-custom"
+            placeholder="Search hotel name"
+            required
           />
         </div>
-
-        <div class="">
-          <label for="city" class="form-label">{{ text.HOTEL_CITY }}:</label>
-          <input type="text" formControlName="city" id="city" required="" />
+        <div class="form-group">
+          <label>{{ text.HOTEL_CITY }}:</label>
+          <input 
+            type="text" 
+            formControlName="city" 
+            class="form-control-custom" 
+            placeholder="City" 
+            required 
+          />
         </div>
-
-        <div class="">
-          <label for="country" class="form-label"
-            >{{ text.HOTEL_COUNTRY }}:</label
-          >
+        <div class="form-group">
+          <label>{{ text.HOTEL_COUNTRY }}:</label>
           <input
             type="text"
             formControlName="country"
-            id="country"
-            required=""
+            class="form-control-custom"
+            placeholder="Country"
+            required
           />
         </div>
-
-        <div class="">
-          <label for="max_occupancy" class="form-label"
-            >{{ text.HOTEL_MAX_OCCUPANCY }}:</label
-          >
+        <div class="form-group">
+          <label>{{ text.HOTEL_MAX_OCCUPANCY }}:</label>
           <input
             type="number"
             formControlName="max_occupancy"
-            id="max_occupancy"
-            required=""
+            class="form-control-custom"
+            placeholder="Occupancy"
+            required
           />
         </div>
-
-        <button class="btn btn-style" type="submit">
-          {{ text.HOTEL_SEARCH }}
-        </button>
+        <div class="form-group">
+          <button class="btn-search" type="submit">
+            <i class="fas fa-search me-2"></i> {{ text.HOTEL_SEARCH }}
+          </button>
+        </div>
       </form>
     </div>
   </div>
 </section>
 
-<!-- tours slider section -->
-<section *ngIf="currentComponent === 'trip'" class="w3l-index5 pb-5 pt-4">
-  <div class="container py-lg-5 py-md-4 py-2">
-    <div
-      class="title-main text-center mx-auto mb-md-5 mb-4"
-      style="max-width: 600px"
-    >
-      <p>{{ text.UPCOMING_TOURS }}</p>
-      <h3 class="title-style">{{ text.CHECK_OUT_OUR_UPCOMING_TOURS }}</h3>
+<!-- Tours Section (Explore) -->
+<section *ngIf="currentComponent === 'trip'" class="py-5">
+  <div class="container py-lg-4">
+    <div class="section-header">
+      <p class="section-subtitle">{{ text.UPCOMING_TOURS }}</p>
+      <h3 class="section-title">Explore Best Tours</h3>
     </div>
 
-    <div class="row">
-      <div class="col-lg-3" *ngFor="let tour of tours">
-        <div class="item">
-          <div class="content-left-sec">
-            <a
-              class="blog-link d-block zoom-image"
-              [routerLink]="['/tour', tour.id]"
-            >
-              <img
-                [src]="
-                  tour.image === null
-                    ? defultImage
-                    : environment.imageBaseUrl + tour.image
-                "
-                class="img-fluid"
-            /></a>
-            <div class="blog-info">
-              <ul class="rating-list mb-2">
-                <li><i class="fas fa-star" aria-hidden="true"></i></li>
-                <li><i class="fas fa-star" aria-hidden="true"></i></li>
-                <li><i class="fas fa-star" aria-hidden="true"></i></li>
-                <li><i class="fas fa-star" aria-hidden="true"></i></li>
-                <li><i class="fas fa-star-half-alt"></i></li>
-                <li class="ms-1">4.07</li>
-              </ul>
-              <a [routerLink]="['/tour', tour.id]" class="to-title">{{
-                tour.trip_name
-              }}</a>
-              <p class="mt-1">
-                <i class="fas fa-map-marker-alt me-1"></i
-                >{{ tour.location ?? "Dhaka" }}
-              </p>
-              <div class="to-price mt-2">
-                <label>Trip Cost</label> <span>{{ tour.price }}</span>
-              </div>
-              <div
-                class="d-flex align-items-center justify-content-between mt-4"
-              >
-                <p>
-                  <i class="far fa-clock me-1"></i
-                  >{{
-                    calculateDateDifference(tour.start_date, tour.end_date) + 1
-                  }}
-                  Days
-                </p>
-                <a
-                  [routerLink]="['/tour', tour.id]"
-                  class="btn btn-style btn-style-primary"
-                  >Explore<i class="fas fa-arrow-right"></i
-                ></a>
-              </div>
+    <div class="row g-4">
+      <div class="col-lg-3 col-md-6" *ngFor="let tour of tours">
+        <div class="destination-card" [routerLink]="['/tour', tour.id]">
+          <img
+            [src]="tour.image ? environment.imageBaseUrl + tour.image : defultImage"
+            alt="{{ tour.trip_name }}"
+          />
+          <div class="destination-overlay">
+            <h5 class="fw-bold mb-1">{{ tour.trip_name }}</h5>
+            <div class="d-flex align-items-center small">
+              <i class="fas fa-map-marker-alt me-2 text-warning"></i>
+              <span>{{ tour.location ?? "Dhaka" }}</span>
             </div>
           </div>
         </div>
@@ -242,68 +150,29 @@
   </div>
 </section>
 
-<section *ngIf="currentComponent === 'hotel'" class="w3l-index5 pb-5 pt-4">
-  <div class="container py-lg-5 py-md-4 py-2">
-    <div
-      class="title-main text-center mx-auto mb-md-5 mb-4"
-      style="max-width: 600px"
-    >
-      <p>Hotels</p>
-      <h3 class="title-style">{{ text.EXPLORE_OUR_BEST_HOTELS }}</h3>
+<!-- Hotels Section -->
+<section *ngIf="currentComponent === 'hotel'" class="py-5">
+  <div class="container py-lg-4">
+    <div class="section-header">
+      <p class="section-subtitle">Stays</p>
+      <h3 class="section-title">{{ text.EXPLORE_OUR_BEST_HOTELS }}</h3>
     </div>
 
-    <div class="row">
-      <div class="col-lg-3" *ngFor="let hotel of hotels">
-        <div class="item">
-          <div class="content-left-sec">
-            <a
-              class="blog-link d-block zoom-image"
-              [routerLink]="['/hotel', hotel.id]"
-            >
-              <img
-                [src]="hotel.image || defultImage"
-                class="img-fluid w-100 rounded-top"
-                alt="{{ hotel.name }}"
-                style="object-fit: cover; height: 250px"
-            /></a>
-            <div class="blog-info">
-              <ul class="rating-list mb-2">
-                <li><i class="fas fa-star" aria-hidden="true"></i></li>
-                <li><i class="fas fa-star" aria-hidden="true"></i></li>
-                <li><i class="fas fa-star" aria-hidden="true"></i></li>
-                <li><i class="fas fa-star" aria-hidden="true"></i></li>
-                <li><i class="fas fa-star-half-alt"></i></li>
-                <li class="ms-1">4.07</li>
-              </ul>
-              <a [routerLink]="['/hotel', hotel.id]" class="to-title">{{
-                hotel.name
-              }}</a>
-              <p class="mt-1">
-                <i class="fas fa-map-marker-alt me-1"></i>{{ hotel.city }},
-                {{ hotel.country }}
-              </p>
-              <div class="to-price mt-2">
-                <label>Trip Cost</label>
-                <span> {{ hotel.price_per_night }}</span>
-              </div>
-              <div
-                class="d-flex align-items-center justify-content-between mt-4"
-              >
-                <p>
-                  <i class="far fa-clock me-1"></i>{{ hotel.season_start }} -
-                  {{ hotel.season_end }}
-                  Days
-                </p>
-              </div>
-              <div
-                class="d-flex align-items-center justify-content-center mt-4"
-              >
-                <a
-                  [routerLink]="['/hotel', hotel.id]"
-                  class="btn btn-style btn-style-primary"
-                  >Explore<i class="fas fa-arrow-right"></i
-                ></a>
-              </div>
+    <div class="row g-4">
+      <div class="col-lg-3 col-md-6" *ngFor="let hotel of hotels">
+        <div class="package-card-modern" [routerLink]="['/hotel', hotel.id]" style="cursor:pointer">
+          <div class="pkg-img-wrapper">
+             <img [src]="hotel.image || defultImage" alt="{{ hotel.name }}">
+             <div class="pkg-discount-tag">Top Rated</div>
+          </div>
+          <div class="pkg-content">
+            <h5 class="pkg-title">{{ hotel.name }}</h5>
+            <div class="pkg-meta">
+               <span><i class="fas fa-map-marker-alt me-1"></i> {{ hotel.city }}</span>
+            </div>
+            <div class="pkg-price-row">
+               <span class="pkg-price-label">Starts from</span>
+               <span class="pkg-price-val">৳ {{ hotel.price_per_night }}</span>
             </div>
           </div>
         </div>
@@ -312,114 +181,43 @@
   </div>
 </section>
 
-<!-- about section -->
-<section class="w3l-aboutblock py-lg-5 py-4" id="about">
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="col-lg-6">
-        <img
-          src="assets/images/about.jpg"
-          alt=""
-          class="img-fluid radius-image"
-        />
-      </div>
-      <div class="col-lg-6 ps-xl-5 ps-lg-4 mt-lg-0 mt-5">
-        <div class="title-main">
-          <p>About Us</p>
-          <h3 class="title-style">Plan Your Trip with Tours</h3>
-        </div>
-        <p class="mt-3">
-          Lorem ipsum viverra feugiat. Pellen tesque libero ut justo, ultrices
-          in ligula. Semper at tempufddfel. Lorem ipsum dolor sit amet
-          consectetur adipisicing elit.
-        </p>
-        <ul class="mt-4 list-style-lis">
-          <li><i class="fas fa-check-circle"></i>2000+ Our Worldwide Guide</li>
-          <li class="mt-2">
-            <i class="fas fa-check-circle"></i>100% Trusted Tour Agency
-          </li>
-          <li class="mt-2">
-            <i class="fas fa-check-circle"></i>24+ Years of Experience
-          </li>
-          <li class="mt-2">
-            <i class="fas fa-check-circle"></i>100% Travelers are Happy
-          </li>
-        </ul>
-        <a href="contact.html" class="btn btn-style mt-5">Booking Now</a>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- //about section -->
-
-<!-- //tours slider section -->
-
-<!-- package section  -->
-
+<!-- Packages Section (Top Travel Packages) -->
 <div class="container py-5">
-  <h2 class="text-center mb-4 fw-bold">Top Travel Packages</h2>
+  <div class="section-header text-start">
+     <h3 class="section-title">Best Packages for Your Next Trip</h3>
+     <p class="section-subtitle">Choose from our curated list of premium packages.</p>
+  </div>
+  
   <div class="row g-4">
-    <div class="col-md-6 col-lg-4" *ngFor="let pack of packages.slice(0, 9)">
-      <div
-        class="card h-100 border-0 shadow-lg rounded-4 overflow-hidden"
-        (click)="handlePackageDetails(pack.id)"
-      >
-        <div
-          class="position-relative"
-          [style.background-image]="'url(' + environment.imageBaseUrl + pack.image + ')'"
-          style="
-            height: 180px;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;"
-        >
-          <div
-            class="position-absolute bottom-0 start-0 bg-dark bg-opacity-50 text-white p-2 rounded-end"
-          >
-            <small *ngIf="pack.includes_hotel" class="me-2"
-              ><i class="fas fa-house-user"></i> Hotel</small
-            >
-            &nbsp;&nbsp;
-            <small *ngIf="pack.includes_meal" class="me-2"
-              ><i class="fas fa-utensils"></i> Meal</small
-            >
-            &nbsp;&nbsp;
-            <small *ngIf="pack.includes_bus"
-              ><i class="fas fa-bus"></i> Bus</small
-            >
+    <div class="col-md-6 col-lg-3" *ngFor="let pack of packages.slice(0, 8)">
+      <div class="package-card-modern" (click)="handlePackageDetails(pack.id)" style="cursor: pointer;">
+        <div class="pkg-img-wrapper">
+          <img [src]="environment.imageBaseUrl + pack.image" alt="{{ pack.name }}">
+          <!-- Icons overlay -->
+          <div class="position-absolute bottom-0 start-0 w-100 p-2 d-flex gap-2 text-white bg-dark bg-opacity-50 small">
+             <span *ngIf="pack.includes_hotel"><i class="fas fa-bed"></i></span>
+             <span *ngIf="pack.includes_meal"><i class="fas fa-utensils"></i></span>
+             <span *ngIf="pack.includes_bus"><i class="fas fa-bus"></i></span>
           </div>
         </div>
-        <div class="card-body p-3">
-          <h5 class="fw-bold mb-1">{{ pack.name }}</h5>
-          <p class="text-muted small mb-2" [title]="pack.description">
-            {{ pack.description | slice : 0 : 75 }}...
-          </p>
+        <div class="pkg-content">
+          <!-- Route -->
+          <div class="text-uppercase text-muted fw-bold small mb-2" style="font-size: 0.75rem;">
+            {{ pack.trip.route_name }}
+          </div>
+          <h5 class="pkg-title">{{ pack.name }}</h5>
+          
+          <div class="pkg-meta">
+             <span><i class="far fa-clock me-1"></i> 3 Days</span>
+             <span><i class="far fa-calendar-alt me-1"></i> {{ pack.trip.departure_time | date:'d MMM' }}</span>
+          </div>
 
-          <p class="mb-1">
-            <i class="bi bi-geo-alt-fill text-danger me-1"></i>
-            <strong>{{ pack.trip.route_name }}</strong>
-          </p>
-
-          <p class="mb-2">
-            <i class="bi bi-clock-history text-primary me-1"></i>
-            <small
-              >{{ pack.trip.departure_time | date : "MMM d" }} →
-              {{ pack.trip.arrival_time | date : "MMM d" }}</small
-            >
-          </p>
-          <p class="fw-bold text-success mb-3">
-            <i class="bi bi-currency-dollar"></i>
-            Adult Price: ৳{{ pack.pricing[0].adult_price }}
-          </p>
-          <p class="fw-bold text-success mb-3">
-            <i class="bi bi-currency-dollar"></i>
-            Child Price: ৳{{ pack.pricing[0].child_price }}
-          </p>
-
-          <div class="d-grid">
-            <button class="btn btn-outline-primary rounded-pill">
-              View Details
-            </button>
+          <div class="pkg-price-row">
+            <div>
+              <span class="pkg-price-label">Per Person</span>
+              <span class="pkg-price-val">৳{{ pack.pricing[0].adult_price }}</span>
+            </div>
+            <a class="btn btn-sm btn-outline-primary rounded-pill px-3">View</a>
           </div>
         </div>
       </div>
@@ -427,364 +225,37 @@
   </div>
 </div>
 
-<!-- package section  -->
-
-<!-- stats section -->
-<section class="w3_stats py-5" id="stats">
-  <div class="container py-lg-5 py-md-4 py-2">
-    <div class="title-main text-center mx-auto mb-5" style="max-width: 600px">
-      <p>Statistics</p>
-      <h3 class="title-style text-white">We have over 10 years Experience</h3>
+<!-- Features Section (Why Choose Us) -->
+<section class="py-5 bg-light">
+  <div class="container py-4">
+    <div class="section-header">
+       <h3 class="section-title">Why Choose Us</h3>
     </div>
-    <div class="w3-stats text-center py-lg-4">
-      <div class="row">
-        <div class="col-md-3 col-6">
-          <div class="counter">
-            <i class="fas fa-route"></i>
-            <div class="d-flex align-items-center justify-content-center">
-              <div class="timer" data-to="200" data-speed="1500"></div>
-              <span class="stats-plus">+</span>
-            </div>
-            <p class="count-text">Total Destinations</p>
-          </div>
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="feature-box">
+           <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+           <h5>Trusted Agency</h5>
+           <p class="text-muted small">100% Trusted Tour Agency with 24+ years of experience.</p>
         </div>
-        <div class="col-md-3 col-6">
-          <div class="counter">
-            <i class="fas fa-smile"></i>
-            <div class="d-flex align-items-center justify-content-center">
-              <div class="timer" data-to="100" data-speed="1500"></div>
-              <span class="stats-plus">+</span>
-            </div>
-            <p class="count-text">Happy People</p>
-          </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="feature-box">
+           <div class="feature-icon"><i class="fas fa-tags"></i></div>
+           <h5>Best Price Guarantee</h5>
+           <p class="text-muted small">We offer the best reasonable prices for all our packages.</p>
         </div>
-        <div class="col-md-3 col-6 mt-md-0 mt-4">
-          <div class="counter">
-            <i class="fas fa-medal"></i>
-            <div class="d-flex align-items-center justify-content-center">
-              <div class="timer" data-to="30" data-speed="1500"></div>
-              <span class="stats-plus">+</span>
-            </div>
-            <p class="count-text">Awards Won</p>
-          </div>
-        </div>
-        <div class="col-md-3 col-6 mt-md-0 mt-4">
-          <div class="counter">
-            <i class="fas fa-umbrella-beach"></i>
-            <div class="d-flex align-items-center justify-content-center">
-              <div class="timer" data-to="130" data-speed="1500"></div>
-              <span class="stats-plus">+</span>
-            </div>
-            <p class="count-text">Stunning Places</p>
-          </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="feature-box">
+           <div class="feature-icon"><i class="fas fa-headset"></i></div>
+           <h5>24/7 Support</h5>
+           <p class="text-muted small">Our support team is always available to help you.</p>
         </div>
       </div>
     </div>
   </div>
 </section>
-<!-- //stats section -->
 
-<!-- services section -->
-<section class="w3l-grids-block py-5">
-  <div class="container py-lg-5 py-md-4 py-2">
-    <div
-      class="title-main text-center mx-auto mb-md-5 mb-4"
-      style="max-width: 600px"
-    >
-      <p>Our Services</p>
-      <h3 class="title-style">Our Amazing Services for your Travel</h3>
-    </div>
-    <div class="row text-center justify-content-center">
-      <div class="col-lg-4 col-md-6 col-sm-10">
-        <div class="bottom-block">
-          <a href="tours.html" class="d-block">
-            <i class="fas fa-dragon"></i>
-            <h3 class="my-3">Wildlife Tours</h3>
-            <p class="">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Laudantium tempora rerum perspiciatis?
-            </p>
-          </a>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6 col-sm-10 mt-md-0 mt-4">
-        <div class="bottom-block">
-          <a href="tours.html" class="d-block">
-            <i class="fas fa-plane-departure"></i>
-            <h3 class="my-3">Adventure Tours</h3>
-            <p class="">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Laudantium tempora rerum perspiciatis?
-            </p>
-          </a>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6 col-sm-10 mt-lg-0 mt-4">
-        <div class="bottom-block">
-          <a href="tours.html" class="d-block">
-            <i class="fab fa-discourse"></i>
-            <h3 class="my-3">Trip Planing</h3>
-            <p class="">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Laudantium tempora rerum perspiciatis?
-            </p>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- //services section -->
-
-<!-- why section -->
-<section class="w3l-whyblock pb-5 pt-2">
-  <div class="container pb-lg-5 pb-md-4 pb-2">
-    <div class="row align-items-center">
-      <div class="col-lg-6">
-        <img
-          src="assets/images/about2.jpg"
-          alt=""
-          class="img-fluid radius-image"
-        />
-      </div>
-      <div class="col-lg-6 ps-xl-5 ps-lg-4 mt-lg-0 mt-5">
-        <div class="title-main mb-4" style="max-width: 600px">
-          <p>Our Features</p>
-          <h3 class="title-style">Why Choose Tours!</h3>
-        </div>
-        <p>
-          Lorem ipsum viverra feugiat. Pellen tesque libero ut justo, ultrices
-          in ligula. Semper at tempufddfel. Lorem ipsum dolor sit amet
-          consectetur adipisicing elit.
-        </p>
-        <div class="two-grids mt-5">
-          <div class="grids_info">
-            <i class="fas fa-certificate"></i>
-            <div class="detail">
-              <h4>Professional and Certified</h4>
-              <p>
-                Excepteur sint occaecat cupidatat non proident, sunt in culpa
-                qui officia deserunt mollit.
-              </p>
-            </div>
-          </div>
-          <div class="grids_info mt-xl-5 mt-4">
-            <i class="fas fa-money-bill-wave"></i>
-            <div class="detail">
-              <h4>Get Instant Tour Bookings</h4>
-              <p>
-                Excepteur sint occaecat cupidatat non proident, sunt in culpa
-                qui officia deserunt mollit.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- //why section -->
-
-<!-- blog section -->
-<div class="w3l-blog-content py-5">
-  <div class="container py-lg-5 py-md-4 py-2">
-    <div
-      class="title-main text-center mx-auto mb-md-5 mb-4"
-      style="max-width: 600px"
-    >
-      <p>Our Blog</p>
-      <h3 class="title-style">Learn more from our latest Blog Posts</h3>
-    </div>
-    <div class="row justify-content-center">
-      <div class="col-lg-4 col-md-6">
-        <div class="blog-grid-1">
-          <div class="card-header p-0 position-relative">
-            <a href="#blog" class="zoom d-block">
-              <img
-                class="card-img-bottom d-block"
-                src="assets/images/blog1.jpg"
-                alt="Card image cap"
-              />
-            </a>
-            <div class="course-price-badge">Trips</div>
-          </div>
-          <div class="card-body course-details">
-            <div class="course-meta mb-3">
-              <div class="meta-item course-students">
-                <a href="#author"
-                  ><span class="fas fa-user"></span>
-                  <span class="meta-value"></span>John</a
-                >
-              </div>
-              <div class="meta-item course-lesson">
-                <span class="fa fa-heart"></span>
-                <span class="meta-value"> 23 </span>
-              </div>
-              <div class="meta-item course-students">
-                <span class="fa fa-calendar"></span>
-                <span class="meta-value">Dec 06, 2021</span>
-              </div>
-            </div>
-            <a href="#blog" class="course-desc"
-              >Travel the Most Beautiful Places in the World</a
-            >
-            <p class="mt-2">
-              Lorem ipsum dolor sit, amet consectetur elit. Earum mollitia ipsam
-              autem.
-            </p>
-            <a href="#blog" class="btn btn-style mt-4">Read more</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6 mt-md-0 mt-4">
-        <div class="blog-grid-1">
-          <div class="card-header p-0 position-relative">
-            <a href="#blog" class="zoom d-block">
-              <img
-                class="card-img-bottom d-block"
-                src="assets/images/blog2.jpg"
-                alt="Card image cap"
-              />
-            </a>
-            <div class="course-price-badge">Travels</div>
-          </div>
-          <div class="card-body course-details">
-            <div class="course-meta mb-3">
-              <div class="meta-item course-students">
-                <a href="#author"
-                  ><span class="fas fa-user"></span>
-                  <span class="meta-value"></span>Anton</a
-                >
-              </div>
-              <div class="meta-item course-lesson">
-                <span class="fa fa-heart"></span>
-                <span class="meta-value"> 24 </span>
-              </div>
-              <div class="meta-item course-students">
-                <span class="fa fa-calendar"></span>
-                <span class="meta-value">Dec 07, 2021</span>
-              </div>
-            </div>
-            <a href="#blog" class="course-desc"
-              >A Place where Start New Life with Peace</a
-            >
-            <p class="mt-2">
-              Lorem ipsum dolor sit, amet consectetur elit. Earum mollitia ipsam
-              autem.
-            </p>
-            <a href="#blog" class="btn btn-style mt-4">Read more</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6 mt-lg-0 mt-4">
-        <div class="blog-grid-1">
-          <div class="card-header p-0 position-relative">
-            <a href="#blog" class="zoom d-block">
-              <img
-                class="card-img-bottom d-block"
-                src="assets/images/blog3.jpg"
-                alt="Card image cap"
-              />
-            </a>
-            <div class="course-price-badge">Journey</div>
-          </div>
-          <div class="card-body course-details">
-            <div class="course-meta mb-3">
-              <div class="meta-item course-students">
-                <a href="#author"
-                  ><span class="fas fa-user"></span>
-                  <span class="meta-value"></span>Miche</a
-                >
-              </div>
-              <div class="meta-item course-lesson">
-                <span class="fa fa-heart"></span>
-                <span class="meta-value"> 22 </span>
-              </div>
-              <div class="meta-item course-students">
-                <span class="fa fa-calendar"></span>
-                <span class="meta-value">Dec 08, 2021</span>
-              </div>
-            </div>
-            <a href="#blog" class="course-desc"
-              >Top 10 Destinations & Adventure Trips</a
-            >
-            <p class="mt-2">
-              Lorem ipsum dolor sit, amet consectetur elit. Earum mollitia ipsam
-              autem.
-            </p>
-            <a href="#blog" class="btn btn-style mt-4">Read more</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- //blog section -->
-
-<!-- promocode section -->
-<section class="w3l-promocode py-5">
-  <div class="container ppy-lg-5 py-md-4 py-2">
-    <div class="row aap-4-section align-items-center">
-      <div class="col-lg-6 col-8 m-auto app4-right-image pe-md-5 text-center">
-        <img
-          src="assets/images/img.jpg"
-          class="img-fluid radius-image"
-          alt="App Device"
-        />
-      </div>
-      <div class="col-lg-6 app4-left-text ps-lg-0 mb-lg-0 mb-5">
-        <h6>For 30% Discount</h6>
-        <h4>Get Our Promocode</h4>
-        <p class="mb-4">
-          Uspendisse efficitur orci urna. In et augue ornare, tempor massa in,
-          luctus sapien. Proin a diam et dui fermentum molestie vel id neque.
-        </p>
-        <div class="app-4-connection">
-          <div class="newsletter">
-            <label>Never Miss a Deal !</label>
-            <form action="#" methos="GET" class="d-flex wrap-align">
-              <input
-                type="email"
-                placeholder="Enter your email id"
-                required="required"
-              />
-              <button type="submit" class="button-style">Get Promocode</button>
-            </form>
-          </div>
-          <p class="mobile-text-app mt-4 pt-2">(Or) To Get Our Mobile Apps</p>
-          <div class="app-4-icon">
-            <ul>
-              <li>
-                <a href="#url" title="Apple" class="app-icon apple-vv"
-                  ><span
-                    class="fab fa-apple icon-color"
-                    aria-hidden="true"
-                  ></span
-                ></a>
-              </li>
-              <li>
-                <a href="#url" title="Google play" class="app-icon play-vv"
-                  ><span
-                    class="fab fa-google-play icon-color"
-                    aria-hidden="true"
-                  ></span
-                ></a>
-              </li>
-              <li>
-                <a href="#url" title="Microsoft" class="app-icon windows-vv"
-                  ><span
-                    class="fab fa-windows icon-color"
-                    aria-hidden="true"
-                  ></span
-                ></a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- //promocode section -->
-
-<!-- footer -->
+<!-- Footer Spacer -->
+<div class="py-4"></div>
