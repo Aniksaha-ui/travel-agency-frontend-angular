@@ -40,7 +40,7 @@
   width: 100%;
   max-width: 450px;
   /* Limit width */
-  margin: 51% auto;
+  margin: 0 auto;
 }
 
 .card-header {
