@@ -16,6 +16,8 @@ export class TourComponent {
   isLoggedIn = false;
   environment = environment;
   defultImage = DEFAULT_PACKAGE_IMAGE;
+  isLoading = true;
+
   constructor(
     private tourService: TourService,
     private route: ActivatedRoute,
@@ -28,11 +30,18 @@ export class TourComponent {
     });
 
     this.route.paramMap.subscribe((params) => {
-      this.tourService.getSingleTour(params.get('id')).subscribe((res: any) => {
-        if (res.data) {
-          this.tourInfo = res.data;
+      this.isLoading = true;
+      this.tourService.getSingleTour(params.get('id')).subscribe({
+        next: (res: any) => {
+          if (res.data) {
+            this.tourInfo = res.data;
+          }
+          console.log('Tour Info:', this.tourInfo);
+          this.isLoading = false;
+        },
+        error: () => {
+          this.isLoading = false;
         }
-        console.log('Tour Info:', this.tourInfo);
       });
 
       this.tourService
