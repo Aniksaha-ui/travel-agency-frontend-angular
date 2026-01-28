@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
@@ -13,7 +13,9 @@ import { environment } from 'src/environments/environment';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
+  @ViewChild('heroVideo') heroVideo!: ElementRef<HTMLVideoElement>;
+
   currentComponent: string = 'trip'; // Default to 'trip' component
   isSearchPerformed: boolean = false;
 
@@ -41,10 +43,18 @@ export class HomeComponent implements OnInit {
     private router: Router,
     private hotelService: HotelServiceService
   ) { }
+
   ngOnInit(): void {
     this.getAllTourInformation();
     this.getAllPackageInformation();
     this.getAllHotelInformation();
+  }
+
+  ngAfterViewInit(): void {
+    if (this.heroVideo) {
+      this.heroVideo.nativeElement.muted = true;
+      this.heroVideo.nativeElement.play().catch(err => console.error('Video autoplay error:', err));
+    }
   }
   getAllPackageInformation() {
     this.tourService.getAllPackages().subscribe((res: any) => {
