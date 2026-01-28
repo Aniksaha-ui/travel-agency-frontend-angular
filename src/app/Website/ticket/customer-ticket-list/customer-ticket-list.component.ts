@@ -39,8 +39,6 @@ export class CustomerTicketListComponent {
 
   ngOnInit(): void {
     this.ticketService.ticketList().subscribe((response: any) => {
-      console.log(response.data,"res");
-      
       if (response && response.isExecute === true && response.data.length > 0) {
         this.tickets = response.data ?? [];
       } else {

@@ -1,80 +1,164 @@
-
-<section class="booking-section" id="contact">
-  <h3 style="text-align: center; color:blue ; margin:40px 0px" >My Bookings</h3>
-  <div class="booking-container">
-    <div class="booking-grid">
-      <div class="booking-card" *ngFor="let booking of bookings">
-        <!-- Header -->
-        <div class="card-header-gradient">
-          <span class="booking-id">Booking #{{ booking?.id }}</span>
-
-          <span
-            [ngClass]="{
-              'status confirmed': booking.status === 'confirmed',
-              'status pending': booking.status === 'pending',
-              'status cancelled': booking.status === 'cancelled'
-            }"
-          >
-            {{ booking.status | titlecase }}
-          </span>
+<section class="ticket-section mt-5">
+  <div class="container">
+    <div class="row align-items-center mb-5">
+      <!-- Title -->
+      <div class="col-md-8">
+        <div class="custom-title text-md-start text-center">
+          <i class="text-primary text-center" style="font-size: 24px;">My Bookings ({{ bookings.length }})</i> 
         </div>
+      </div>
+    </div>
 
-        <!-- Body -->
-        <div class="card-body">
-          <!-- Trip Booking -->
-          <div class="info-block" *ngIf="booking.trip_name">
-            <label>Trip Name</label>
-            <p>{{ booking.trip_name }}</p>
+    <!-- Booking Cards -->
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4" *ngFor="let booking of bookings">
+        <div class="custom-ticket-card" (click)="openBookingModal(booking)">
+          <div class="ticket-header">
+            <h3>Booking ID: {{ booking.id }}</h3>
           </div>
 
-          <!-- Package Booking -->
-          <div class="info-block" *ngIf="booking.package_name">
-            <label>Package Name</label>
-            <p>{{ booking.package_name }}</p>
-          </div>
+          <div class="ticket-body">
+            
+            <p class="remarks" *ngIf="booking.trip_name"><strong>Trip:</strong> {{ booking.trip_name }}</p>
+            <p class="remarks" *ngIf="booking.package_name"><strong>Package:</strong> {{ booking.package_name }}</p>
+            <p class="remarks" *ngIf="booking.hotel_name"><strong>Hotel:</strong> {{ booking.hotel_name }}</p>
 
-          <!-- Hotel Booking -->
-          <div class="info-block" *ngIf="booking.hotel_name">
-            <label>Hotel</label>
-            <p>{{ booking.hotel_name }}</p>
-          </div>
+            <p class="remarks">
+              <strong>Date:</strong>
+              {{ booking.created_at | date : "mediumDate" }}
+            </p>
 
-          <div class="info-row">
-            <div class="info-block">
-              <label>Seat</label>
-              <span class="seat">{{ booking.seat_ids }}</span>
-            </div>
-
-            <div class="info-block">
-              <label>Date</label>
-              <span class="date">
-                {{ booking.created_at | date : "mediumDate" }}
+             <div class="ticket-info">
+              <span class="seat-badge">Seats: {{ booking.seat_ids || 'N/A' }}</span>
+              <span
+                class="status"
+                [ngClass]="{
+                  'success': booking.status === 'confirmed',
+                  'pending': booking.status === 'pending',
+                  'fail': booking.status === 'cancelled'
+                }"
+              >
+                {{ booking.status | titlecase }}
               </span>
             </div>
           </div>
         </div>
+      </div>
 
+      <!-- Empty State -->
+      <div class="col-12 text-center" *ngIf="bookings.length === 0">
+        <p class="remarks">No bookings found</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Booking Modal -->
+<div class="modal fade custom-modal" id="bookingModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content custom-modal-content">
+      <div class="custom-modal-header">
+        <h2>Booking Details</h2>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+
+      <div class="custom-modal-body" *ngIf="selectedBooking">
+        <div class="row g-3">
+          <div class="col-md-4">
+            <div class="modal-field">
+              <label>Booking ID</label>
+              <div>{{ selectedBooking.id }}</div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="modal-field">
+              <label>Status</label>
+              <div>
+                 <span
+                class="status-badge"
+                [ngClass]="{
+                  'success': selectedBooking.status === 'confirmed',
+                  'pending': selectedBooking.status === 'pending',
+                  'fail': selectedBooking.status === 'cancelled'
+                }"
+              >
+                {{ selectedBooking.status | titlecase }}
+              </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="modal-field">
+              <label>Seats</label>
+              <div>{{ selectedBooking.seat_ids || "—" }}</div>
+            </div>
+          </div>
+
+          <div class="col-md-4" *ngIf="selectedBooking.trip_name">
+            <div class="modal-field">
+              <label>Trip Name</label>
+              <div>{{ selectedBooking.trip_name }}</div>
+            </div>
+          </div>
+          
+           <div class="col-md-4" *ngIf="selectedBooking.package_name">
+            <div class="modal-field">
+              <label>Package Name</label>
+              <div>{{ selectedBooking.package_name }}</div>
+            </div>
+          </div>
+          
+           <div class="col-md-4" *ngIf="selectedBooking.hotel_name">
+            <div class="modal-field">
+              <label>Hotel Name</label>
+              <div>{{ selectedBooking.hotel_name }}</div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="modal-field">
+              <label>Booking Date</label>
+              <div>{{ selectedBooking.created_at | date : "medium" }}</div>
+            </div>
+          </div>
+
+          <!-- Add more fields as needed based on the data structure -->
+
+        </div>
+        
         <!-- Actions -->
-        <div class="card-actions">
-          <a
-            class="btn invoice-btn"
-            [routerLink]="['/book-invoice', booking.id]"
+        <div class="modal-actions">
+           <a
+            class="btn-action invoice-btn"
+            [routerLink]="['/book-invoice', selectedBooking.id]"
+            data-bs-dismiss="modal" 
           >
             Invoice
           </a>
 
           <button
             *ngIf="
-              booking.status !== 'cancelled' &&
-              booking.booking_type !== 'hotel booking'
+              selectedBooking.status !== 'cancelled' &&
+              selectedBooking.booking_type !== 'hotel booking'
             "
-            class="btn cancel-btn"
-            (click)="cancelBooking(booking.id)"
+            class="btn-action cancel-btn"
+            (click)="cancelBooking(selectedBooking.id)"
           >
-            Cancel
+            Cancel Booking
           </button>
         </div>
+
+      </div>
+
+      <div class="custom-modal-footer">
+        <button class="close-btn" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
-</section>
+</div>
