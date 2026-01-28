@@ -1,35 +1,49 @@
-<div class="container">
-  <div class="row justify-content-center align-items-center min-vh-100">
-    <div class="col-lg-4 col-md-6 col-sm-8">
-      <div class="login-form p-4 border rounded shadow-lg">
-        <h2 class="text-center mb-4">Travel Agency Login</h2>
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-          <div class="mb-3">
-            <label for="email" class="form-label">Email address</label>
-            <input
-              type="email"
-              class="form-control"
-              formControlName="email"
-              id="email"
-              placeholder="Enter your email"
-            />
+<section class="login-section">
+  <div class="overlay">
+    <div class="container">
+      <div class="row justify-content-center align-items-center">
+        <div class="col-xl-4 col-lg-5 col-md-7 col-sm-10 col-12">
+
+          <div class="login-card">
+            <div class="card-header text-center">
+              <div class="brand-logo">
+                <span class="fas fa-plane-departure"></span>
+              </div>
+              <h2 class="title">Welcome Back</h2>
+              <p class="subtitle">Plan your next adventure with us</p>
+            </div>
+
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+              <div class="form-group mb-4">
+                <label for="email" class="sr-only">Email address</label>
+                <div class="input-group-custom">
+                  <span class="input-icon"><i class="fas fa-envelope"></i></span>
+                  <input type="email" class="form-control-custom" formControlName="email" id="email"
+                    placeholder="Enter your email" />
+                </div>
+              </div>
+
+              <div class="form-group mb-4">
+                <label for="password" class="sr-only">Password</label>
+                <div class="input-group-custom">
+                  <span class="input-icon"><i class="fas fa-lock"></i></span>
+                  <input type="password" class="form-control-custom" formControlName="password" id="password"
+                    placeholder="Enter your password" />
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-end mb-4">
+                <a href="#" class="forgot-password">Forgot Password?</a>
+              </div>
+
+              <button type="submit" class="btn btn-login w-100">
+                Login <span class="fas fa-arrow-right ms-2"></span>
+              </button>
+            </form>
           </div>
-          <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input
-              type="password"
-              class="form-control"
-              formControlName="password"
-              id="password"
-              placeholder="Enter your password"
-            />
-          </div>
-          <button type="submit" class="btn btn-primary w-100">Login</button>
-        </form>
-        <div class="text-center mt-3">
-          <a href="#">Forgot Password?</a>
+
         </div>
       </div>
     </div>
   </div>
-</div>
+</section>

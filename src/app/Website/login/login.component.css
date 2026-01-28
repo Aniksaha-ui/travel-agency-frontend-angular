@@ -1,43 +1,201 @@
-body {
-  background: url("https://www.example.com/your-beautiful-image.jpg") no-repeat
-    center center fixed;
-  background-size: cover;
-  font-family: Arial, sans-serif;
+/* Mobile First Design */
+:host {
+  display: block;
 }
 
-.login-form {
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.login-form h2 {
-  font-size: 1.5rem;
-  color: #2a3d63;
-}
-
-.login-form .form-control {
-  border-radius: 10px;
-}
-
-.login-form button {
+.login-section {
+  position: relative;
+  min-height: calc(100vh - 80px);
   background-color: #2a3d63;
+  /* Fallback */
+  background: url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center;
+  background-size: cover;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.3) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 15px;
+  /* Ensure spacing on small screens */
+}
+
+.login-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 50px 30px 40px;
+  /* Extra top padding for the logo */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  position: relative;
+  width: 100%;
+  max-width: 450px;
+  /* Limit width */
+  margin: 51% auto;
+}
+
+.card-header {
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.brand-logo {
+  width: 90px;
+  height: 90px;
+  background: #ff4f5a;
+  border-radius: 50%;
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  /* Subtle ring */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 36px;
+  box-shadow: 0 10px 25px rgba(255, 79, 90, 0.4);
+
+  /* Floating Effect */
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.title {
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+  font-size: 26px;
+  margin-top: 20px;
+  /* Space for the floating logo */
+}
+
+.subtitle {
+  color: #666;
+  font-size: 15px;
+  margin: 0;
+}
+
+/* Custom Input Styling */
+.input-group-custom {
+  position: relative;
+  border-radius: 12px;
+  background: #f4f5f7;
+  border: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  transition: all 0.3s ease;
+}
+
+.input-group-custom:focus-within {
+  background: #fff;
+  border-color: #ff4f5a;
+  box-shadow: 0 4px 12px rgba(255, 79, 90, 0.1);
+}
+
+.input-icon {
+  color: #aeb4be;
+  font-size: 18px;
+  margin-right: 12px;
+  transition: color 0.3s;
+}
+
+.input-group-custom:focus-within .input-icon {
+  color: #ff4f5a;
+}
+
+.form-control-custom {
   border: none;
-  padding: 10px;
-  border-radius: 5px;
-  color: #fff;
-  font-size: 1rem;
+  background: transparent;
+  width: 100%;
+  padding: 14px 0;
+  outline: none;
+  color: #333;
+  font-weight: 500;
+  font-size: 16px;
 }
 
-.login-form button:hover {
-  background-color: #1f2a3b;
+.form-control-custom::placeholder {
+  color: #aeb4be;
 }
 
-.text-center a {
-  color: #2a3d63;
+.forgot-password {
+  color: #888;
   text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.3s;
 }
 
-.text-center a:hover {
-  text-decoration: underline;
+.forgot-password:hover {
+  color: #ff4f5a;
+}
+
+/* Button Styling */
+.btn-login {
+  background: linear-gradient(135deg, #ff4f5a 0%, #ff2e3b 100%);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  padding: 16px;
+  font-weight: 600;
+  font-size: 16px;
+  box-shadow: 0 10px 20px rgba(255, 79, 90, 0.3);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-login:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px rgba(255, 79, 90, 0.4);
+}
+
+.btn-login:active {
+  transform: translateY(1px);
+}
+
+/* Animations */
+.login-card {
+  animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 576px) {
+  .login-card {
+    padding: 30px 20px;
+  }
+
+  .brand-logo {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
 }

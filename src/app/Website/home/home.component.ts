@@ -15,6 +15,7 @@ import { environment } from 'src/environments/environment';
 })
 export class HomeComponent implements OnInit {
   currentComponent: string = 'trip'; // Default to 'trip' component
+  isSearchPerformed: boolean = false;
 
   hotelForm: FormGroup = new FormGroup({
     hotel_name: new FormControl('', Validators.required),
@@ -39,7 +40,7 @@ export class HomeComponent implements OnInit {
     private tourService: TourService,
     private router: Router,
     private hotelService: HotelServiceService
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.getAllTourInformation();
     this.getAllPackageInformation();
@@ -89,8 +90,11 @@ export class HomeComponent implements OnInit {
         .subscribe((res: any) => {
           if (res && res.data && res.data.length > 0) {
             this.tours = res.data;
+            this.isSearchPerformed = true;
           } else {
             this.tours = [];
+            this.isSearchPerformed = true; // Show results (empty or not) to indicate search happened? Or keep false? 
+            // Lets set true so we switch to the result view, even if empty/mocked.
           }
         });
     } else if (this.currentComponent === 'hotel') {

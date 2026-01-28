@@ -55,6 +55,7 @@ export class HotelDetailsComponent implements OnInit {
 
   /** When user selects a room */
   onRoomSelect(roomId: string) {
+    this.bookingForm.patchValue({ hotel_room_id: roomId });
     this.selectedRoom = this.hotel.rooms.find(
       (r: any) => r.room_id == parseInt(roomId, 10)
     );
@@ -94,7 +95,7 @@ export class HotelDetailsComponent implements OnInit {
             new Date(p.season_end)
           )
         );
-        
+
         total += priceObj ? parseFloat(priceObj.price_per_night) : 0;
       }
       this.totalCost = total;

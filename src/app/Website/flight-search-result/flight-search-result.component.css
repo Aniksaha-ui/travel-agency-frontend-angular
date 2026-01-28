@@ -1,0 +1,101 @@
+/* Component Styles */
+.flight-search-container {
+    font-family: 'Inter', sans-serif;
+    /* or defaults */
+}
+
+/* Tabs */
+.flight-tab {
+    cursor: pointer;
+    background: white;
+    transition: all 0.2s;
+}
+
+.flight-tab:hover {
+    background: #f8f9fa;
+}
+
+.flight-tab.active {
+    color: #0d6efd;
+    background: #e7f1ff;
+    border-bottom: 2px solid #0d6efd;
+}
+
+/* Ribbon */
+.flight-card {
+    position: relative;
+    overflow: visible;
+    /* To allow ribbon to stick out if needed, though here it's fine */
+}
+
+.best-deal-ribbon {
+    position: absolute;
+    top: -8px;
+    left: 0;
+    background: #28a745;
+    color: white;
+    padding: 4px 12px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    border-radius: 0 4px 4px 0;
+    z-index: 10;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.best-deal-ribbon::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    border-top: 8px solid #1e7e34;
+    border-left: 0px solid transparent;
+    border-right: 8px solid transparent;
+}
+
+.bg-light-blue {
+    background-color: #f0f7ff;
+}
+
+.border-end-lg {
+    border-right: 1px solid #dee2e6;
+}
+
+@media (max-width: 991px) {
+    .border-end-lg {
+        border-right: none;
+        border-bottom: 1px solid #dee2e6;
+    }
+}
+
+/* Typography */
+.fs-5 {
+    font-size: 1.1rem !important;
+}
+
+.small {
+    font-size: 0.85rem;
+}
+
+/* Button */
+.btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    transition: all 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(13, 110, 253, 0.2);
+}
+
+/* Details Panel */
+.nav-pills .nav-link.active {
+    background-color: #0d6efd;
+}
+
+.nav-link {
+    color: #555;
+    font-weight: 500;
+    font-size: 0.9rem;
+}

@@ -24,6 +24,7 @@ import { TourPageComponent } from './Website/tour-page/tour-page.component';
 import { HotelDetailsComponent } from './Website/hotel/hotel-details/hotel-details.component';
 import { AddTicketsComponent } from './Website/ticket/add-tickets/add-tickets.component';
 import { CustomerTicketListComponent } from './Website/ticket/customer-ticket-list/customer-ticket-list.component';
+import { FlightSearchResultComponent } from './Website/flight-search-result/flight-search-result.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { CustomerTicketListComponent } from './Website/ticket/customer-ticket-li
     HotelDetailsComponent,
     AddTicketsComponent,
     CustomerTicketListComponent,
+    FlightSearchResultComponent
   ],
   imports: [
     BrowserModule,
@@ -62,4 +64,4 @@ import { CustomerTicketListComponent } from './Website/ticket/customer-ticket-li
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

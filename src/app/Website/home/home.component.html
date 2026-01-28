@@ -12,18 +12,10 @@
   <div class="search-widget">
     <!-- Tabs -->
     <div class="search-tabs">
-      <button 
-        class="tab-btn" 
-        [class.active]="currentComponent === 'trip'" 
-        (click)="toggleComponent('trip')"
-      >
+      <button class="tab-btn" [class.active]="currentComponent === 'trip'" (click)="toggleComponent('trip')">
         <i class="fas fa-plane"></i> Flight / Trip
       </button>
-      <button 
-        class="tab-btn" 
-        [class.active]="currentComponent === 'hotel'" 
-        (click)="toggleComponent('hotel')"
-      >
+      <button class="tab-btn" [class.active]="currentComponent === 'hotel'" (click)="toggleComponent('hotel')">
         <i class="fas fa-hotel"></i> Hotel
       </button>
       <button class="tab-btn" disabled>
@@ -36,30 +28,16 @@
       <form [formGroup]="tourForm" (ngSubmit)="onSubmit()" class="search-form-grid">
         <div class="form-group">
           <label>{{ text.TRIP_SEARCH_PLACE }}:</label>
-          <input
-            type="text"
-            formControlName="trip_name"
-            class="form-control-custom"
-            placeholder="Search city, or place"
-          />
+          <input type="text" formControlName="trip_name" class="form-control-custom"
+            placeholder="Search city, or place" />
         </div>
         <div class="form-group">
           <label>{{ text.TRIP_DATE_FORM }}:</label>
-          <input
-            type="date"
-            formControlName="start_date"
-            class="form-control-custom"
-            required
-          />
+          <input type="date" formControlName="start_date" class="form-control-custom" required />
         </div>
         <div class="form-group">
           <label>{{ text.TRIP_DATE_TO }}:</label>
-          <input
-            type="date"
-            formControlName="end_date"
-            class="form-control-custom"
-            required
-          />
+          <input type="date" formControlName="end_date" class="form-control-custom" required />
         </div>
         <div class="form-group">
           <button class="btn-search" type="submit">
@@ -74,43 +52,21 @@
       <form [formGroup]="hotelForm" (ngSubmit)="onSubmit()" class="search-form-grid">
         <div class="form-group">
           <label>{{ text.HOTEL_NAME }}:</label>
-          <input
-            type="text"
-            formControlName="hotel_name"
-            class="form-control-custom"
-            placeholder="Search hotel name"
-            required
-          />
+          <input type="text" formControlName="hotel_name" class="form-control-custom" placeholder="Search hotel name"
+            required />
         </div>
         <div class="form-group">
           <label>{{ text.HOTEL_CITY }}:</label>
-          <input 
-            type="text" 
-            formControlName="city" 
-            class="form-control-custom" 
-            placeholder="City" 
-            required 
-          />
+          <input type="text" formControlName="city" class="form-control-custom" placeholder="City" required />
         </div>
         <div class="form-group">
           <label>{{ text.HOTEL_COUNTRY }}:</label>
-          <input
-            type="text"
-            formControlName="country"
-            class="form-control-custom"
-            placeholder="Country"
-            required
-          />
+          <input type="text" formControlName="country" class="form-control-custom" placeholder="Country" required />
         </div>
         <div class="form-group">
           <label>{{ text.HOTEL_MAX_OCCUPANCY }}:</label>
-          <input
-            type="number"
-            formControlName="max_occupancy"
-            class="form-control-custom"
-            placeholder="Occupancy"
-            required
-          />
+          <input type="number" formControlName="max_occupancy" class="form-control-custom" placeholder="Occupancy"
+            required />
         </div>
         <div class="form-group">
           <button class="btn-search" type="submit">
@@ -125,28 +81,41 @@
 <!-- Tours Section (Explore) -->
 <section *ngIf="currentComponent === 'trip'" class="py-5">
   <div class="container py-lg-4">
-    <div class="section-header">
-      <p class="section-subtitle">{{ text.UPCOMING_TOURS }}</p>
-      <h3 class="section-title">Explore Best Tours</h3>
-    </div>
 
-    <div class="row g-4">
-      <div class="col-lg-3 col-md-6" *ngFor="let tour of tours">
-        <div class="destination-card" [routerLink]="['/tour', tour.id]">
-          <img
-            [src]="tour.image ? environment.imageBaseUrl + tour.image : defultImage"
-            alt="{{ tour.trip_name }}"
-          />
-          <div class="destination-overlay">
-            <h5 class="fw-bold mb-1">{{ tour.trip_name }}</h5>
-            <div class="d-flex align-items-center small">
-              <i class="fas fa-map-marker-alt me-2 text-warning"></i>
-              <span>{{ tour.location ?? "Dhaka" }}</span>
+    <!-- Default View: Explore Tours -->
+    <ng-container *ngIf="!isSearchPerformed">
+      <div class="section-header">
+        <p class="section-subtitle">{{ text.UPCOMING_TOURS }}</p>
+        <h3 class="section-title">Explore Best Tours</h3>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-3 col-md-6" *ngFor="let tour of tours">
+          <div class="destination-card" [routerLink]="['/tour', tour.id]">
+            <img [src]="tour.image ? environment.imageBaseUrl + tour.image : defultImage" alt="{{ tour.trip_name }}" />
+            <div class="destination-overlay">
+              <h5 class="fw-bold mb-1">{{ tour.trip_name }}</h5>
+              <div class="d-flex align-items-center small">
+                <i class="fas fa-map-marker-alt me-2 text-warning"></i>
+                <span>{{ tour.location ?? "Dhaka" }}</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </ng-container>
+
+    <!-- Search Result View: Flight List -->
+    <ng-container *ngIf="isSearchPerformed">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3>Search Results</h3>
+        <button class="btn btn-sm btn-outline-secondary" (click)="isSearchPerformed = false">
+          <i class="fas fa-arrow-left me-1"></i> Back to Explore
+        </button>
+      </div>
+      <app-flight-search-result [data]="tours"></app-flight-search-result>
+    </ng-container>
+
   </div>
 </section>
 
@@ -162,17 +131,17 @@
       <div class="col-lg-3 col-md-6" *ngFor="let hotel of hotels">
         <div class="package-card-modern" [routerLink]="['/hotel', hotel.id]" style="cursor:pointer">
           <div class="pkg-img-wrapper">
-             <img [src]="hotel.image || defultImage" alt="{{ hotel.name }}">
-             <div class="pkg-discount-tag">Top Rated</div>
+            <img [src]="hotel.image || defultImage" alt="{{ hotel.name }}">
+            <div class="pkg-discount-tag">Top Rated</div>
           </div>
           <div class="pkg-content">
             <h5 class="pkg-title">{{ hotel.name }}</h5>
             <div class="pkg-meta">
-               <span><i class="fas fa-map-marker-alt me-1"></i> {{ hotel.city }}</span>
+              <span><i class="fas fa-map-marker-alt me-1"></i> {{ hotel.city }}</span>
             </div>
             <div class="pkg-price-row">
-               <span class="pkg-price-label">Starts from</span>
-               <span class="pkg-price-val">৳ {{ hotel.price_per_night }}</span>
+              <span class="pkg-price-label">Starts from</span>
+              <span class="pkg-price-val">৳ {{ hotel.price_per_night }}</span>
             </div>
           </div>
         </div>
@@ -184,10 +153,10 @@
 <!-- Packages Section (Top Travel Packages) -->
 <div class="container py-5">
   <div class="section-header text-start">
-     <h3 class="section-title">Best Packages for Your Next Trip</h3>
-     <p class="section-subtitle">Choose from our curated list of premium packages.</p>
+    <h3 class="section-title">Best Packages for Your Next Trip</h3>
+    <p class="section-subtitle">Choose from our curated list of premium packages.</p>
   </div>
-  
+
   <div class="row g-4">
     <div class="col-md-6 col-lg-3" *ngFor="let pack of packages.slice(0, 8)">
       <div class="package-card-modern" (click)="handlePackageDetails(pack.id)" style="cursor: pointer;">
@@ -195,9 +164,9 @@
           <img [src]="environment.imageBaseUrl + pack.image" alt="{{ pack.name }}">
           <!-- Icons overlay -->
           <div class="position-absolute bottom-0 start-0 w-100 p-2 d-flex gap-2 text-white bg-dark bg-opacity-50 small">
-             <span *ngIf="pack.includes_hotel"><i class="fas fa-bed"></i></span>
-             <span *ngIf="pack.includes_meal"><i class="fas fa-utensils"></i></span>
-             <span *ngIf="pack.includes_bus"><i class="fas fa-bus"></i></span>
+            <span *ngIf="pack.includes_hotel"><i class="fas fa-bed"></i></span>
+            <span *ngIf="pack.includes_meal"><i class="fas fa-utensils"></i></span>
+            <span *ngIf="pack.includes_bus"><i class="fas fa-bus"></i></span>
           </div>
         </div>
         <div class="pkg-content">
@@ -206,10 +175,10 @@
             {{ pack.trip.route_name }}
           </div>
           <h5 class="pkg-title">{{ pack.name }}</h5>
-          
+
           <div class="pkg-meta">
-             <span><i class="far fa-clock me-1"></i> 3 Days</span>
-             <span><i class="far fa-calendar-alt me-1"></i> {{ pack.trip.departure_time | date:'d MMM' }}</span>
+            <span><i class="far fa-clock me-1"></i> 3 Days</span>
+            <span><i class="far fa-calendar-alt me-1"></i> {{ pack.trip.departure_time | date:'d MMM' }}</span>
           </div>
 
           <div class="pkg-price-row">
@@ -229,28 +198,28 @@
 <section class="py-5 bg-light">
   <div class="container py-4">
     <div class="section-header">
-       <h3 class="section-title">Why Choose Us</h3>
+      <h3 class="section-title">Why Choose Us</h3>
     </div>
     <div class="row g-4">
       <div class="col-lg-4">
         <div class="feature-box">
-           <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
-           <h5>Trusted Agency</h5>
-           <p class="text-muted small">100% Trusted Tour Agency with 24+ years of experience.</p>
+          <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+          <h5>Trusted Agency</h5>
+          <p class="text-muted small">100% Trusted Tour Agency with 24+ years of experience.</p>
         </div>
       </div>
       <div class="col-lg-4">
         <div class="feature-box">
-           <div class="feature-icon"><i class="fas fa-tags"></i></div>
-           <h5>Best Price Guarantee</h5>
-           <p class="text-muted small">We offer the best reasonable prices for all our packages.</p>
+          <div class="feature-icon"><i class="fas fa-tags"></i></div>
+          <h5>Best Price Guarantee</h5>
+          <p class="text-muted small">We offer the best reasonable prices for all our packages.</p>
         </div>
       </div>
       <div class="col-lg-4">
         <div class="feature-box">
-           <div class="feature-icon"><i class="fas fa-headset"></i></div>
-           <h5>24/7 Support</h5>
-           <p class="text-muted small">Our support team is always available to help you.</p>
+          <div class="feature-icon"><i class="fas fa-headset"></i></div>
+          <h5>24/7 Support</h5>
+          <p class="text-muted small">Our support team is always available to help you.</p>
         </div>
       </div>
     </div>

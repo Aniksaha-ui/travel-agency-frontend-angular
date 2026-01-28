@@ -1,0 +1,167 @@
+<div class="flight-search-container">
+    <!-- Top Tabs -->
+    <div class="flight-tabs d-flex justify-content-between mb-4 bg-white rounded shadow-sm overflow-hidden">
+        <div class="flight-tab active flex-fill text-center p-3 border-end position-relative">
+            <div class="fw-bold">Cheapest</div>
+            <div class="small text-muted">13,902</div>
+            <div class="active-bar"></div>
+        </div>
+        <div class="flight-tab flex-fill text-center p-3 border-end">
+            <div class="fw-bold">Earliest</div>
+            <div class="small text-muted">07:10 AM</div>
+        </div>
+        <div class="flight-tab flex-fill text-center p-3">
+            <div class="fw-bold">Fastest</div>
+            <div class="small text-muted">2 Hr 10 Min</div>
+        </div>
+    </div>
+
+    <!-- Flight Card Loop -->
+    <div class="flight-card card border-0 shadow-sm mb-4" *ngFor="let flight of flights">
+        <!-- Best Deal Ribbon -->
+        <div class="best-deal-ribbon" *ngIf="flight.isBestDeal">Best Deal</div>
+
+        <div class="card-body p-0">
+            <div class="row g-0">
+                <!-- Main Flight Info -->
+                <div class="col-lg-9 p-4 border-end-lg">
+                    <!-- Flight ID logic (Optional) -->
+
+                    <!-- Outbound -->
+                    <div class="flight-segment d-flex align-items-center mb-4">
+                        <div class="airline-logo me-3">
+                            <img [src]="flight.airlineLogo" alt="Airline" class="img-fluid" style="width: 50px;">
+                        </div>
+
+                        <div class="flight-route flex-grow-1">
+                            <div class="row align-items-center">
+                                <div class="col-md-3 mb-2 mb-md-0">
+                                    <h5 class="mb-0 fw-bold">{{flight.outbound.from}} - {{flight.outbound.to}}</h5>
+                                    <div class="small text-muted">{{flight.airlineName}}</div>
+                                    <div class="small text-muted">{{flight.outbound.duration}}</div>
+                                </div>
+
+                                <div class="col-md-3 mb-2 mb-md-0">
+                                    <div class="fw-bold fs-5">{{flight.outbound.depTime}}</div>
+                                    <div class="small text-muted">{{flight.outbound.depDate}}</div>
+                                    <div class="small text-muted">{{flight.outbound.depAirport}}</div>
+                                </div>
+
+                                <div class="col-md-3 mb-2 mb-md-0">
+                                    <div class="fw-bold fs-5">{{flight.outbound.arrTime}}</div>
+                                    <div class="small text-muted">{{flight.outbound.arrDate}}</div>
+                                    <div class="small text-muted">{{flight.outbound.arrAirport}}</div>
+                                </div>
+
+                                <div class="col-md-3 text-md-end">
+                                    <div class="fw-bold">{{flight.outbound.stopType}}</div>
+                                    <div class="small text-muted">{{flight.outbound.to}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Inbound (if Return) -->
+                    <div class="flight-segment d-flex align-items-center" *ngIf="flight.inbound">
+                        <div class="airline-logo me-3">
+                            <img [src]="flight.airlineLogo" alt="Airline" class="img-fluid" style="width: 50px;">
+                        </div>
+
+                        <div class="flight-route flex-grow-1">
+                            <div class="row align-items-center">
+                                <div class="col-md-3 mb-2 mb-md-0">
+                                    <h5 class="mb-0 fw-bold">{{flight.inbound.from}} - {{flight.inbound.to}}</h5>
+                                    <div class="small text-muted">{{flight.airlineName}}</div>
+                                    <div class="small text-muted">{{flight.inbound.duration}}</div>
+                                </div>
+
+                                <div class="col-md-3 mb-2 mb-md-0">
+                                    <div class="fw-bold fs-5">{{flight.inbound.depTime}}</div>
+                                    <div class="small text-muted">{{flight.inbound.depDate}}</div>
+                                    <div class="small text-muted">{{flight.inbound.depAirport}}</div>
+                                </div>
+
+                                <div class="col-md-3 mb-2 mb-md-0">
+                                    <div class="fw-bold fs-5">{{flight.inbound.arrTime}}</div>
+                                    <div class="small text-muted">{{flight.inbound.arrDate}}</div>
+                                    <div class="small text-muted">{{flight.inbound.arrAirport}}</div>
+                                </div>
+
+                                <div class="col-md-3 text-md-end">
+                                    <div class="fw-bold">{{flight.inbound.stopType}}</div>
+                                    <div class="small text-muted">{{flight.inbound.to}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Price & Action -->
+                <div
+                    class="col-lg-3 p-4 bg-light-blue d-flex flex-column justify-content-center align-items-end text-end position-relative">
+                    <div class="flight-code text-muted small mb-3 position-absolute top-0 end-0 p-3">
+                        <i class="fas fa-ticket-alt me-1"></i> {{flight.code}}
+                    </div>
+
+                    <div class="price-section mt-4">
+                        <div class="fs-4 fw-bold text-dark">৳ {{flight.price | number}}</div>
+                        <div class="text-muted text-decoration-line-through small" *ngIf="flight.originalPrice">৳
+                            {{flight.originalPrice | number}}</div>
+                    </div>
+
+                    <button class="btn btn-primary rounded-pill px-4 py-2 mt-3 w-100 fw-bold"
+                        (click)="onSelect(flight)">
+                        Select <i class="fas fa-chevron-right ms-1"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Footer / Details Toggle -->
+            <div class="card-footer bg-white border-top-0 d-flex justify-content-between align-items-center p-3">
+                <div class="d-flex gap-2">
+                    <span class="badge bg-light text-success border border-success rounded-pill fw-normal px-3 py-2">
+                        <i class="fas fa-gem me-1"></i> Partially Refundable
+                    </span>
+                    <span
+                        class="badge bg-light text-warning border border-warning rounded-pill fw-normal px-3 py-2 text-dark">
+                        <i class="fas fa-coins me-1"></i> 12
+                    </span>
+                </div>
+                <button class="btn btn-link text-decoration-none fw-bold small" (click)="toggleDetails(flight)">
+                    {{ flight.showDetails ? 'Hide Detail' : 'View Detail' }}
+                    <i class="fas" [ngClass]="flight.showDetails ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                </button>
+            </div>
+
+            <!-- Expanded Details Section -->
+            <div class="flight-details-panel border-top bg-light p-4" *ngIf="flight.showDetails">
+                <div class="detail-tabs mb-3">
+                    <ul class="nav nav-pills nav-fill bg-white rounded p-1 shadow-sm" style="max-width: 300px;">
+                        <li class="nav-item">
+                            <a class="nav-link active rounded-pill" href="javascript:void(0)">Baggage</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link rounded-pill" href="javascript:void(0)">Policies</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="detail-content bg-white p-3 rounded border">
+                    <h6 class="fw-bold">Cancellation Policy</h6>
+                    <p class="small text-muted">Refunds and Date Changes are done as per the following policies.</p>
+                    <p class="small text-muted">Refund is calculated by deducting Airline's fee and ST fee from the paid
+                        amount.</p>
+
+                    <div class="alert alert-info small mb-0">
+                        <i class="fas fa-info-circle me-1"></i> *Fees are shown for all travelers
+                    </div>
+
+                    <div class="mt-2 text-primary small fw-bold" style="cursor: pointer;">
+                        Show More Information
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

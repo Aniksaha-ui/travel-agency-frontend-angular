@@ -1,90 +1,213 @@
-.hero-img {
-  width: 100%;
-  height: 450px;
-  object-fit: cover;
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
+/* Global Settings */
+:host {
+  font-family: 'Ubuntu', 'Inter', sans-serif;
+  /* Consistent with Login */
+  display: block;
+  background-color: #f4f7f6;
+  color: #444;
 }
 
-.overlay {
+/* ---------------- Hero Section ---------------- */
+.hotel-header {
+  height: 60vh;
+  /* Taller hero */
+  min-height: 500px;
+  background-color: #2c3e50;
+  position: relative;
+  overflow: hidden;
+  clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+  /* Creative bottom edge */
+}
+
+.hero-image-wrapper {
+  position: fixed;
+  /* Parallax effect */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60vh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.main-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.8);
+}
+
+.hero-overlay-gradient {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7));
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0.9) 100%);
+  z-index: 1;
 }
 
-.text-shadow {
-  text-shadow: 2px 3px 6px rgba(0, 0, 0, 0.6);
+/* Hero Content Position adjustment due to fixed banner */
+.hero-content {
+  position: absolute;
+  bottom: 80px;
+  /* Account for clip-path */
+  left: 0;
+  z-index: 2;
+  padding-bottom: 2rem;
 }
 
-.btn-gradient {
-  background: linear-gradient(45deg, #ff9800, #f44336);
+/* ---------------- Main Content Layout ---------------- */
+/* Push content down to start after the fixed hero area */
+.container.py-5 {
+  position: relative;
+  z-index: 10;
+  margin-top: -80px;
+  /* Pull up slightly to overlap hero */
+}
+
+/* Stats Cards */
+.icon-box {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: transform 0.3s;
+}
+
+.d-flex:hover .icon-box {
+  transform: rotateY(180deg);
+}
+
+/* ---------------- Room Cards ---------------- */
+.room-list-card {
+  border: none;
+  border-radius: 16px;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  background: white;
+}
+
+.room-list-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08) !important;
+}
+
+.room-img-wrapper {
+  overflow: hidden;
+  height: 100%;
+  min-height: 200px;
+  border-radius: 16px 0 0 16px;
+}
+
+.room-img-wrapper img {
+  transition: transform 0.5s ease;
+}
+
+.room-list-card:hover .room-img-wrapper img {
+  transform: scale(1.1);
+}
+
+/* ---------------- Sticky Sidebar Booking ---------------- */
+.sticky-sidebar {
+  position: sticky;
+  top: 100px;
+  z-index: 20;
+}
+
+.booking-card {
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Gradient - Travel Red Theme */
+.bg-gradient-travel {
+  background: linear-gradient(135deg, #ff4f5a 0%, #ff2e3b 100%);
+}
+
+.form-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.4rem;
+}
+
+.form-control,
+.form-select {
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  padding: 0.7rem 1rem;
+  font-size: 0.9rem;
+  background-color: #f9f9f9;
+  transition: all 0.2s;
+}
+
+.form-control:focus,
+.form-select:focus {
+  background-color: #fff;
+  border-color: #ff4f5a;
+  box-shadow: 0 0 0 4px rgba(255, 79, 90, 0.1);
+}
+
+.btn-travel {
+  background: #ff4f5a;
   color: white;
   border: none;
-  transition: all 0.3s ease-in-out;
-}
-.btn-gradient:hover {
-  background: linear-gradient(45deg, #f57c00, #d32f2f);
+  transition: all 0.3s;
 }
 
-.detail-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.detail-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+.btn-travel:hover {
+  background: #e63e48;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(255, 79, 90, 0.3);
 }
 
-.section-title {
-  position: relative;
-  display: inline-block;
-}
-.section-title::after {
-  content: "";
-  position: absolute;
-  width: 60%;
-  height: 3px;
-  background: #007bff;
-  left: 20%;
-  bottom: -10px;
+/* ---------------- Utilities ---------------- */
+.text-justify {
+  text-align: justify;
 }
 
-.room-card-header {
-  background: #007bff;
-  color: white;
-  font-weight: bold;
-  padding: 10px 15px;
-  font-size: 1.1rem;
-}
-.room-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.room-card:hover {
-  transform: scale(1.02);
+.badge-soft-primary {
+  background-color: rgba(13, 110, 253, 0.1);
+  color: #0d6efd;
 }
 
-.price-list li {
-  padding: 5px 0;
-  border-bottom: 1px dashed #ddd;
-  font-size: 0.95rem;
+.badge-overlay {
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.6);
 }
 
-.bg-gradient {
-  background: linear-gradient(to right, #007bff, #673ab7);
+.text-travel {
+  color: #ff4f5a;
 }
 
-.animate-form {
-  animation: fadeInUp 0.6s ease-in-out;
-}
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-image-wrapper {
+    position: relative;
+    height: 300px;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .hotel-header {
+    height: auto;
+    clip-path: none;
+    min-height: auto;
+  }
+
+  .hero-content {
+    position: relative;
+    bottom: auto;
+    background: #2c3e50;
+    padding: 20px;
+  }
+
+  .container.py-5 {
+    margin-top: 0;
+  }
+
+  .room-img-wrapper {
+    border-radius: 16px 16px 0 0;
+    min-height: 200px;
   }
 }
