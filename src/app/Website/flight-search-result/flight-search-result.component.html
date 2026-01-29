@@ -1,21 +1,6 @@
 <div class="flight-search-container">
     <!-- Top Tabs -->
-    <div class="flight-tabs d-flex justify-content-between mb-4 bg-white rounded shadow-sm overflow-hidden">
-        <div class="flight-tab active flex-fill text-center p-3 border-end position-relative">
-            <div class="fw-bold">Cheapest</div>
-            <div class="small text-muted">13,902</div>
-            <div class="active-bar"></div>
-        </div>
-        <div class="flight-tab flex-fill text-center p-3 border-end">
-            <div class="fw-bold">Earliest</div>
-            <div class="small text-muted">07:10 AM</div>
-        </div>
-        <div class="flight-tab flex-fill text-center p-3">
-            <div class="fw-bold">Fastest</div>
-            <div class="small text-muted">2 Hr 10 Min</div>
-        </div>
-    </div>
-
+  
     <!-- Flight Card Loop -->
     <div class="flight-card card border-0 shadow-sm mb-4" *ngFor="let flight of flights">
         <!-- Best Deal Ribbon -->
@@ -120,11 +105,7 @@
             <div class="card-footer bg-white border-top-0 d-flex justify-content-between align-items-center p-3">
                 <div class="d-flex gap-2">
                     <span class="badge bg-light text-success border border-success rounded-pill fw-normal px-3 py-2">
-                        <i class="fas fa-gem me-1"></i> Partially Refundable
-                    </span>
-                    <span
-                        class="badge bg-light text-warning border border-warning rounded-pill fw-normal px-3 py-2 text-dark">
-                        <i class="fas fa-coins me-1"></i> 12
+                        <i class="fas fa-gem me-1"></i> Based on policy
                     </span>
                 </div>
                 <button class="btn btn-link text-decoration-none fw-bold small" (click)="toggleDetails(flight)">
