@@ -1,0 +1,141 @@
+.file-upload-wrapper {
+  position: relative;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.file-dropzone {
+  border: 2px dashed #cbd5e1;
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  background: #f8fafc;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.file-dropzone:hover, .file-dropzone.dragover {
+  border-color: #3b82f6;
+  background: #eff6ff;
+}
+
+.file-dropzone input[type="file"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.upload-icon {
+  font-size: 3rem;
+  color: #94a3b8;
+  margin-bottom: 1rem;
+}
+
+.upload-text h5 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 0.5rem;
+}
+
+.upload-text p {
+  color: #64748b;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Preview Styles */
+.file-preview-container {
+  margin-top: 1.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  background: white;
+  justify-content: space-between;
+}
+
+.preview-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.image-preview {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.file-icon-preview {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f1f5f9;
+  border-radius: 8px;
+  color: #475569;
+  font-size: 1.8rem;
+}
+
+.file-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.file-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #334155;
+  word-break: break-all;
+}
+
+.file-size {
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+.btn-remove-file {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-remove-file:hover {
+  background: #ef4444;
+  color: white;
+}
+
+.form-control-lg {
+    padding: 1rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08) !important;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+    border: none;
+    padding: 12px 30px;
+}
