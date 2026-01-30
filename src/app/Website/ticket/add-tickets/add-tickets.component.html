@@ -35,11 +35,51 @@
                   placeholder="Write your issue in detail"></textarea>
               </div>
 
-              <!-- Attachment -->
-              <div class="mb-3">
-                <label class="form-label">Attachment</label>
-                <input type="file" class="form-control" (change)="onFileChange($event)">
-                <small class="text-muted">Upload screenshot or image (optional)</small>
+              <!-- Attachment (Drag & Drop) -->
+              <div class="mb-4">
+                <label class="form-label fw-bold small text-uppercase text-muted">Attachment</label>
+                
+                <div class="file-upload-wrapper" *ngIf="!attachmentFile">
+                  <div class="file-dropzone" [class.dragover]="isDragging">
+                    <input 
+                      type="file" 
+                      (change)="onFileChange($event)"
+                      (dragover)="onDragOver($event)"
+                      (dragleave)="onDragLeave($event)"
+                      (drop)="onDrop($event)"
+                      title=" " 
+                    />
+                    <div class="upload-icon">
+                      <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <div class="upload-text">
+                      <h5>Drag & Drop files here</h5>
+                      <p>or click to browse</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Preview Container -->
+                <div class="file-preview-container" *ngIf="attachmentFile">
+                  <div class="preview-content">
+                    <!-- Image Preview -->
+                    <img *ngIf="fileType === 'image' && previewUrl" [src]="previewUrl" class="image-preview" />
+                    
+                    <!-- File Icon Preview -->
+                    <div *ngIf="fileType === 'other'" class="file-icon-preview">
+                      <i class="far fa-file-alt"></i>
+                    </div>
+
+                    <div class="file-info">
+                      <span class="file-name">{{ attachmentFile.name }}</span>
+                      <span class="file-size">{{ fileSize }}</span>
+                    </div>
+                  </div>
+                  
+                  <button type="button" class="btn-remove-file" (click)="removeFile()">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
               </div>
 
               <!-- Remarks -->
