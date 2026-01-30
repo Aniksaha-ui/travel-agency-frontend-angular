@@ -4,7 +4,7 @@
       <!-- Title -->
       <div class="col-md-8">
         <div class="custom-title text-md-start text-center">
-          <i class="text-primary text-center" style="font-size: 24px;">My Refunds ({{ refunds.length }})</i> 
+          <i class="text-primary text-center" style="font-size: 24px;">My Refunds ({{ refunds.length }})</i>
         </div>
       </div>
 
@@ -12,8 +12,14 @@
     </div>
 
     <!-- Refund Cards -->
-    <div class="row g-4">
-      <div class="col-md-6 col-lg-4" *ngFor="let refund of refunds">
+    <div class="row g-4" *ngIf="isLoading">
+      <div class="col-6 col-md-6 col-lg-4" *ngFor="let i of [1,2,3,4,5,6]">
+        <app-skeleton type="card" height="180px"></app-skeleton>
+      </div>
+    </div>
+
+    <div class="row g-4" *ngIf="!isLoading">
+      <div class="col-6 col-md-6 col-lg-4" *ngFor="let refund of refunds">
         <div class="custom-ticket-card" (click)="openRefundModal(refund)">
           <div class="ticket-header">
             <h3>Booking ID: {{ refund.booking_id }}</h3>
@@ -36,9 +42,7 @@
 
             <div class="ticket-info">
               <span class="status review">Price: ৳ {{ refund.price }}</span>
-              <span class="status success"
-                >Refund: ৳ {{ refund.amount || 0 }}</span
-              >
+              <span class="status success">Refund: ৳ {{ refund.amount || 0 }}</span>
             </div>
           </div>
         </div>
@@ -58,11 +62,7 @@
     <div class="modal-content custom-modal-content">
       <div class="custom-modal-header">
         <h2>Refund Details</h2>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
       <div class="custom-modal-body" *ngIf="selectedRefund">
@@ -140,10 +140,7 @@
           <div class="col-12" *ngIf="selectedRefund.image">
             <div class="modal-field">
               <label>Trip Image</label>
-              <img
-                [src]="imageBaseUrl + selectedRefund.image"
-                class="modal-attachment"
-              />
+              <img [src]="imageBaseUrl + selectedRefund.image" class="modal-attachment" />
             </div>
           </div>
         </div>

@@ -13,12 +13,16 @@ export class MybookingsComponent implements OnInit {
   selectedBooking: any = null;
   modal: any;
 
-  constructor(private bookingService: BookingService) {}
+  constructor(private bookingService: BookingService) { }
+
+  isLoading = true;
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.bookingService.findBookings().subscribe((response: any) => {
       this.bookings = response.data;
-    });
+      this.isLoading = false;
+    }, () => this.isLoading = false);
   }
 
   formatDateTime(datetime: string): string {
@@ -47,7 +51,7 @@ export class MybookingsComponent implements OnInit {
       this.bookings = this.bookings.map((booking: any) =>
         booking.id === id ? { ...booking, status: 'cancelled' } : booking
       );
-      
+
       // Update selected booking if it's the one being cancelled
       if (this.selectedBooking && this.selectedBooking.id === id) {
         this.selectedBooking.status = 'cancelled';

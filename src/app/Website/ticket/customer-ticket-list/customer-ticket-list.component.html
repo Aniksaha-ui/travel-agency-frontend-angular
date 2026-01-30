@@ -17,8 +17,14 @@
       </div>
     </div>
 
-    <div class="row g-4">
-      <div class="col-md-6 col-lg-4" *ngFor="let ticket of tickets">
+    <div class="row g-4" *ngIf="isLoading">
+      <div class="col-6 col-md-6 col-lg-4" *ngFor="let i of [1,2,3,4,5,6]">
+        <app-skeleton type="card" height="150px"></app-skeleton>
+      </div>
+    </div>
+
+    <div class="row g-4" *ngIf="!isLoading">
+      <div class="col-6 col-md-6 col-lg-4" *ngFor="let ticket of tickets">
         <div class="custom-ticket-card" (click)="openTicketModal(ticket)">
           <div class="ticket-header">
             <h3>{{ ticket.title }}</h3>
@@ -34,15 +40,12 @@
                 {{ ticketResolvedStatus[ticket.resloved_status] }}
               </span>
 
-              <span
-                class="status"
-                [ngClass]="{
+              <span class="status" [ngClass]="{
                   pending: ticket.status === 0,
                   review: ticket.status === 1,
                   success: ticket.status === 2,
                   fail: ticket.status === 3
-                }"
-              >
+                }">
                 {{ ticketStatus[ticket.status] }}
               </span>
             </div>
@@ -59,11 +62,7 @@
     <div class="modal-content custom-modal-content">
       <div class="custom-modal-header">
         <h2>Ticket Details</h2>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
       <div class="custom-modal-body" *ngIf="selectedTicket">
@@ -88,15 +87,12 @@
           <div class="col-md-4">
             <div class="modal-field">
               <label>Status</label>
-              <span
-                class="status-badge"
-                [ngClass]="{
+              <span class="status-badge" [ngClass]="{
                   pending: selectedTicket.status == 0,
                   review: selectedTicket.status == 1,
                   success: selectedTicket.status == 2,
                   fail: selectedTicket.status == 3
-                }"
-              >
+                }">
                 {{ ticketStatus[selectedTicket.status] }}
               </span>
             </div>
@@ -106,13 +102,10 @@
           <div class="col-md-4">
             <div class="modal-field">
               <label>Resolved</label>
-              <span
-                class="status-badge resolved"
-                [ngClass]="{
+              <span class="status-badge resolved" [ngClass]="{
                   'not-resolved': selectedTicket.resloved_status == 0,
                   resolved: selectedTicket.resloved_status == 1
-                }"
-              >
+                }">
                 {{ ticketResolvedStatus[selectedTicket.resloved_status] }}
               </span>
             </div>
@@ -162,10 +155,7 @@
           <div class="col-12" *ngIf="selectedTicket.attachment">
             <div class="modal-field">
               <label>Attachment</label>
-              <img
-                [src]="imageBaseUrl + selectedTicket.attachment"
-                class="modal-attachment"
-              />
+              <img [src]="imageBaseUrl + selectedTicket.attachment" class="modal-attachment" />
             </div>
           </div>
         </div>

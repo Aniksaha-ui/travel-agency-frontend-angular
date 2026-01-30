@@ -16,13 +16,16 @@ export class RefundComponent implements OnInit {
   modal: any;
   imageBaseUrl = environment.imageBaseUrl;
 
-  constructor(private refundService: RefundService, private router: Router) {}
+  constructor(private refundService: RefundService, private router: Router) { }
+
+  isLoading = true;
 
   ngOnInit(): void {
     this.loadRefunds();
   }
 
   loadRefunds(): void {
+    this.isLoading = true;
     this.refundService.findRefunds().subscribe(
       (response: any) => {
         if (response.status === 'success') {
@@ -31,10 +34,12 @@ export class RefundComponent implements OnInit {
           console.error('Failed to load refunds');
           this.refunds = [];
         }
+        this.isLoading = false;
       },
       (error) => {
         console.error('API error:', error);
         this.refunds = [];
+        this.isLoading = false;
       }
     );
   }

@@ -14,13 +14,13 @@ declare var bootstrap: any;
   styleUrls: ['./customer-ticket-list.component.css']
 })
 export class CustomerTicketListComponent {
-    imageBaseUrl = environment.imageBaseUrl;
-  
+  imageBaseUrl = environment.imageBaseUrl;
+
   tickets: any[] = [];
   ticketStatus = ticketStatus;
   ticketResolvedStatus = ticketResolvedStatus;
 
-  constructor(private ticketService: TicketService,private router: Router) {}
+  constructor(private ticketService: TicketService, private router: Router) { }
 
   selectedTicket: any = null;
   modal: any;
@@ -37,18 +37,22 @@ export class CustomerTicketListComponent {
     this.modal.show();
   }
 
+  isLoading = true;
+
   ngOnInit(): void {
+    this.isLoading = true;
     this.ticketService.ticketList().subscribe((response: any) => {
       if (response && response.isExecute === true && response.data.length > 0) {
         this.tickets = response.data ?? [];
       } else {
 
       }
-    });
+      this.isLoading = false;
+    }, () => this.isLoading = false);
   }
 
 
-  addNewTickets(){
-     this.router.navigate(['/add/tickets']);
+  addNewTickets() {
+    this.router.navigate(['/add/tickets']);
   }
 }

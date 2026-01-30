@@ -44,6 +44,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
     private hotelService: HotelServiceService
   ) { }
 
+  isLoadingTours = true;
+  isLoadingHotels = true;
+  isLoadingPackages = true;
+
   ngOnInit(): void {
     this.getAllTourInformation();
     this.getAllPackageInformation();
@@ -57,19 +61,23 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
   }
   getAllPackageInformation() {
+    this.isLoadingPackages = true;
     this.tourService.getAllPackages().subscribe((res: any) => {
       if (res && res.data && res.data.length > 0) {
         this.packages = res.data;
       }
-    });
+      this.isLoadingPackages = false;
+    }, () => this.isLoadingPackages = false);
   }
 
   getAllHotelInformation() {
+    this.isLoadingHotels = true;
     this.hotelService.getHotels({}).subscribe((res: any) => {
       if (res && res.data && res.data.length > 0) {
         this.hotels = res.data;
       }
-    });
+      this.isLoadingHotels = false;
+    }, () => this.isLoadingHotels = false);
   }
 
   toggleComponent(component: string) {
@@ -77,11 +85,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   getAllTourInformation() {
+    this.isLoadingTours = true;
     this.tourService.getAllTours().subscribe((res: any) => {
       if (res && res.data && res.data.length > 0) {
         this.tours = res.data;
       }
-    });
+      this.isLoadingTours = false;
+    }, () => this.isLoadingTours = false);
   }
 
   calculateDateDifference(startDateStr: string, endDateStr: string): number {

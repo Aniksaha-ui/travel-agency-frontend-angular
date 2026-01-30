@@ -25,6 +25,7 @@ import { HotelDetailsComponent } from './Website/hotel/hotel-details/hotel-detai
 import { AddTicketsComponent } from './Website/ticket/add-tickets/add-tickets.component';
 import { CustomerTicketListComponent } from './Website/ticket/customer-ticket-list/customer-ticket-list.component';
 import { FlightSearchResultComponent } from './Website/flight-search-result/flight-search-result.component';
+import { SkeletonComponent } from './shared/skeleton/skeleton.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { FlightSearchResultComponent } from './Website/flight-search-result/flig
     HotelDetailsComponent,
     AddTicketsComponent,
     CustomerTicketListComponent,
-    FlightSearchResultComponent
+    FlightSearchResultComponent,
+    SkeletonComponent
   ],
   imports: [
     BrowserModule,

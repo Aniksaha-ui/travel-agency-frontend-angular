@@ -2,38 +2,17 @@
   <div class="container py-lg-5 py-md-4 py-2">
     <form [formGroup]="tourForm" (ngSubmit)="onSubmit()" class="form-styles">
       <div class="">
-        <label for="inputtextnumber" class="form-label"
-          >&nbsp;&nbsp;&nbsp;Date from:</label
-        >
-        <input
-          type="date"
-          formControlName="start_date"
-          id="dateofbirth"
-          required=""
-        />
+        <label for="inputtextnumber" class="form-label">&nbsp;&nbsp;&nbsp;Date from:</label>
+        <input type="date" formControlName="start_date" id="dateofbirth" required="" />
       </div>
 
       <div class="">
-        <label for="inputtextnumber" class="form-label"
-          >&nbsp;&nbsp;&nbsp;Date to:</label
-        >
-        <input
-          type="date"
-          formControlName="end_date"
-          id="end_date"
-          required=""
-        />
+        <label for="inputtextnumber" class="form-label">&nbsp;&nbsp;&nbsp;Date to:</label>
+        <input type="date" formControlName="end_date" id="end_date" required="" />
       </div>
       <div>
-        <label for="inputtextnumber" class="form-label"
-          >Search Route/Place:</label
-        >
-        <input
-          type="text"
-          formControlName="trip_name"
-          id="trip_name"
-          required=""
-        />
+        <label for="inputtextnumber" class="form-label">Search Route/Place:</label>
+        <input type="text" formControlName="trip_name" id="trip_name" required="" />
       </div>
 
       <button class="btn btn-style" type="submit">Find Tour</button>
@@ -43,10 +22,7 @@
 
 <section class="w3l-index5 pb-5 pt-4">
   <div class="container py-lg-5 py-md-4 py-2">
-    <div
-      class="title-main text-center mx-auto mb-md-5 mb-4"
-      style="max-width: 600px"
-    >
+    <div class="title-main text-center mx-auto mb-md-5 mb-4" style="max-width: 600px">
       <p>Upcoming tours</p>
       <h3 class="title-style">Check Out Our Upcoming Tours</h3>
     </div>
@@ -105,27 +81,25 @@
       </div>
     </div> -->
 
-    <div class="row bg-light px-2 py-3">
+    <div class="row bg-light px-2 py-3" *ngIf="isLoading">
+      <div class="col-md-12 mb-4" *ngFor="let i of [1,2,3]">
+        <app-skeleton type="card" height="250px"></app-skeleton>
+      </div>
+    </div>
+
+    <div class="row bg-light px-2 py-3" *ngIf="!isLoading">
       <div class="col-md-12 mb-4" *ngFor="let tour of tours">
-        <div
-          class="tour-card d-flex flex-column flex-md-row shadow-sm border-0 rounded-4 overflow-hidden"
-          [routerLink]="['/tour', tour.id]"
-          style="cursor: pointer"
-        >
+        <div class="tour-card d-flex flex-column flex-md-row shadow-sm border-0 rounded-4 overflow-hidden"
+          [routerLink]="['/tour', tour.id]" style="cursor: pointer">
           <div class="tour-card-img">
-            <img
-              [src]="
+            <img [src]="
                 tour.image === null
                   ? defultImage
                   : environment.imageBaseUrl + tour.image
-              "
-              class="img-fluid"
-            />
+              " class="img-fluid" />
           </div>
 
-          <div
-            class="p-4 flex-fill d-flex flex-column justify-content-between bg-white"
-          >
+          <div class="p-4 flex-fill d-flex flex-column justify-content-between bg-white">
             <div>
               <h5 class="fw-semibold text-dark mb-2">
                 {{ tour.trip_name }} - Package Tour with Flight and Hotel
@@ -139,7 +113,7 @@
               <p class="text-muted small mb-2">
                 <i class="far fa-clock me-1"></i>
                 {{
-                  calculateDateDifference(tour.start_date, tour.end_date) + 1
+                calculateDateDifference(tour.start_date, tour.end_date) + 1
                 }}
                 Day(s) &nbsp;&nbsp; <i class="fas fa-users me-1"></i> From 2 to
                 6 people
@@ -162,14 +136,10 @@
               </p>
             </div>
 
-            <div
-              class="d-flex justify-content-between align-items-center mt-3 flex-wrap"
-            >
+            <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap">
               <div>
                 <small class="text-muted">Starting From</small><br />
-                <span class="fs-5 fw-bold text-primary"
-                  >BDT {{ tour.price }}</span
-                ><br />
+                <span class="fs-5 fw-bold text-primary">BDT {{ tour.price }}</span><br />
                 <small class="text-muted">Per Person</small>
               </div>
 

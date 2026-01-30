@@ -68,23 +68,13 @@
     color: var(--primary-color) !important;
 }
 
+/* Underline removed for cleaner professional look */
 @media (min-width: 992px) {
-    .nav-link::after {
-        content: '';
-        display: block;
-        width: 0;
-        height: 2px;
-        background: var(--primary-color);
-        transition: width 0.3s;
-        margin-top: 5px;
-        position: absolute;
-        bottom: 5px;
-        left: 0;
-    }
 
-    .nav-link:hover::after,
-    .nav-link.active::after {
-        width: 100%;
+    /* Optional: Add hover scaling or other subtle effect instead if desired, 
+       otherwise just color change is sufficient */
+    .nav-link {
+        transition: color 0.3s ease;
     }
 }
 

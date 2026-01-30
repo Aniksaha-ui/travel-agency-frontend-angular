@@ -20,29 +20,35 @@ export class TourPageComponent implements OnInit {
 
   defultImage = DEFAULT_PACKAGE_IMAGE;
 
-  constructor(private tourService: TourService, private router: Router) {}
+  constructor(private tourService: TourService, private router: Router) { }
   ngOnInit(): void {
     this.getAllTourInformation();
   }
   tours: any = [];
   environment = environment;
 
+  isLoading = true;
+
   getAllTourInformation() {
+    this.isLoading = true;
     this.tourService.getAllTours().subscribe((res: any) => {
       if (res && res.data && res.data.length > 0) {
         this.tours = res.data;
       }
-    });
+      this.isLoading = false;
+    }, () => this.isLoading = false);
   }
 
   onSubmit(): void {
+    this.isLoading = true;
     this.tourService.getAllTours(this.tourForm.value).subscribe((res: any) => {
       if (res && res.data && res.data.length > 0) {
         this.tours = res.data;
       } else {
         this.tours = [];
       }
-    });
+      this.isLoading = false;
+    }, () => this.isLoading = false);
   }
 
   calculateDateDifference(startDateStr: string, endDateStr: string): number {

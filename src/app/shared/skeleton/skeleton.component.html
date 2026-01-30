@@ -1,0 +1,14 @@
+<div class="skeleton-wrapper" *ngFor="let i of items">
+    <!-- Card Style Skeleton (Image + Text) -->
+    <div class="skeleton-card" *ngIf="type === 'card'">
+        <div class="skeleton-image"></div>
+        <div class="skeleton-content">
+            <div class="skeleton-line title"></div>
+            <div class="skeleton-line text"></div>
+            <div class="skeleton-line text short"></div>
+        </div>
+    </div>
+
+    <!-- Simple Rectangle/Text Skeleton -->
+    <div class="skeleton-rect" *ngIf="type !== 'card'" [style.width]="width" [style.height]="height"></div>
+</div>
