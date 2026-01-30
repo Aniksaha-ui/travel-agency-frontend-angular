@@ -1,1 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+/* Global Mobile Adjustments for Bottom Nav */
+@media (max-width: 991px) {
+    body {
+        padding-top: 60px;
+        /* Space for fixed top header */
+        padding-bottom: 80px;
+        /* Space for fixed bottom nav */
+    }
+}

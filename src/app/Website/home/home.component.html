@@ -99,7 +99,7 @@
       </div>
 
       <div class="row g-4">
-        <div class="col-lg-3 col-md-6" *ngFor="let tour of tours">
+        <div class="col-6 col-md-4 col-lg-3" *ngFor="let tour of tours">
           <div class="destination-card" [routerLink]="['/tour', tour.id]">
             <img [src]="tour.image ? environment.imageBaseUrl + tour.image : defultImage" alt="{{ tour.trip_name }}" />
             <div class="destination-overlay">
@@ -137,7 +137,7 @@
     </div>
 
     <div class="row g-4">
-      <div class="col-lg-3 col-md-6" *ngFor="let hotel of hotels">
+      <div class="col-6 col-md-4 col-lg-3" *ngFor="let hotel of hotels">
         <div class="package-card-modern" [routerLink]="['/hotel', hotel.id]" style="cursor:pointer">
           <div class="pkg-img-wrapper">
             <img [src]="hotel.image || defultImage" alt="{{ hotel.name }}">
@@ -167,7 +167,7 @@
   </div>
 
   <div class="row g-4">
-    <div class="col-md-6 col-lg-3" *ngFor="let pack of packages.slice(0, 8)">
+    <div class="col-6 col-md-4 col-lg-3" *ngFor="let pack of packages.slice(0, 8)">
       <div class="package-card-modern" (click)="handlePackageDetails(pack.id)" style="cursor: pointer;">
         <div class="pkg-img-wrapper">
           <img [src]="environment.imageBaseUrl + pack.image" alt="{{ pack.name }}">

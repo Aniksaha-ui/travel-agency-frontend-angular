@@ -351,3 +351,64 @@
     font-size: 1.5rem;
     margin: 0 auto 20px;
 }
+
+/* Mobile Adjustments for 2-column Layout */
+@media (max-width: 768px) {
+
+    /* Destination Cards */
+    .destination-card {
+        height: 180px;
+        /* Reduced from 280px */
+    }
+
+    .destination-overlay {
+        padding: 10px;
+    }
+
+    .destination-overlay h5 {
+        font-size: 0.9rem;
+        margin-bottom: 2px;
+    }
+
+    .destination-overlay .small {
+        font-size: 0.75rem;
+    }
+
+    /* Package/Hotel Cards */
+    .pkg-img-wrapper {
+        height: 120px;
+        /* Reduced from 200px */
+    }
+
+    .pkg-content {
+        padding: 10px;
+    }
+
+    .pkg-title {
+        font-size: 0.85rem;
+        margin-bottom: 5px;
+        -webkit-line-clamp: 2;
+        /* Ensure 2 lines max */
+    }
+
+    .pkg-meta {
+        gap: 5px;
+        font-size: 0.7rem;
+        margin-bottom: 8px;
+        flex-wrap: wrap;
+    }
+
+    .pkg-price-label {
+        font-size: 0.7rem;
+    }
+
+    .pkg-price-val {
+        font-size: 0.95rem;
+    }
+
+    /* Modify button size */
+    .pkg-price-row .btn {
+        padding: 2px 8px;
+        font-size: 0.7rem;
+    }
+}

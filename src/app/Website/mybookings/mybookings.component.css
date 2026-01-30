@@ -95,17 +95,21 @@
 .status.resolved {
   background: #6b4eff;
 }
+
 .status.pending {
   background: #f7b500;
   color: #000;
 }
+
 .status.review {
   background: #4dc9ff;
   color: #000;
 }
+
 .status.success {
   background: #00c853;
 }
+
 .status.fail {
   background: #ff3b3b;
 }
@@ -143,6 +147,7 @@
   color: white;
   transition: 0.2s;
 }
+
 .close-btn:hover {
   background: #6a49ff;
 }
@@ -152,6 +157,7 @@
   font-size: 0.85rem;
   opacity: 0.7;
 }
+
 .modal-field div {
   font-size: 1rem;
   margin-top: 4px;
@@ -171,13 +177,16 @@
   background: #f7b500;
   color: #000;
 }
+
 .status-badge.review {
   background: #4dc9ff;
   color: #000;
 }
+
 .status-badge.success {
   background: #00c853;
 }
+
 .status-badge.fail {
   background: #ff3b3b;
 }
@@ -186,6 +195,7 @@
 .status-badge.resolved {
   background: #7d5bff;
 }
+
 .status-badge.not-resolved {
   background: #555;
 }
@@ -235,4 +245,56 @@
   border-radius: 999px;
   font-size: 0.8rem;
   font-weight: 500;
+}
+
+/* Mobile Adjustments for "At least 2 content" view */
+@media (max-width: 768px) {
+  .ticket-section {
+    padding: 20px 0;
+  }
+
+  .custom-title {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+
+  /* Make cards more compact */
+  .custom-ticket-card {
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  .ticket-header h3 {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+  }
+
+  .remarks {
+    font-size: 0.75rem;
+    line-height: 1.3;
+    margin-bottom: 4px;
+    /* Tighten vertical space */
+  }
+
+  /* Status area adjustment */
+  .ticket-info {
+    margin-top: 10px;
+    flex-direction: column;
+    /* Stack if needed, or keep row */
+    gap: 5px;
+  }
+
+  .seat-badge {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+  }
+
+  .status {
+    font-size: 0.7rem;
+    padding: 4px 8px;
+    text-align: center;
+    width: 100%;
+    /* Full width status for visibility */
+    display: inline-block;
+  }
 }

@@ -4,21 +4,21 @@
       <!-- Title -->
       <div class="col-md-8">
         <div class="custom-title text-md-start text-center">
-          <i class="text-primary text-center" style="font-size: 24px;">My Bookings ({{ bookings.length }})</i> 
+          <i class="text-primary text-center" style="font-size: 24px;">My Bookings ({{ bookings.length }})</i>
         </div>
       </div>
     </div>
 
     <!-- Booking Cards -->
     <div class="row g-4">
-      <div class="col-md-6 col-lg-4" *ngFor="let booking of bookings">
+      <div class="col-6 col-md-6 col-lg-4" *ngFor="let booking of bookings">
         <div class="custom-ticket-card" (click)="openBookingModal(booking)">
           <div class="ticket-header">
             <h3>Booking ID: {{ booking.id }}</h3>
           </div>
 
           <div class="ticket-body">
-            
+
             <p class="remarks" *ngIf="booking.trip_name"><strong>Trip:</strong> {{ booking.trip_name }}</p>
             <p class="remarks" *ngIf="booking.package_name"><strong>Package:</strong> {{ booking.package_name }}</p>
             <p class="remarks" *ngIf="booking.hotel_name"><strong>Hotel:</strong> {{ booking.hotel_name }}</p>
@@ -28,16 +28,13 @@
               {{ booking.created_at | date : "mediumDate" }}
             </p>
 
-             <div class="ticket-info">
+            <div class="ticket-info">
               <span class="seat-badge">Seats: {{ booking.seat_ids || 'N/A' }}</span>
-              <span
-                class="status"
-                [ngClass]="{
+              <span class="status" [ngClass]="{
                   'success': booking.status === 'confirmed',
                   'pending': booking.status === 'pending',
                   'fail': booking.status === 'cancelled'
-                }"
-              >
+                }">
                 {{ booking.status | titlecase }}
               </span>
             </div>
@@ -59,11 +56,7 @@
     <div class="modal-content custom-modal-content">
       <div class="custom-modal-header">
         <h2>Booking Details</h2>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
       <div class="custom-modal-body" *ngIf="selectedBooking">
@@ -79,16 +72,13 @@
             <div class="modal-field">
               <label>Status</label>
               <div>
-                 <span
-                class="status-badge"
-                [ngClass]="{
+                <span class="status-badge" [ngClass]="{
                   'success': selectedBooking.status === 'confirmed',
                   'pending': selectedBooking.status === 'pending',
                   'fail': selectedBooking.status === 'cancelled'
-                }"
-              >
-                {{ selectedBooking.status | titlecase }}
-              </span>
+                }">
+                  {{ selectedBooking.status | titlecase }}
+                </span>
               </div>
             </div>
           </div>
@@ -106,15 +96,15 @@
               <div>{{ selectedBooking.trip_name }}</div>
             </div>
           </div>
-          
-           <div class="col-md-4" *ngIf="selectedBooking.package_name">
+
+          <div class="col-md-4" *ngIf="selectedBooking.package_name">
             <div class="modal-field">
               <label>Package Name</label>
               <div>{{ selectedBooking.package_name }}</div>
             </div>
           </div>
-          
-           <div class="col-md-4" *ngIf="selectedBooking.hotel_name">
+
+          <div class="col-md-4" *ngIf="selectedBooking.hotel_name">
             <div class="modal-field">
               <label>Hotel Name</label>
               <div>{{ selectedBooking.hotel_name }}</div>
@@ -131,25 +121,18 @@
           <!-- Add more fields as needed based on the data structure -->
 
         </div>
-        
+
         <!-- Actions -->
         <div class="modal-actions">
-           <a
-            class="btn-action invoice-btn"
-            [routerLink]="['/book-invoice', selectedBooking.id]"
-            data-bs-dismiss="modal" 
-          >
+          <a class="btn-action invoice-btn" [routerLink]="['/book-invoice', selectedBooking.id]"
+            data-bs-dismiss="modal">
             Invoice
           </a>
 
-          <button
-            *ngIf="
+          <button *ngIf="
               selectedBooking.status !== 'cancelled' &&
               selectedBooking.booking_type !== 'hotel booking'
-            "
-            class="btn-action cancel-btn"
-            (click)="cancelBooking(selectedBooking.id)"
-          >
+            " class="btn-action cancel-btn" (click)="cancelBooking(selectedBooking.id)">
             Cancel Booking
           </button>
         </div>

@@ -1,71 +1,53 @@
-<header id="site-header" class="fixed-top">
+<!-- DESKTOP HEADER (Hidden on mobile) -->
+<header id="site-header" class="fixed-top d-none d-lg-block">
   <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light">
-      <!-- Fix here: properly close the <a> tag -->
-      <button
-        class="navbar-toggler collapsed"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarScroll"
-        aria-controls="navbarScroll"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon fa icon-expand fa-bars"></span>
-        <span class="navbar-toggler-icon fa icon-close fa-times"></span>
-      </button>
+      <a class="navbar-brand" routerLink="/">
+        Travel<span class="logo-accent">Agency</span>
+      </a>
+
       <div class="collapse navbar-collapse" id="navbarScroll">
         <ul class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" routerLink="/"
-              >Home</a
-            >
+            <a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+              routerLink="/">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/about">About</a>
+            <a class="nav-link" routerLinkActive="active" routerLink="/about">About</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/tours">Tours</a>
+            <a class="nav-link" routerLinkActive="active" routerLink="/tours">Tours</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/contact">Contact</a>
+            <a class="nav-link" routerLinkActive="active" routerLink="/contact">Contact</a>
           </li>
           <li class="nav-item" *ngIf="!isLogin">
-            <a class="nav-link" routerLink="/login">Login</a>
+            <a class="nav-link btn-login" routerLink="/login">Login</a>
+          </li>
+          <!-- Logged in items -->
+          <li class="nav-item" *ngIf="isLogin">
+            <a class="nav-link" routerLinkActive="active" routerLink="/my-bookings">Bookings</a>
           </li>
           <li class="nav-item" *ngIf="isLogin">
-            <a class="nav-link" routerLink="/my-bookings">Bookings</a>
+            <a class="nav-link" routerLinkActive="active" routerLink="/refund">Refund</a>
           </li>
           <li class="nav-item" *ngIf="isLogin">
-            <a class="nav-link" routerLink="/refund">Refund</a>
-          </li>
-              <li class="nav-item" *ngIf="isLogin">
-            <a class="nav-link" routerLink="/tickets">Tickets</a>
+            <a class="nav-link" routerLinkActive="active" routerLink="/tickets">Tickets</a>
           </li>
           <li class="nav-item" *ngIf="isLogin">
-            <p (click)="logout()" class="nav-link">Logout</p>
+            <a class="nav-link btn-logout" (click)="logout()">Logout</a>
           </li>
         </ul>
-        <form
-          action="#search"
-          method="GET"
-          class="d-flex search-header ms-lg-2"
-        >
-          <input
-            class="form-control"
-            type="search"
-            placeholder="Enter Keyword..."
-            aria-label="Search"
-            required
-          />
-          <button class="btn btn-style" type="submit">
-            <i class="fas fa-search"></i>
-          </button>
-        </form>
-      </div>
-      <!-- toggle switch for light and dark theme -->
-      <div class="cont-ser-position">
-        <nav class="navigation">
+
+        <div class="d-flex align-items-center search-right">
+          <form action="#search" method="GET" class="search-header position-relative me-3">
+            <input class="form-control" type="search" placeholder="Search..." aria-label="Search" required />
+            <button class="btn btn-search" type="submit">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
+
+          <!-- toggle switch for light and dark theme -->
           <div class="theme-switch-wrapper">
             <label class="theme-switch" for="checkbox">
               <input type="checkbox" id="checkbox" />
@@ -75,9 +57,161 @@
               </div>
             </label>
           </div>
-        </nav>
+        </div>
       </div>
-      <!-- //toggle switch for light and dark theme -->
     </nav>
   </div>
 </header>
+
+<!-- MOBILE HEADER (Fixed Top) -->
+<header class="mobile-top-header fixed-top d-lg-none">
+  <div class="container d-flex justify-content-between align-items-center py-2 h-100">
+    <!-- Left: Hamburger Menu -->
+    <button class="menu-toggle-btn" (click)="toggleMobileMenu()">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Center: Logo -->
+    <a class="navbar-brand mx-auto mobile-brand" routerLink="/">
+      Travel<span class="logo-accent">Agency</span>
+    </a>
+
+    <!-- Right: Spacer or Profile Icon (optional) -->
+    <div style="width: 24px;"></div>
+  </div>
+</header>
+
+<!-- Mobile Side Drawer -->
+<div class="mobile-drawer" [class.open]="isMobileMenuOpen">
+  <div class="drawer-header">
+    <h5 class="mb-0 fw-bold">Menu</h5>
+    <button class="close-drawer-btn" (click)="toggleMobileMenu()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <div class="drawer-body">
+    <ul class="drawer-nav">
+      <li>
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+          (click)="toggleMobileMenu()">
+          <i class="fas fa-home me-3"></i> Home
+        </a>
+      </li>
+      <li>
+        <a routerLink="/tours" routerLinkActive="active" (click)="toggleMobileMenu()">
+          <i class="fas fa-map-marked-alt me-3"></i> Tours
+        </a>
+      </li>
+      <li>
+        <a routerLink="/about" routerLinkActive="active" (click)="toggleMobileMenu()">
+          <i class="fas fa-info-circle me-3"></i> About Us
+        </a>
+      </li>
+      <li>
+        <a routerLink="/contact" routerLinkActive="active" (click)="toggleMobileMenu()">
+          <i class="fas fa-envelope me-3"></i> Contact
+        </a>
+      </li>
+
+      <!-- Auth Required Stuff -->
+      <li *ngIf="isLogin">
+        <hr class="drawer-divider">
+        <span class="drawer-subtitle">My Account</span>
+      </li>
+
+      <li *ngIf="isLogin">
+        <a routerLink="/my-bookings" routerLinkActive="active" (click)="toggleMobileMenu()">
+          <i class="fas fa-ticket-alt me-3"></i> My Bookings
+        </a>
+      </li>
+      <li *ngIf="isLogin">
+        <a routerLink="/tickets" routerLinkActive="active" (click)="toggleMobileMenu()">
+          <i class="fas fa-receipt me-3"></i> Tickets
+        </a>
+      </li>
+      <li *ngIf="isLogin">
+        <a routerLink="/refund" routerLinkActive="active" (click)="toggleMobileMenu()">
+          <i class="fas fa-undo-alt me-3"></i> Refund Request
+        </a>
+      </li>
+
+      <!-- Auth Actions -->
+      <li>
+        <hr class="drawer-divider">
+      </li>
+
+      <li *ngIf="!isLogin">
+        <a routerLink="/login" class="drawer-login-btn" (click)="toggleMobileMenu()">
+          Login / Sign Up
+        </a>
+      </li>
+
+      <li *ngIf="isLogin">
+        <a class="drawer-logout-btn" (click)="logout(); toggleMobileMenu()">
+          <i class="fas fa-sign-out-alt me-2"></i> Logout
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- Drawer Backdrop -->
+<div class="drawer-backdrop" *ngIf="isMobileMenuOpen" (click)="toggleMobileMenu()"></div>
+
+<!-- MOBILE BOTTOM NAVIGATION (Fixed Bottom) -->
+<nav class="mobile-bottom-nav d-lg-none">
+  <!-- LEFT SIDE -->
+  <!-- 1. Home (Always) -->
+  <div class="mobile-nav-item" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+    <div class="nav-icon"><i class="fas fa-home"></i></div>
+    <span class="nav-text">Home</span>
+  </div>
+
+  <!-- 2. About (Always) -->
+  <div class="mobile-nav-item" routerLink="/about" routerLinkActive="active">
+    <div class="nav-icon"><i class="fas fa-info-circle"></i></div>
+    <span class="nav-text">About</span>
+  </div>
+
+  <!-- 3. Tickets (Login Only) -->
+  <div class="mobile-nav-item" *ngIf="isLogin" routerLink="/tickets" routerLinkActive="active">
+    <div class="nav-icon"><i class="fas fa-ticket-alt"></i></div>
+    <span class="nav-text">Tickets</span>
+  </div>
+
+  <!-- CENTER FAB -->
+  <div class="mobile-nav-item center-btn-container">
+    <div class="center-btn" routerLink="/tours">
+      <i class="fas fa-calendar-check"></i>
+    </div>
+  </div>
+
+  <!-- RIGHT SIDE -->
+  <!-- 4. Bookings (Login Only) -->
+  <div class="mobile-nav-item" *ngIf="isLogin" routerLink="/my-bookings" routerLinkActive="active">
+    <!-- Changed icon to suitcase or shopping-bag as per user pref, keeping suitcase for travel -->
+    <div class="nav-icon"><i class="fas fa-suitcase"></i></div>
+    <span class="nav-text">Bookings</span>
+  </div>
+
+  <!-- 5. Refund (Login) OR Contact (Guest) -->
+  <div class="mobile-nav-item" *ngIf="isLogin" routerLink="/refund" routerLinkActive="active">
+    <div class="nav-icon"><i class="fas fa-undo"></i></div>
+    <span class="nav-text">Refund</span>
+  </div>
+  <div class="mobile-nav-item" *ngIf="!isLogin" routerLink="/contact" routerLinkActive="active">
+    <div class="nav-icon"><i class="fas fa-envelope"></i></div>
+    <span class="nav-text">Contact</span>
+  </div>
+
+  <!-- 6. Logout (Login) OR Login (Guest) -->
+  <div class="mobile-nav-item" *ngIf="isLogin" (click)="logout()">
+    <div class="nav-icon"><i class="fas fa-sign-out-alt"></i></div>
+    <span class="nav-text">Logout</span>
+  </div>
+  <div class="mobile-nav-item" *ngIf="!isLogin" routerLink="/login" routerLinkActive="active">
+    <div class="nav-icon"><i class="fas fa-user-circle"></i></div>
+    <span class="nav-text">Login</span>
+  </div>
+</nav>
