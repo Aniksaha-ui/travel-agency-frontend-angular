@@ -1,119 +1,146 @@
-<div class="invoice-page">
-  <div class="invoice-container">
-    <!-- Header -->
-    <div class="invoice-top">
-      <div style="color:white">
-        <h1>Travel Invoice</h1>
-        <p>Issued by TravelInfinityCodeHub</p>
+<div class="invoice-page" style="margin-top: 5%;">
+  <div class="invoice-container" id="invoice-content">
+    <!-- Watermark -->
+    <div class="watermark">
+      <img src="assets/images/map.png" alt="Company Watermark" />
+    </div>
+
+    <!-- Header Section -->
+    <div class="invoice-header">
+      <div class="company-branding">
+        <h1 class="company-name">TravelInfinityCodeHub</h1>
+        <p class="company-details">
+          123 Travel Street, Tech City<br />
+          Dhaka, Bangladesh<br />
+          support@travelinfinity.com
+        </p>
       </div>
-      <div class="invoice-number">
-        <span>Invoice</span>
-        <strong>INV-00{{ invoiceData.booking_id }}</strong>
+      <div class="invoice-title-section">
+        <h2 class="invoice-label">INVOICE</h2>
+        <div class="invoice-meta">
+          <div class="meta-row">
+            <span class="meta-label">Invoice #:</span>
+            <span class="meta-value">INV-{{ invoiceData.booking_id }}</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">Date:</span>
+            <span class="meta-value">{{ invoiceData.booking_status === 'paid' ? 'Paid on ' : 'Issued on ' }} {{
+              invoiceData.departure_time ? (invoiceData.departure_time | date:'mediumDate') : (today |
+              date:'mediumDate') }}</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">Status:</span>
+            <span class="status-badge" [ngClass]="invoiceData.payment_status">
+              {{ invoiceData.payment_status }}
+            </span>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Booking Info -->
-    <div class="invoice-block">
-      <h3>Booking Details</h3>
-      <table class="invoice-table">
+    <hr class="divider" />
+
+    <!-- Bill To Section -->
+    <div class="bill-to-section">
+      <h3 class="section-title">Bill To:</h3>
+      <p class="customer-name">{{ invoiceData.user_name }}</p>
+      <p class="customer-email">{{ invoiceData.user_email }}</p>
+      <p *ngIf="invoiceData.bkash" class="payment-source">
+        Payment Method: {{ invoiceData.payment_method | titlecase }} ({{ invoiceData.bkash }})
+      </p>
+      <p *ngIf="invoiceData.card" class="payment-source">
+        Payment Method: Card (**** **** **** {{ invoiceData.card | slice:-4 }})
+      </p>
+      <p class="transaction-ref">
+        Transaction ID: {{ invoiceData.transaction_reference }}
+      </p>
+    </div>
+
+    <!-- Booking Item Details -->
+    <div class="invoice-items">
+      <table class="items-table">
+        <thead>
+          <tr>
+            <th class="col-desc">Description</th>
+            <th class="col-type">Type</th>
+            <th class="col-details">Details</th>
+            <th class="col-amount">Amount</th>
+          </tr>
+        </thead>
         <tbody>
           <tr>
-            <th>Booking ID</th>
-            <td>{{ invoiceData.booking_id }}</td>
-          </tr>
-          <tr>
-            <th>Booking Type</th>
-            <td class="capitalize">{{ invoiceData.booking_type }}</td>
-          </tr>
+            <td class="col-desc">
+              <div class="item-title">
+                {{ invoiceData.trip_name || invoiceData.hotel_name || invoiceData.package_name }}
+              </div>
+              <div class="item-sub">
+                booking id: #{{ invoiceData.booking_id }}
+              </div>
+            </td>
+            <td class="col-type capitalize">
+              {{ invoiceData.booking_type }}
+            </td>
+            <td class="col-details">
+              <div *ngIf="invoiceData.departure_time">
+                <strong>Travel Date:</strong> {{ invoiceData.departure_time | date:'mediumDate' }}
+              </div>
 
-          <!-- Hotel -->
-          <tr *ngIf="invoiceData.booking_type === 'hotel booking'">
-            <th>Hotel Name</th>
-            <td>{{ invoiceData.hotel_name || 'N/A' }}</td>
-          </tr>
+              <!-- Seat Logic -->
+              <ng-container *ngIf="invoiceData.payment_status === 'paid'; else unpaidSeats">
+                <div *ngIf="invoiceData.seat_numbers">
+                  <strong>Seats:</strong> {{ invoiceData.seat_numbers }}
+                </div>
+                <div *ngIf="invoiceData.booked_seats && !invoiceData.seat_numbers">
+                  <strong>Seats IDs:</strong> {{ invoiceData.booked_seats }}
+                </div>
+              </ng-container>
+              <ng-template #unpaidSeats>
+                <div class="text-danger" *ngIf="invoiceData.booking_type !== 'hotel booking'">
+                  <em>Due to unpaid/cancelled status, seat number is unavailable</em>
+                </div>
+              </ng-template>
 
-          <!-- Trip -->
-          <ng-container *ngIf="invoiceData.booking_type === 'trip'">
-            <tr>
-              <th>Trip Name</th>
-              <td>{{ invoiceData.trip_name || 'N/A' }}</td>
-            </tr>
-            <tr>
-              <th>Departure Time</th>
-              <td>{{ invoiceData.departure_time || 'N/A' }}</td>
-            </tr>
-            <tr>
-              <th>Arrival Time</th>
-              <td>{{ invoiceData.arrival_time || 'N/A' }}</td>
-            </tr>
-            <tr>
-              <th>Seat Numbers</th>
-              <td>{{ invoiceData.seat_numbers || 'N/A' }}</td>
-            </tr>
-          </ng-container>
-
-          <!-- Package -->
-          <tr *ngIf="invoiceData.booking_type === 'package'">
-            <th>Package Name</th>
-            <td>{{ invoiceData.package_name || 'N/A' }}</td>
-          </tr>
-
-          <tr>
-            <th>Booking Status</th>
-            <td class="capitalize">{{ invoiceData.booking_status }}</td>
-          </tr>
-          <tr>
-            <th>Payment Status</th>
-            <td class="capitalize">{{ invoiceData.payment_status }}</td>
-          </tr>
-          <tr>
-            <th>Payment Method</th>
-            <td class="capitalize">{{ invoiceData.payment_method }}</td>
-          </tr>
-          <tr *ngIf="invoiceData.payment_method === 'card' && invoiceData.card">
-            <th>Card</th>
-            <td>•••• •••• •••• {{ invoiceData.card.slice(-4) }}</td>
-          </tr>
-          <tr>
-            <th>Transaction Ref</th>
-            <td>{{ invoiceData.transaction_reference || 'N/A' }}</td>
+              <div *ngIf="invoiceData.hotel_name">
+                <strong>Hotel Booking</strong>
+              </div>
+            </td>
+            <td class="col-amount">
+              {{ invoiceData.total_payment_amount | currency:'BDT':'symbol-narrow' }}
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <!-- Payment -->
-    <div class="invoice-block highlight">
-      <h3>Payment Summary</h3>
-      <table class="invoice-table">
-        <tbody>
-          <tr>
-            <td>
-              {{
-                invoiceData.booking_type === 'hotel booking'
-                  ? 'Hotel Booking Fee'
-                  : invoiceData.booking_type === 'trip'
-                  ? 'Trip Booking Fee'
-                  : 'Package Booking Fee'
-              }}
-            </td>
-            <td class="amount">
-              {{ invoiceData.total_payment_amount }} BDT
-            </td>
-          </tr>
-          <tr class="total">
-            <th>Total Paid</th>
-            <th>{{ invoiceData.total_payment_amount }} BDT</th>
-          </tr>
-        </tbody>
-      </table>
+    <!-- Totals Section -->
+    <div class="invoice-totals">
+      <div class="totals-row">
+        <span>Subtotal:</span>
+        <span>{{ invoiceData.total_payment_amount | currency:'BDT':'symbol-narrow' }}</span>
+      </div>
+      <div class="totals-row">
+        <span>Tax (0%):</span>
+        <span>৳0.00</span>
+      </div>
+      <div class="totals-row grand-total">
+        <span>Total:</span>
+        <span>{{ invoiceData.total_payment_amount | currency:'BDT':'symbol-narrow' }}</span>
+      </div>
     </div>
 
     <!-- Footer -->
-    <div class="invoice-action">
-      <button class="download-btn" (click)="downloadInvoice()">
-        Download Invoice
+    <div class="invoice-footer" data-html2canvas-ignore="true">
+      <p>Thank you for traveling with us!</p>
+
+      <!-- Print/Download Button -->
+      <button class="print-btn" (click)="downloadInvoice()" [disabled]="invoiceData.payment_status !== 'paid'"
+        [title]="invoiceData.payment_status !== 'paid' ? 'Invoice must be paid to download' : 'Download PDF Invoice'">
+        <i class="fa fa-file-pdf-o"></i> Download PDF
       </button>
+
+      <p *ngIf="invoiceData.payment_status !== 'paid'" class="text-danger mt-2 small">
+        * Invoice cannot be downloaded until payment is completed.
+      </p>
     </div>
   </div>
 </div>
