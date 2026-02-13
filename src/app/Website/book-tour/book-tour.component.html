@@ -1,172 +1,111 @@
-<section
-  *ngIf="seatLayout.length !== 0"
-  class="w3l-contact-main"
-  id="contact"
-  style="margin-top: 10%; margin-bottom: 20%"
->
-  <div class="container mt-4">
-    <div class="row">
-      <!-- Seat Layout Section -->
-      <div class="col-md-8">
-        <h3 class="text-center mb-4">Bus Seat Layout</h3>
-        <div class="d-flex justify-content-center">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="bus-layout">
-                <div class="row">
-                  <!-- Display Seat Buttons -->
-                  <div *ngFor="let seat of seatLayout" class="col-3 p-2">
-                    <button
-                      class="btn seat-btn w-100"
-                      (click)="toggleSeat(seat)"
-                      [ngClass]="{
-                        'btn-available':
-                          +seat.is_available === 1 && !isSeatSelected(seat),
-                        'btn-primary': isSeatSelected(seat),
-                        'btn-booked disabled': +seat.is_available === 0
-                      }"
-                    >
-                      {{ seat.seat_number }}
-                    </button>
-                  </div>
-                </div>
-              </div>
+<section class="booking-section">
+  <div class="container">
+    <h2 class="page-title">Complete Your Booking</h2>
+
+    <div class="row" *ngIf="seatLayout.length !== 0">
+      <!-- Bus Layout Section -->
+      <div class="col-lg-7 mb-4">
+        <div class="bus-container">
+          <div class="bus-front">
+            <span class="driver-area">Driver's Seat</span>
+          </div>
+
+          <div class="seat-grid">
+            <button *ngFor="let seat of seatLayout" class="seat-item" (click)="toggleSeat(seat)" [ngClass]="{
+                'seat-available': +seat.is_available === 1 && !isSeatSelected(seat),
+                'seat-selected': isSeatSelected(seat),
+                'seat-booked': +seat.is_available === 0
+              }" [disabled]="+seat.is_available === 0">
+              {{ seat.seat_number }}
+            </button>
+          </div>
+
+          <div class="seat-legend">
+            <div class="legend-item">
+              <div class="legend-marker marker-available"></div>
+              <span>Available</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-marker marker-selected"></div>
+              <span>Selected</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-marker marker-booked"></div>
+              <span>Booked</span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Payment Information Section -->
-      <div class="col-md-4">
-        <h3 class="text-center mb-4">Payment Information</h3>
-        <div class="login-form p-4 border rounded shadow-lg">
-          <h2 class="text-center mb-4">Travel Agency Login</h2>
-          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-            <!-- Total Amount Field -->
-            <div class="mb-3">
-              <label for="payment_amount" class="form-label"
-                >Amount {{ calculateTotalAmount() }}</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                formControlName="amount"
-                id="payment_amount"
-                [value]="calculateTotalAmount()"
-                placeholder="Enter Total Amount"
-              />
-            </div>
+      <!-- Booking Summary & Payment Section -->
+      <div class="col-lg-5">
+        <div class="summary-card">
+          <div class="card-title">
+            <span>Booking Summary</span>
+          </div>
 
-            <!-- Payment Method Select Field -->
-            <div class="mb-3">
-              <label for="payment_method" class="form-label"
-                >Payment Method</label
-              >
-              <select
-                class="form-control"
-                formControlName="payment_method"
-                id="payment_method"
-              >
-                <option value="" disabled selected>
-                  Select Payment Method
-                </option>
+          <div class="selected-seats-container">
+            <span *ngIf="selectedSeats.length === 0" class="text-muted small">Select seats to proceed</span>
+            <div *ngFor="let seat of selectedSeats" class="selected-seat-tag">
+              Seat {{ seat.seat_number }}
+              <span class="remove-icon" (click)="toggleSeat(seat)">×</span>
+            </div>
+          </div>
+
+          <div class="amount-box">
+            <span class="amount-label">Total Payable Amount</span>
+            <span class="amount-value">BDT {{ calculateTotalAmount() }}</span>
+          </div>
+
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <!-- Hidden Amount Field Update -->
+            <input type="hidden" formControlName="amount" [value]="calculateTotalAmount()" />
+
+            <!-- Payment Method -->
+            <div class="form-group">
+              <label for="payment_method" class="form-label">Payment Method</label>
+              <select class="form-select" formControlName="payment_method" id="payment_method">
+                <option value="" disabled selected>Select Payment Method</option>
                 <option value="bkash">Bkash</option>
                 <option value="nagad">Nagad</option>
                 <option value="card">Card</option>
               </select>
             </div>
 
-            <!-- Card Number Field -->
-            <div class="mb-3" *ngIf="loginForm.value.payment_method === 'card'">
+            <!-- Card Number -->
+            <div class="form-group" *ngIf="loginForm.value.payment_method === 'card'">
               <label for="card" class="form-label">Card Number</label>
-              <input
-                type="text"
-                class="form-control"
-                formControlName="card"
-                id="card"
-                placeholder="Enter card number"
-              />
+              <input type="text" class="form-control" formControlName="card" id="card"
+                placeholder="Enter card number" />
             </div>
 
-            <!-- Nagad Number Field -->
-            <div
-              class="mb-3"
-              *ngIf="loginForm.value.payment_method === 'nagad'"
-            >
+            <!-- Nagad Number -->
+            <div class="form-group" *ngIf="loginForm.value.payment_method === 'nagad'">
               <label for="nagad" class="form-label">Nagad Number</label>
-              <input
-                type="text"
-                class="form-control"
-                formControlName="nagad"
-                id="nagad"
-                placeholder="Enter Nagad number"
-              />
+              <input type="text" class="form-control" formControlName="nagad" id="nagad"
+                placeholder="Enter Nagad number" />
             </div>
 
-            <!-- Bkash Number Field -->
-            <div
-              class="mb-3"
-              *ngIf="loginForm.value.payment_method === 'bkash'"
-            >
+            <!-- Bkash Number -->
+            <div class="form-group" *ngIf="loginForm.value.payment_method === 'bkash'">
               <label for="bkash" class="form-label">Bkash Number</label>
-              <input
-                type="text"
-                class="form-control"
-                formControlName="bkash"
-                id="bkash"
-                placeholder="Enter Bkash number"
-              />
+              <input type="text" class="form-control" formControlName="bkash" id="bkash"
+                placeholder="Enter Bkash number" />
             </div>
 
-            <!-- Submit Button -->
-            <button type="submit" class="btn btn-primary w-100">Submit</button>
+            <div class="divider"></div>
+
+            <button type="submit" class="btn-confirm" [disabled]="selectedSeats.length === 0 || loginForm.invalid">
+              Confirm Booking
+            </button>
           </form>
         </div>
       </div>
     </div>
 
-    <!-- Selected Seats Table -->
-    <div class="mt-5">
-      <h4 class="text-center">Selected Seats</h4>
-      <div class="table-responsive">
-        <table class="table table-bordered table-hover text-center">
-          <thead class="table-dark">
-            <tr>
-              <th>#</th>
-              <th>Seat Number</th>
-              <th>Trip ID</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let seat of selectedSeats; let i = index">
-              <td>{{ i + 1 }}</td>
-              <td class="fw-bold text-success">{{ seat.seat_number }}</td>
-              <td>{{ seat.trip_id }}</td>
-              <td>
-                <button
-                  class="btn btn-sm btn-danger"
-                  (click)="toggleSeat(seat)"
-                >
-                  Remove
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div *ngIf="selectedSeats.length === 0" class="text-center text-muted">
-          No seats selected
-        </div>
-      </div>
+    <!-- Empty State -->
+    <div *ngIf="seatLayout.length === 0" class="empty-state">
+      <h3>Seats are not assigned now. Please try again later.</h3>
     </div>
   </div>
-</section>
-
-<section
-  *ngIf="seatLayout.length === 0"
-  class="w3l-contact-main"
-  id="contact"
-  style="margin-top: 10%; margin-bottom: 20%"
->
-  <h3 class="text-center">Seats are not assign now.Please try again later</h3>
 </section>
