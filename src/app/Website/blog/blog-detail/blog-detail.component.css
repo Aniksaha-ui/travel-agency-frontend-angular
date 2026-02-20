@@ -1,0 +1,111 @@
+.blog-detail-section {
+    background-color: #fff;
+}
+
+.breadcrumb-item a {
+    color: #ff4d4d;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.post-header h1 {
+    color: #2d3436;
+    line-height: 1.2;
+}
+
+.author-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.featured-image-wrapper {
+    max-height: 500px;
+}
+
+.featured-image-wrapper img {
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Deep selection for injected HTML content */
+.content-wrapper ::ng-deep {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #444;
+}
+
+.content-wrapper ::ng-deep .blog-post {
+    max-width: 100%;
+}
+
+.content-wrapper ::ng-deep .blog-header {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    color: #2d3436;
+}
+
+.content-wrapper ::ng-deep .blog-subheader {
+    font-size: 1.25rem;
+    color: #636e72;
+    margin-bottom: 2rem;
+    font-weight: 400;
+}
+
+.content-wrapper ::ng-deep .blog-paragraph {
+    margin-bottom: 1.5rem;
+    text-align: justify;
+}
+
+.content-wrapper ::ng-deep .blog-image-wrapper {
+    margin: 2.5rem 0;
+}
+
+.content-wrapper ::ng-deep .blog-image-wrapper img {
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.content-wrapper ::ng-deep .blog-code {
+    background: #2d3436;
+    color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 10px;
+    font-family: 'Fira Code', 'Courier New', monospace;
+    margin: 2rem 0;
+    font-size: 0.95rem;
+    overflow-x: auto;
+}
+
+.content-wrapper ::ng-deep .blog-highlight {
+    background: linear-gradient(135deg, #fff5f5 0%, #fff 100%);
+    border-left: 5px solid #ff4d4d;
+    padding: 2rem;
+    font-style: italic;
+    font-size: 1.3rem;
+    border-radius: 0 12px 12px 0;
+    margin: 3rem 0;
+    color: #ff4d4d;
+    box-shadow: 5px 5px 15px rgba(255, 77, 77, 0.05);
+}
+
+.content-wrapper ::ng-deep h2 {
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+    color: #2d3436;
+}
+
+.badge {
+    padding: 8px 15px;
+    font-weight: 500;
+    border-radius: 20px;
+}
+
+@media (max-width: 768px) {
+    .post-header h1 {
+        font-size: 2.2rem;
+    }
+}

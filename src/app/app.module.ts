@@ -26,6 +26,8 @@ import { AddTicketsComponent } from './Website/ticket/add-tickets/add-tickets.co
 import { CustomerTicketListComponent } from './Website/ticket/customer-ticket-list/customer-ticket-list.component';
 import { FlightSearchResultComponent } from './Website/flight-search-result/flight-search-result.component';
 import { SkeletonComponent } from './shared/skeleton/skeleton.component';
+import { BlogListComponent } from './Website/blog/blog-list/blog-list.component';
+import { BlogDetailComponent } from './Website/blog/blog-detail/blog-detail.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,9 @@ import { SkeletonComponent } from './shared/skeleton/skeleton.component';
     AddTicketsComponent,
     CustomerTicketListComponent,
     FlightSearchResultComponent,
-    SkeletonComponent
+    SkeletonComponent,
+    BlogListComponent,
+    BlogDetailComponent
   ],
   imports: [
     BrowserModule,

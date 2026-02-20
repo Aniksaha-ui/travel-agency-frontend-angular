@@ -1,0 +1,68 @@
+<section class="blog-banner">
+    <div class="container">
+        <div class="banner-content text-center">
+            <h1 class="display-4 fw-bold text-white mb-3">Our Travel Insights</h1>
+            <p class="lead text-white-50">Discover stories, tips, and guides from around the world.</p>
+        </div>
+    </div>
+</section>
+
+<section class="blog-list-section py-5">
+    <div class="container">
+        <div *ngIf="loading" class="row">
+            <div class="col-md-4 mb-4" *ngFor="let i of [1,2,3]">
+                <app-skeleton [height]="'300px'" [width]="'100%'"></app-skeleton>
+            </div>
+        </div>
+
+        <div *ngIf="!loading && blogs.length > 0" class="row">
+            <div class="col-md-4 mb-4" *ngFor="let blog of blogs">
+                <div class="blog-card card h-100 border-0 shadow-sm overflow-hidden" [routerLink]="['/blog', blog.id]">
+                    <div class="card-img-wrapper">
+                        <img [src]="blog.coverImage" class="card-img-top blog-img" [alt]="blog.title">
+                        <div class="category-badge">Travel</div>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="blog-meta mb-2 d-flex align-items-center">
+                            <span class="author-name"><i class="fas fa-user-circle me-1"></i> {{blog.author}}</span>
+                            <span class="mx-2 separator">|</span>
+                            <span class="publish-date"><i class="far fa-calendar-alt me-1"></i> {{blog.publishDate |
+                                date:'mediumDate'}}</span>
+                        </div>
+                        <h5 class="card-title fw-bold mb-3">{{blog.title}}</h5>
+                        <p class="card-text text-muted">{{blog.metaDescription}}</p>
+                        <div class="read-more mt-auto">
+                            <span>Read Story <i class="fas fa-arrow-right ms-1"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="!loading && blogs.length === 0" class="text-center py-5">
+            <img src="assets/images/no-data.svg" alt="No blogs" class="img-fluid mb-3" style="max-height: 200px;">
+            <h3 class="text-muted">No blog posts found.</h3>
+            <p>Check back later for more stories!</p>
+        </div>
+
+        <!-- Pagination -->
+        <nav *ngIf="!loading && lastPage > 1" aria-label="Blog pagination" class="mt-5">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" [class.disabled]="currentPage === 1">
+                    <a class="page-link" (click)="onPageChange(currentPage - 1)" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item" *ngFor="let p of [].constructor(lastPage); let i = index"
+                    [class.active]="currentPage === i + 1">
+                    <a class="page-link" (click)="onPageChange(i + 1)">{{i + 1}}</a>
+                </li>
+                <li class="page-item" [class.disabled]="currentPage === lastPage">
+                    <a class="page-link" (click)="onPageChange(currentPage + 1)" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</section>
