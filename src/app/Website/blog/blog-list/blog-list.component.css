@@ -61,7 +61,8 @@
 
 .blog-meta {
     font-size: 0.85rem;
-    color: #6c757d;
+    color: #333;
+    font-weight: 500;
 }
 
 .author-name i,
@@ -70,7 +71,7 @@
 }
 
 .card-title {
-    color: #2d3436;
+    color: #000;
     line-height: 1.4;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -81,6 +82,7 @@
 
 .card-text {
     font-size: 0.95rem;
+    color: #222 !important;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     line-clamp: 3;

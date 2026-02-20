@@ -18,14 +18,44 @@
     </div>
 
     <div class="row g-4" *ngIf="isLoading">
-      <div class="col-6 col-md-6 col-lg-4" *ngFor="let i of [1,2,3,4,5,6]">
+      <div class="col-12 col-md-6 col-lg-4" *ngFor="let i of [1,2,3,4,5,6]">
         <app-skeleton type="card" height="150px"></app-skeleton>
       </div>
     </div>
 
     <div class="row g-4" *ngIf="!isLoading">
-      <div class="col-6 col-md-6 col-lg-4" *ngFor="let ticket of tickets">
-        <div class="custom-ticket-card" (click)="openTicketModal(ticket)">
+      <div class="col-12 col-md-6 col-lg-4" *ngFor="let ticket of tickets">
+        <div class="custom-ticket-card" [ngClass]="{
+            'status-pending': ticket.resloved_status == 0 || ticket.status == 0,
+            'status-review': ticket.status == 1,
+            'status-success': ticket.resloved_status == 1 || ticket.status == 2,
+            'status-fail': ticket.resloved_status == 2 || ticket.status == 3
+          }" (click)="openTicketModal(ticket)">
+          <!-- Status Seal Watermark -->
+          <div class="status-seal-wrapper" [ngClass]="{
+            pending: ticket.resloved_status == 0 || ticket.status == 0,
+            review: ticket.status == 1,
+            success: ticket.resloved_status == 1 || ticket.status == 2,
+            fail: ticket.resloved_status == 2 || ticket.status == 3
+          }">
+            <svg viewBox="0 0 100 100" class="status-seal">
+              <defs>
+                <path id="circlePath" d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0"></path>
+              </defs>
+              <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2 1"
+                opacity="0.4"></circle>
+              <circle cx="50" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="1" opacity="0.3"></circle>
+              <text class="seal-logo-text">
+                <textPath xlink:href="#circlePath">
+                  TRAVEL AND TOUR • TRAVEL AND TOUR •
+                </textPath>
+              </text>
+              <text x="50" y="54" text-anchor="middle" class="seal-status-text">
+                {{ ticketResolvedStatus[ticket.resloved_status] }}
+              </text>
+            </svg>
+          </div>
+
           <div class="ticket-header">
             <h3>{{ ticket.title }}</h3>
           </div>
@@ -35,20 +65,6 @@
               {{ ticket.remarks || "No remarks available." }}
             </p>
 
-            <div class="ticket-info">
-              <span class="status resolved">
-                {{ ticketResolvedStatus[ticket.resloved_status] }}
-              </span>
-
-              <span class="status" [ngClass]="{
-                  pending: ticket.status === 0,
-                  review: ticket.status === 1,
-                  success: ticket.status === 2,
-                  fail: ticket.status === 3
-                }">
-                {{ ticketStatus[ticket.status] }}
-              </span>
-            </div>
           </div>
         </div>
       </div>

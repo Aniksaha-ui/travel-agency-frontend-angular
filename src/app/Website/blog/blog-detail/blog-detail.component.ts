@@ -43,4 +43,27 @@ export class BlogDetailComponent implements OnInit {
             }
         });
     }
+
+    share(platform: string): void {
+        const url = encodeURIComponent(window.location.href);
+        const title = encodeURIComponent(this.blog.title);
+        let shareUrl = '';
+
+        switch (platform) {
+            case 'facebook':
+                shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+                break;
+            case 'twitter':
+                shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${title}`;
+                break;
+            case 'pinterest':
+                const media = encodeURIComponent(this.blog.coverImage || '');
+                shareUrl = `https://pinterest.com/pin/create/button/?url=${url}&media=${media}&description=${title}`;
+                break;
+        }
+
+        if (shareUrl) {
+            window.open(shareUrl, '_blank', 'noopener,noreferrer');
+        }
+    }
 }
