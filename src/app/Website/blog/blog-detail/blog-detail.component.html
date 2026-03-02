@@ -1,0 +1,63 @@
+<section class="blog-detail-section py-5 mt-5">
+    <div class="container">
+        <div *ngIf="loading" class="row justify-content-center">
+            <div class="col-lg-8">
+                <app-skeleton [height]="'400px'" [width]="'100%'" class="mb-4"></app-skeleton>
+                <app-skeleton [height]="'30px'" [width]="'70%'" class="mb-3"></app-skeleton>
+                <app-skeleton [height]="'20px'" [width]="'50%'" class="mb-5"></app-skeleton>
+                <app-skeleton [height]="'150px'" [width]="'100%'"></app-skeleton>
+            </div>
+        </div>
+
+        <article *ngIf="!loading && blog" class="row justify-content-center">
+            <div class="col-lg-10">
+                <!-- Post Header -->
+                <header class="post-header text-center">
+
+                    <h1 class="display-4 fw-bold">{{blog.title}}</h1>
+                    <div class="post-meta d-flex justify-content-center align-items-center gap-3"
+                        style="margin-bottom: 10%;">
+                        <span class="text-muted">•</span>
+
+                    </div>
+                </header>
+
+                <!-- Featured Image -->
+
+
+                <!-- Post Content -->
+                <div class="post-body">
+                    <div class="content-wrapper" [innerHTML]="safeContent"></div>
+                </div>
+
+                <!-- Post Footer -->
+                <footer class="post-footer mt-5 pt-5 border-top">
+                    <div class="share-box d-flex align-items-center justify-content-between flex-wrap gap-3">
+                        <div class="social-share">
+                            <span class="me-3 fw-bold">Share this story:</span>
+                            <div class="btn-group">
+                                <button class="btn btn-outline-primary btn-sm rounded-circle mx-1"
+                                    (click)="share('facebook')">
+                                    <i class="fab fa-facebook-f"></i>
+                                </button>
+                                <button class="btn btn-outline-info btn-sm rounded-circle mx-1"
+                                    (click)="share('twitter')">
+                                    <i class="fab fa-twitter"></i>
+                                </button>
+                                <button class="btn btn-outline-danger btn-sm rounded-circle mx-1"
+                                    (click)="share('pinterest')">
+                                    <i class="fab fa-pinterest"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </article>
+
+        <div *ngIf="!loading && !blog" class="text-center py-5">
+            <h2>Oops! Blog post not found.</h2>
+            <button class="btn btn-primary mt-3" routerLink="/blogs">Back to Blog</button>
+        </div>
+    </div>
+</section>

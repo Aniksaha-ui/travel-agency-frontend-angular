@@ -1,101 +1,160 @@
 /* Component Styles */
 .flight-search-container {
-    font-family: 'Inter', sans-serif;
-    /* or defaults */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #f4f7fa;
 }
 
-/* Tabs */
-.flight-tab {
-    cursor: pointer;
-    background: white;
-    transition: all 0.2s;
+.extra-small {
+    font-size: 0.75rem;
 }
 
-.flight-tab:hover {
-    background: #f8f9fa;
-}
-
-.flight-tab.active {
-    color: #0d6efd;
-    background: #e7f1ff;
-    border-bottom: 2px solid #0d6efd;
-}
-
-/* Ribbon */
+/* Card Improvements */
 .flight-card {
     position: relative;
-    overflow: visible;
-    /* To allow ribbon to stick out if needed, though here it's fine */
+    border-radius: 12px !important;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
+.flight-card:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Best Deal Ribbon */
 .best-deal-ribbon {
     position: absolute;
-    top: -8px;
-    left: 0;
+    top: -10px;
+    left: 20px;
     background: #28a745;
     color: white;
-    padding: 4px 12px;
+    padding: 4px 15px;
     font-size: 0.75rem;
     font-weight: bold;
-    border-radius: 0 4px 4px 0;
+    border-radius: 5px;
     z-index: 10;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
 }
 
-.best-deal-ribbon::before {
+.best-deal-ribbon::after {
     content: '';
     position: absolute;
-    top: 100%;
-    left: 0;
-    border-top: 8px solid #1e7e34;
-    border-left: 0px solid transparent;
-    border-right: 8px solid transparent;
+    top: 5px;
+    left: -5px;
+    border-top: 10px solid #1e7e34;
+    border-left: 5px solid transparent;
+    z-index: -1;
 }
 
-.bg-light-blue {
-    background-color: #f0f7ff;
+/* Flight Segments */
+.flight-segment {
+    position: relative;
 }
 
-.border-end-lg {
-    border-right: 1px solid #dee2e6;
+.border-bottom-mobile {
+    border-bottom: 1px dashed #eee;
 }
 
-@media (max-width: 991px) {
-    .border-end-lg {
-        border-right: none;
-        border-bottom: 1px solid #dee2e6;
+@media (min-width: 768px) {
+    .border-bottom-mobile {
+        border-bottom: none;
     }
 }
 
-/* Typography */
-.fs-5 {
-    font-size: 1.1rem !important;
+/* Duration Connector */
+.duration-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
 }
 
-.small {
-    font-size: 0.85rem;
+.connector-line {
+    width: 100%;
+    height: 1px;
+    background: #dee2e6;
+    position: relative;
+    margin: 10px 0;
 }
 
-/* Button */
+.connector-line i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 0 5px;
+    color: #adb5bd;
+    font-size: 0.8rem;
+}
+
+/* Price Section */
+.bg-price-section {
+    background-color: #f9fbff;
+    border-radius: 0 0 12px 0;
+}
+
+@media (min-width: 992px) {
+    .bg-price-section {
+        border-radius: 0 12px 12px 0;
+    }
+}
+
+.price-main {
+    color: #0060ff;
+}
+
+/* Buttons */
 .btn-primary {
-    background-color: #0d6efd;
-    border-color: #0d6efd;
-    transition: all 0.3s;
+    background-color: #0060ff;
+    border: none;
+    padding: 10px 20px;
 }
 
-.btn-primary:hover {
-    background-color: #0b5ed7;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(13, 110, 253, 0.2);
+.transition-hover:hover {
+    background-color: #0056e0;
+    transform: translateY(-2px);
+}
+
+.scale-hover {
+    transition: transform 0.2s;
+}
+
+.btn-primary:hover .scale-hover {
+    transform: translateX(3px);
+}
+
+/* Responsive Grid Adjustments */
+@media (max-width: 767px) {
+    .fs-5 {
+        font-size: 1rem !important;
+    }
+
+    .h6 {
+        font-size: 0.85rem !important;
+    }
+
+    .airline-info {
+        flex-direction: row;
+        width: 100%;
+        border-bottom: 1px solid #f0f0f0;
+        padding-bottom: 10px;
+    }
 }
 
 /* Details Panel */
-.nav-pills .nav-link.active {
-    background-color: #0d6efd;
+.shadow-inner {
+    box-shadow: inset 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
-.nav-link {
-    color: #555;
-    font-weight: 500;
-    font-size: 0.9rem;
+.border-bottom-primary {
+    border-bottom: 3px solid #0060ff !important;
+}
+
+.border-start-md {
+    border-left: 1px solid #dee2e6;
+}
+
+@media (max-width: 767px) {
+    .border-start-md {
+        border-left: none;
+    }
 }

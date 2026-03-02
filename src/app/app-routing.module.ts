@@ -15,6 +15,8 @@ import { HotelDetailsComponent } from './Website/hotel/hotel-details/hotel-detai
 import { AddTicketsComponent } from './Website/ticket/add-tickets/add-tickets.component';
 import { CustomerTicketListComponent } from './Website/ticket/customer-ticket-list/customer-ticket-list.component';
 import { OurGuidesComponent } from './Website/our-guides/our-guides.component';
+import { BlogListComponent } from './Website/blog/blog-list/blog-list.component';
+import { BlogDetailComponent } from './Website/blog/blog-detail/blog-detail.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -32,10 +34,12 @@ const routes: Routes = [
   { path: 'add/tickets', component: AddTicketsComponent },
   { path: 'tickets', component: CustomerTicketListComponent },
   { path: 'our-guides', component: OurGuidesComponent },
+  { path: 'blogs', component: BlogListComponent },
+  { path: 'blog/:id', component: BlogDetailComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

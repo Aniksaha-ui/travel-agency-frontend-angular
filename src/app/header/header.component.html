@@ -19,6 +19,9 @@
             <a class="nav-link" routerLinkActive="active" routerLink="/tours">Tours</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" routerLinkActive="active" routerLink="/blogs">Blog</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" routerLinkActive="active" routerLink="/contact">Contact</a>
           </li>
           <li class="nav-item" *ngIf="!isLogin">
@@ -101,6 +104,11 @@
       <li>
         <a routerLink="/tours" routerLinkActive="active" (click)="toggleMobileMenu()">
           <i class="fas fa-map-marked-alt me-3"></i> Tours
+        </a>
+      </li>
+      <li>
+        <a routerLink="/blogs" routerLinkActive="active" (click)="toggleMobileMenu()">
+          <i class="fas fa-blog me-3"></i> Blog
         </a>
       </li>
       <li>

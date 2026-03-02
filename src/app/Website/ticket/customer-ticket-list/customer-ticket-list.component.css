@@ -23,45 +23,161 @@
 
 /* Ticket Card */
 .custom-ticket-card {
-  background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(12px);
-  padding: 22px;
-  border-radius: 18px;
-  border: 1px solid rgba(140, 130, 255, 0.25);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-  transition: all 0.25s ease;
+  background: white;
+  padding: 24px;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   position: relative;
   overflow: hidden;
   user-select: none;
+  border-left: 6px solid #ccc;
+  /* Default */
 }
+
+/* Status-specific card backgrounds - Flatter & Cleaner */
+.custom-ticket-card.status-pending {
+  background: #fffdf5;
+  border-left-color: #f7b500;
+}
+
+.custom-ticket-card.status-success {
+  background: #f8fff9;
+  border-left-color: #00c853;
+}
+
+.custom-ticket-card.status-fail {
+  background: #fffafa;
+  border-left-color: #ff3b3b;
+}
+
+.custom-ticket-card.status-review {
+  background: #f5fcff;
+  border-left-color: #4dc9ff;
+}
+
+.custom-ticket-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.custom-ticket-card.status-pending:hover {
+  box-shadow: 0 15px 35px rgba(247, 181, 0, 0.15);
+}
+
+.custom-ticket-card.status-success:hover {
+  box-shadow: 0 15px 35px rgba(0, 200, 83, 0.15);
+}
+
+.custom-ticket-card.status-fail:hover {
+  box-shadow: 0 15px 35px rgba(255, 59, 59, 0.15);
+}
+
+.custom-ticket-card.status-review:hover {
+  box-shadow: 0 15px 35px rgba(77, 201, 255, 0.15);
+}
+
 
 .custom-ticket-card::before {
   content: "";
   position: absolute;
-  top: -40px;
-  right: -40px;
-  width: 110px;
-  height: 110px;
-  background: rgba(107, 78, 255, 0.2);
+  top: -20px;
+  right: -20px;
+  width: 100px;
+  height: 100px;
+  background: currentColor;
+  opacity: 0.05;
   border-radius: 50%;
-  filter: blur(30px);
+  filter: blur(20px);
   transition: 0.3s;
 }
 
-.custom-ticket-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+.custom-ticket-card:hover::before {
+  opacity: 0.1;
+  width: 120px;
+  height: 120px;
 }
 
-.custom-ticket-card:hover::before {
-  background: rgba(107, 78, 255, 0.35);
+/* Status Seal Watermark - Rounded Sign Style */
+.status-seal-wrapper {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  /* Positioned to the right like a stamp */
+  transform: translateY(-50%) rotate(-15deg);
   width: 140px;
   height: 140px;
-  filter: blur(40px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.12;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  user-select: none;
+}
+
+.custom-ticket-card:hover .status-seal-wrapper {
+  opacity: 0.25;
+  transform: translateY(-55%) rotate(-5deg) scale(1.1);
+}
+
+.status-seal {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.seal-logo-text {
+  font-size: 8.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  fill: currentColor;
+  word-spacing: 2px;
+}
+
+.seal-status-text {
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  fill: currentColor;
+  letter-spacing: 1px;
+}
+
+/* Status Colors for Seal */
+.status-seal-wrapper.pending {
+  color: #f7b500;
+}
+
+.status-seal-wrapper.review {
+  color: #4dc9ff;
+}
+
+.status-seal-wrapper.success {
+  color: #00c853;
+}
+
+.status-seal-wrapper.fail {
+  color: #ff3b3b;
+}
+
+@media (max-width: 576px) {
+  .status-seal-wrapper {
+    width: 110px;
+    height: 110px;
+    right: 5px;
+  }
+
+  .seal-status-text {
+    font-size: 10px;
+  }
 }
 
 /* Header */
+.ticket-header {
+  position: relative;
+  z-index: 1;
+}
+
 .ticket-header h3 {
   font-size: 1.2rem;
   font-weight: 600;
@@ -70,6 +186,11 @@
 }
 
 /* Remarks */
+.ticket-body {
+  position: relative;
+  z-index: 1;
+}
+
 .remarks {
   font-size: 0.9rem;
   color: #555;
@@ -95,17 +216,21 @@
 .status.resolved {
   background: #6b4eff;
 }
+
 .status.pending {
   background: #f7b500;
   color: #000;
 }
+
 .status.review {
   background: #4dc9ff;
   color: #000;
 }
+
 .status.success {
   background: #00c853;
 }
+
 .status.fail {
   background: #ff3b3b;
 }
@@ -143,6 +268,7 @@
   color: white;
   transition: 0.2s;
 }
+
 .close-btn:hover {
   background: #6a49ff;
 }
@@ -152,6 +278,7 @@
   font-size: 0.85rem;
   opacity: 0.7;
 }
+
 .modal-field div {
   font-size: 1rem;
   margin-top: 4px;
@@ -171,13 +298,16 @@
   background: #f7b500;
   color: #000;
 }
+
 .status-badge.review {
   background: #4dc9ff;
   color: #000;
 }
+
 .status-badge.success {
   background: #00c853;
 }
+
 .status-badge.fail {
   background: #ff3b3b;
 }
@@ -186,6 +316,7 @@
 .status-badge.resolved {
   background: #7d5bff;
 }
+
 .status-badge.not-resolved {
   background: #555;
 }
