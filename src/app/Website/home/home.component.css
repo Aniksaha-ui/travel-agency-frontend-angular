@@ -388,6 +388,7 @@
         font-size: 0.85rem;
         margin-bottom: 5px;
         -webkit-line-clamp: 2;
+        line-clamp: 2;
         /* Ensure 2 lines max */
     }
 
@@ -411,4 +412,24 @@
         padding: 2px 8px;
         font-size: 0.7rem;
     }
+}
+
+/* Guide Card Styles */
+.guide-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: #fff;
+}
+
+.guide-card.hover-effect:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+.three-line-clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

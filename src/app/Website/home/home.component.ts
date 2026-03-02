@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { HotelServiceService } from 'src/app/service/hotel-service.service';
 import { TourService } from 'src/app/service/tour.service';
+import { GuideService } from 'src/app/service/guide.service';
 import { DEFAULT_PACKAGE_IMAGE } from 'src/app/utils/constants/constants';
 import { textConstants } from 'src/app/utils/constants/textConstants';
 import { environment } from 'src/environments/environment';
@@ -34,6 +35,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   tours: any = [];
   hotels: any = [];
   packages: any = [];
+  guides: any = [];
   defaultImageForPackage = DEFAULT_PACKAGE_IMAGE;
   environment = environment;
   text = textConstants;
@@ -41,17 +43,20 @@ export class HomeComponent implements OnInit, AfterViewInit {
   constructor(
     private tourService: TourService,
     private router: Router,
-    private hotelService: HotelServiceService
+    private hotelService: HotelServiceService,
+    private guideService: GuideService
   ) { }
 
   isLoadingTours = true;
   isLoadingHotels = true;
   isLoadingPackages = true;
+  isLoadingGuides = true;
 
   ngOnInit(): void {
     this.getAllTourInformation();
     this.getAllPackageInformation();
     this.getAllHotelInformation();
+    this.getAllGuides();
   }
 
   ngAfterViewInit(): void {
@@ -137,5 +142,16 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   handlePackageDetails(packageId: any) {
     this.router.navigateByUrl(`/package/details/${packageId}`);
+  }
+
+  getAllGuides() {
+    this.isLoadingGuides = true;
+    this.guideService.getGuides().subscribe((res: any) => {
+      console.log('Guides:', res);
+      if (res && res.data && res.data.data && res.data.data.length > 0) {
+        this.guides = res.data.data.slice(0, 6);
+      }
+      this.isLoadingGuides = false;
+    }, () => this.isLoadingGuides = false);
   }
 }

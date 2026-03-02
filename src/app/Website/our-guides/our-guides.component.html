@@ -1,0 +1,60 @@
+
+<div class="container py-5 my-5">
+  <div class="section-header text-center mb-5">
+    <h3 class="section-title">All Our Guides</h3>
+    <p class="section-subtitle">Meet the team of professionals dedicated to making your travel experience exceptional.</p>
+  </div>
+
+  <!-- Loading Skeleton -->
+  <div class="row g-4" *ngIf="isLoading">
+    <div class="col-md-6 col-lg-4" *ngFor="let i of [1,2,3,4,5,6]">
+      <app-skeleton type="card" height="150px"></app-skeleton>
+    </div>
+  </div>
+
+  <!-- Guides List -->
+  <div class="row g-4" *ngIf="!isLoading">
+    <div class="col-md-6 col-lg-3" *ngFor="let guide of guides">
+      <div class="guide-card card border-0 shadow-sm h-100 p-3 hover-effect">
+        <div class="text-center mb-3">
+            <img [src]="'https://ui-avatars.com/api/?name=' + guide.name + '&background=0D8ABC&color=fff&size=128'" 
+                 alt="{{ guide.name }}" 
+                 class="rounded-circle object-fit-cover shadow-sm" 
+                 width="100" height="100">
+        </div>
+        
+        <div class="text-center">
+            <h5 class="card-title fw-bold mb-1">{{ guide.name }}</h5>
+            
+            <div class="d-flex justify-content-center align-items-center gap-2 mb-2 text-warning small">
+            <i class="fas fa-star"></i>
+            <span class="text-dark fw-semibold">{{ guide.rating || 'New' }}</span>
+            </div>
+            
+            <p class="card-text text-muted small mb-3 three-line-clamp" [title]="guide.bio">
+            {{ guide.bio }}
+            </p>
+        </div>
+
+        <div class="mt-auto pt-3 border-top small text-muted">
+          <div class="d-flex justify-content-between mb-1" *ngIf="guide.phone">
+              <span><i class="fas fa-phone me-1"></i> Phone:</span>
+              <span class="text-dark">{{ guide.phone }}</span>
+          </div>
+          <div class="d-flex justify-content-between" *ngIf="guide.email">
+              <span><i class="fas fa-envelope me-1"></i> Email:</span>
+              <span class="text-dark text-truncate" style="max-width: 150px;" [title]="guide.email">{{ guide.email }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="col-12 text-center py-5" *ngIf="guides.length === 0">
+        <div class="text-muted">
+            <i class="fas fa-users-slash fa-3x mb-3"></i>
+            <p>No guides found at the moment.</p>
+        </div>
+    </div>
+  </div>
+</div>

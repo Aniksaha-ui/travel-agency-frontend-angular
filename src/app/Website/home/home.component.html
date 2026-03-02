@@ -224,6 +224,59 @@
   </div>
 </div>
 
+
+<!-- Guides Section -->
+<section class="py-5">
+  <div class="container py-4">
+    <div class="d-flex justify-content-between align-items-end mb-4">
+      <div class="section-header text-start mb-0">
+        <h3 class="section-title">Meet Our Expert Guides</h3>
+        <p class="section-subtitle">Professional guides to make your journey memorable</p>
+      </div>
+      <a routerLink="/our-guides" class="btn btn-outline-primary rounded-pill px-4">View All Guides</a>
+    </div>
+
+    <!-- Guides Loading Skeleton -->
+    <div class="row g-4" *ngIf="isLoadingGuides">
+      <div class="col-md-6 col-lg-4" *ngFor="let i of [1,2,3]">
+        <app-skeleton type="card" height="150px"></app-skeleton>
+      </div>
+    </div>
+
+    <div class="row g-4" *ngIf="!isLoadingGuides">
+      <div class="col-md-6 col-lg-4" *ngFor="let guide of guides">
+        <div class="guide-card card border-0 shadow-sm h-100 p-3 hover-effect">
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <div class="flex-shrink-0">
+              <img [src]="'https://ui-avatars.com/api/?name=' + guide.name + '&background=0D8ABC&color=fff&size=128'" 
+                   alt="{{ guide.name }}" 
+                   class="rounded-circle object-fit-cover" 
+                   width="80" height="80">
+            </div>
+            <div class="flex-grow-1">
+              <h5 class="card-title fw-bold mb-1 text-dark">{{ guide.name }}</h5>
+              <div class="d-flex align-items-center gap-1 mb-2 small">
+                <div class="text-warning">
+                  <i *ngFor="let star of [1, 2, 3, 4, 5]" 
+                     [class]="star <= (guide.rating || 0) ? 'fas fa-star' : 'far fa-star'"></i>
+                </div>
+                <span class="text-dark fw-semibold ms-1">{{ guide.rating || 'New' }}</span>
+              </div>
+              <p class="card-text text-dark small mb-0 three-line-clamp" [title]="guide.bio">
+                {{ guide.bio }}
+              </p>
+            </div>
+          </div>
+          <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center small text-dark">
+            <span *ngIf="guide.email"><i class="fas fa-envelope me-1"></i> Contact</span>
+            <span *ngIf="guide.phone"><i class="fas fa-phone me-1"></i> Available</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- Features Section (Why Choose Us) -->
 <section class="py-5 bg-light">
   <div class="container py-4">

@@ -14,6 +14,7 @@ import { TourPageComponent } from './Website/tour-page/tour-page.component';
 import { HotelDetailsComponent } from './Website/hotel/hotel-details/hotel-details.component';
 import { AddTicketsComponent } from './Website/ticket/add-tickets/add-tickets.component';
 import { CustomerTicketListComponent } from './Website/ticket/customer-ticket-list/customer-ticket-list.component';
+import { OurGuidesComponent } from './Website/our-guides/our-guides.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -30,6 +31,7 @@ const routes: Routes = [
   { path: 'refund', component: RefundComponent },
   { path: 'add/tickets', component: AddTicketsComponent },
   { path: 'tickets', component: CustomerTicketListComponent },
+  { path: 'our-guides', component: OurGuidesComponent },
 ];
 
 @NgModule({
