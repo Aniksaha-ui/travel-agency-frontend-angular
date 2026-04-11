@@ -1,0 +1,135 @@
+.recent-activity-section {
+    padding: 60px 0;
+    background: #ffffff;
+    border-top: 1px solid #f1f2f6;
+}
+
+.activity-header {
+    margin-bottom: 40px;
+    text-align: left;
+}
+
+.live-indicator {
+    display: inline-flex;
+    align-items: center;
+    background: #fff0f0;
+    padding: 4px 12px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+}
+
+.live-indicator .dot {
+    height: 6px;
+    width: 6px;
+    background-color: #ff4757;
+    border-radius: 50%;
+    margin-right: 8px;
+    animation: pulse 2s infinite;
+}
+
+.live-indicator .text {
+    color: #ff4757;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+.subtitle {
+    display: none; /* Cleaner look for trip page */
+}
+
+.activity-grid {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 10px 5px 30px;
+    scrollbar-width: none; /* Firefox */
+}
+
+.activity-grid::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+}
+
+.activity-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-width: 300px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+    border: 1px solid #f1f2f6;
+    transition: all 0.2s ease;
+}
+
+.activity-card:hover {
+    border-color: #3498db;
+    transform: translateY(-2px);
+}
+
+.activity-icon {
+    width: 44px;
+    height: 44px;
+    background: #f8f9fa;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.activity-message {
+    color: #444;
+    font-weight: 500;
+    margin-bottom: 4px;
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+.activity-time {
+    color: #999;
+    font-size: 0.75rem;
+}
+
+/* Skeleton */
+.loading-skeleton {
+    display: flex;
+    gap: 20px;
+}
+
+.skeleton-card {
+    min-width: 300px;
+    height: 80px;
+    background: #f8f9fa;
+    border-radius: 12px;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.4; }
+    100% { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+    .recent-activity-section {
+        padding: 40px 0;
+    }
+    .title {
+        font-size: 1.5rem;
+    }
+    .activity-card {
+        min-width: 260px;
+    }
+}

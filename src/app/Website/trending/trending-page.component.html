@@ -1,0 +1,77 @@
+<div class="trending-page">
+    <!-- Hero Header -->
+    <header class="page-hero">
+        <div class="container text-center">
+            <span class="badge-trending mb-3 animate__animated animate__fadeInDown">
+                <i class="fas fa-crown me-2"></i> COMMUNITY FAVORITES
+            </span>
+            <h1 class="page-title animate__animated animate__fadeInUp">People’s Favorite Packages</h1>
+            <p class="page-subtitle animate__animated animate__fadeInUp animate__delay-1s">
+                Discover the most booked and highly-rated experiences by our community.
+            </p>
+        </div>
+    </header>
+
+    <div class="container py-5 content-area">
+        <!-- Error State -->
+        <div class="error-container text-center py-5" *ngIf="hasError">
+            <div class="error-icon mb-4">
+                <i class="fas fa-exclamation-circle"></i>
+            </div>
+            <h3>Something went wrong</h3>
+            <p class="text-muted">We couldn't load the trending packages at this moment.</p>
+            <button class="btn btn-primary rounded-pill px-5" (click)="fetchTrending()">Retry</button>
+        </div>
+
+        <!-- Loading State -->
+        <div class="row g-4" *ngIf="isLoading">
+            <div class="col-md-6 col-lg-4" *ngFor="let i of [1,2,3,4,5,6]">
+                <div class="skeleton-card"></div>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-container text-center py-5" *ngIf="!isLoading && trendingPackages.length === 0 && !hasError">
+            <div class="empty-icon mb-4">
+                <i class="fas fa-box-open"></i>
+            </div>
+            <h3>No Favorite Packages Yet</h3>
+            <p class="text-muted">Check back later for trending deals.</p>
+        </div>
+
+        <!-- Grid View -->
+        <div class="row g-4" *ngIf="!isLoading && trendingPackages.length > 0">
+            <div class="col-md-6 col-lg-4" *ngFor="let pkg of trendingPackages; let i = index">
+                <div class="pkg-card shadow-sm" (click)="goToDetails(pkg.id)" [style.animation-delay]="(i * 0.1) + 's'">
+                    <div class="img-container">
+                        <img [src]="pkg.image ? (pkg.image.startsWith('http') ? pkg.image : environment.imageBaseUrl + pkg.image) : defaultImage" 
+                             [alt]="pkg.name" 
+                             class="pkg-img">
+                        <div class="booking-count">
+                            <i class="fas fa-users me-1"></i> {{ pkg.booking_count }} Happy Travelers
+                        </div>
+                    </div>
+                    <div class="pkg-body">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="category-badge">Trending Deal</span>
+                            <div class="rating-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <h3 class="pkg-title">{{ pkg.name }}</h3>
+                        <div class="pkg-footer">
+                            <span class="price-info">Verified Selection</span>
+                            <button class="btn-more">
+                                View Details <i class="fas fa-chevron-right ms-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+<section class="recent-activity-section" *ngIf="activities.length > 0 || isLoading">
+  <div class="container">
+    <div class="activity-header">
+      <div class="live-indicator">
+        <span class="dot"></span>
+        <span class="text">LIVE UPDATES</span>
+      </div>
+      <h2 class="title">Social Proof: Recent Bookings</h2>
+      <p class="subtitle">Join thousands of happy travelers who just booked their dream vacation.</p>
+    </div>
+
+    <div class="activity-grid" *ngIf="!isLoading && activities.length > 0">
+      <div class="activity-card" *ngFor="let activity of activities; let i = index" [style.animation-delay]="(i * 0.1) + 's'">
+        <div class="activity-icon">
+          <img [src]="activity.avatar" alt="user" class="avatar">
+        </div>
+        <div class="activity-content">
+          <p class="activity-message">{{ activity.message }}</p>
+          <span class="activity-time">
+            <i class="far fa-clock"></i> {{ activity.time_ago }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="error-msg text-center py-4" *ngIf="hasError">
+        <p class="text-muted small">Unable to load live updates. Please try refreshing.</p>
+        <button class="btn btn-sm btn-outline-primary" (click)="fetchActivities()">Try Again</button>
+    </div>
+
+    <div class="loading-skeleton" *ngIf="isLoading">
+        <div class="skeleton-card" *ngFor="let i of [1,2,3,4,5,6]"></div>
+    </div>
+  </div>
+</section>

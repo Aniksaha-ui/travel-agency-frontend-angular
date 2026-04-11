@@ -55,4 +55,28 @@ export class CustomerTicketListComponent {
   addNewTickets() {
     this.router.navigate(['/add/tickets']);
   }
+
+  getDisplayStatus(ticket: any): string {
+    const rStatus = Number(ticket.resloved_status);
+    const status = Number(ticket.status);
+
+    if (rStatus === 2 && status === 2) {
+      return 'declined';
+    } else if (rStatus === 1 && status === 0) {
+      return 'pending';
+    } else if (rStatus === 1 && status === 2) {
+      return 'resolved!';
+    }
+
+    // Fallback to original status if no match
+    return this.ticketStatus[status] || 'unknown';
+  }
+
+  getStatusClass(ticket: any): string {
+    const statusText = this.getDisplayStatus(ticket).toLowerCase();
+    if (statusText.includes('declined')) return 'status-declined';
+    if (statusText.includes('resolved')) return 'status-resolved';
+    if (statusText.includes('pending')) return 'status-pending';
+    return '';
+  }
 }

@@ -17,6 +17,7 @@ import { CustomerTicketListComponent } from './Website/ticket/customer-ticket-li
 import { OurGuidesComponent } from './Website/our-guides/our-guides.component';
 import { BlogListComponent } from './Website/blog/blog-list/blog-list.component';
 import { BlogDetailComponent } from './Website/blog/blog-detail/blog-detail.component';
+import { TrendingPageComponent } from './Website/trending/trending-page.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -36,6 +37,7 @@ const routes: Routes = [
   { path: 'our-guides', component: OurGuidesComponent },
   { path: 'blogs', component: BlogListComponent },
   { path: 'blog/:id', component: BlogDetailComponent },
+  { path: 'trending', component: TrendingPageComponent },
 ];
 
 @NgModule({
