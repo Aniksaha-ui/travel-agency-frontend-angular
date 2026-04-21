@@ -11,13 +11,13 @@
 
     <!-- Booking Cards -->
     <div class="row g-4" *ngIf="isLoading">
-      <div class="col-6 col-md-6 col-lg-4" *ngFor="let i of [1,2,3,4,5,6]">
+      <div class="col-12 col-md-6 col-lg-4" *ngFor="let i of [1,2,3,4,5,6]">
         <app-skeleton type="card" height="160px"></app-skeleton>
       </div>
     </div>
 
     <div class="row g-4" *ngIf="!isLoading">
-      <div class="col-6 col-md-6 col-lg-4" *ngFor="let booking of bookings">
+      <div class="col-12 col-md-6 col-lg-4" *ngFor="let booking of bookings">
         <div class="custom-ticket-card" (click)="openBookingModal(booking)">
           <div class="ticket-header">
             <h3>Booking ID: {{ booking.id }}</h3>
