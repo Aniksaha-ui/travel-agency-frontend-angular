@@ -6,12 +6,30 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { inject } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   private getAccessToken(): string | null {
-    return localStorage.getItem('access_token');
+    const token =
+      localStorage.getItem('access_token') ||
+      localStorage.getItem('accessToken') ||
+      localStorage.getItem('token') ||
+      localStorage.getItem('auth_token');
+
+    return token ? token.replace(/^"|"$/g, '').trim() : null;
+  }
+
+  private shouldAttachToken(requestUrl: string): boolean {
+    const apiUrl = new URL(environment.apiBaseUrl, window.location.origin);
+    const normalizedRequestUrl = new URL(requestUrl, window.location.origin);
+    const apiPathPrefix = apiUrl.pathname.replace(/\/+$/, '');
+
+    return (
+      normalizedRequestUrl.href.startsWith(environment.apiBaseUrl) ||
+      normalizedRequestUrl.pathname.startsWith(`${apiPathPrefix}/`) ||
+      normalizedRequestUrl.pathname === apiPathPrefix
+    );
   }
 
   intercept(
@@ -20,7 +38,7 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     const token = this.getAccessToken();
 
-    if (token) {
+    if (token && this.shouldAttachToken(req.url) && !req.headers.has('Authorization')) {
       const clonedRequest = req.clone({
         setHeaders: {
           Authorization: `Bearer ${token}`,

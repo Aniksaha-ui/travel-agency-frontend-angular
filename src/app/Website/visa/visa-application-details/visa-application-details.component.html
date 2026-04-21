@@ -1,0 +1,207 @@
+<section class="visa-details-shell">
+  <div class="container">
+    <div class="loading-card" *ngIf="isLoading"></div>
+
+    <ng-container *ngIf="!isLoading && application as visaApplication">
+      <div class="banner banner-success" *ngIf="paymentNotice">
+        Payment status: {{ paymentNotice | titlecase }}
+      </div>
+
+      <div class="banner banner-error" *ngIf="loadError">
+        {{ loadError }}
+      </div>
+
+      <div class="details-head">
+        <div>
+          <span class="page-kicker">Visa Application Details</span>
+          <h1>{{ getApplicationReference() }}</h1>
+          <p>
+            {{ visaApplication.country_name || "Destination not available" }} •
+            {{ visaApplication.visa_name || "Visa type not available" }}
+          </p>
+        </div>
+
+        <div class="head-actions">
+          <span class="status-pill" [ngClass]="getStatusClass(visaApplication.status)">
+            {{ getStatusLabel(visaApplication.status) }}
+          </span>
+
+          <a
+            *ngIf="canContinueProcessing()"
+            routerLink="/visa/apply"
+            [queryParams]="{ applicationId: visaApplication.id }"
+            class="btn btn-style"
+          >
+            Continue Process
+          </a>
+        </div>
+      </div>
+
+      <div class="summary-grid">
+        <div class="summary-card">
+          <span class="section-kicker">Applicant</span>
+          <div class="info-pair">
+            <span>Full Name</span>
+            <strong>{{ visaApplication.applicant_info?.full_name || "Not Provided" }}</strong>
+          </div>
+          <div class="info-pair">
+            <span>Passport</span>
+            <strong>{{ maskPassport(visaApplication.applicant_info?.passport_number) }}</strong>
+          </div>
+          <div class="info-pair">
+            <span>Expiry</span>
+            <strong>
+              {{
+                visaApplication.applicant_info?.passport_expiry
+                  ? (visaApplication.applicant_info?.passport_expiry | date : "mediumDate")
+                  : "Not Provided"
+              }}
+            </strong>
+          </div>
+          <div class="info-pair">
+            <span>Contact</span>
+            <strong>{{ visaApplication.applicant_info?.phone || visaApplication.applicant_info?.email || "Not Provided" }}</strong>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <span class="section-kicker">Application</span>
+          <div class="info-pair">
+            <span>Status</span>
+            <strong>{{ getStatusLabel(visaApplication.status) }}</strong>
+          </div>
+          <div class="info-pair">
+            <span>Booking ID</span>
+            <strong>{{ visaApplication.booking_id || "N/A" }}</strong>
+          </div>
+          <div class="info-pair">
+            <span>Package Booking ID</span>
+            <strong>{{ visaApplication.package_booking_id || "N/A" }}</strong>
+          </div>
+          <div class="info-pair">
+            <span>Officer</span>
+            <strong>{{ visaApplication.assigned_officer_name || "Not Assigned" }}</strong>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <span class="section-kicker">Payment</span>
+          <div class="info-pair">
+            <span>Status</span>
+            <strong>{{ getPaymentStatusLabel(visaApplication.payment_status || getLatestPayment()?.payment_status) }}</strong>
+          </div>
+          <div class="info-pair">
+            <span>Amount</span>
+            <strong>{{ getLatestPayment()?.amount || "N/A" }}</strong>
+          </div>
+          <div class="info-pair">
+            <span>Reference</span>
+            <strong>{{ getLatestPayment()?.transaction_reference || "N/A" }}</strong>
+          </div>
+          <div class="info-pair">
+            <span>Method</span>
+            <strong>{{ getLatestPayment()?.payment_method || "N/A" }}</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-grid">
+        <div class="main-column">
+          <section class="content-card">
+            <span class="section-kicker">Uploaded Documents</span>
+            <div class="document-list" *ngIf="visaApplication.documents?.length; else noDocuments">
+              <article class="document-item" *ngFor="let document of visaApplication.documents">
+                <div>
+                  <h3>{{ document.document_type }}</h3>
+                  <p>{{ document.remarks || "No remarks provided." }}</p>
+                  <small *ngIf="document.reviewed_by_name">Reviewed by {{ document.reviewed_by_name }}</small>
+                </div>
+
+                <div class="document-actions">
+                  <span class="status-pill small" [ngClass]="getDocumentStatusClass(document.status)">
+                    {{ document.status | titlecase }}
+                  </span>
+                  <a
+                    *ngIf="getDocumentUrl(document)"
+                    [href]="getDocumentUrl(document)"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="action-link"
+                  >
+                    View File
+                  </a>
+                </div>
+              </article>
+            </div>
+
+            <ng-template #noDocuments>
+              <div class="empty-box">No documents uploaded for this application yet.</div>
+            </ng-template>
+          </section>
+
+          <section class="content-card">
+            <span class="section-kicker">Status Timeline</span>
+            <div class="timeline" *ngIf="visaApplication.status_logs?.length; else noTimeline">
+              <div class="timeline-item" *ngFor="let log of visaApplication.status_logs">
+                <div class="timeline-dot"></div>
+                <div class="timeline-copy">
+                  <h3>{{ getStatusLogTitle(log) }}</h3>
+                  <p>{{ log.note || "Status updated in the visa workflow." }}</p>
+                  <small>
+                    {{ log.created_at | date : "medium" }}
+                    <ng-container *ngIf="log.changed_by_name">• {{ log.changed_by_name }}</ng-container>
+                  </small>
+                </div>
+              </div>
+            </div>
+
+            <ng-template #noTimeline>
+              <div class="empty-box">No timeline entries are available for this application yet.</div>
+            </ng-template>
+          </section>
+        </div>
+
+        <aside class="side-column">
+          <section class="content-card">
+            <span class="section-kicker">Customer Notes</span>
+            <p class="notes-text">
+              {{ visaApplication.remarks || "No customer remarks were submitted with this application." }}
+            </p>
+          </section>
+
+          <section class="content-card">
+            <span class="section-kicker">Required Document Rules</span>
+            <ul class="requirements-list" *ngIf="visaApplication.required_documents?.length; else noRules">
+              <li *ngFor="let requirement of visaApplication.required_documents">
+                {{ requirement.document_name }}
+              </li>
+            </ul>
+
+            <ng-template #noRules>
+              <div class="empty-box">No document rules are attached to this visa application.</div>
+            </ng-template>
+          </section>
+
+          <section class="content-card">
+            <span class="section-kicker">Quick Actions</span>
+            <div class="action-stack">
+              <a routerLink="/visa" class="btn btn-outline-secondary rounded-pill px-4">Back to Panel</a>
+              <a
+                *ngIf="canContinueProcessing()"
+                routerLink="/visa/apply"
+                [queryParams]="{ applicationId: visaApplication.id }"
+                class="btn btn-style"
+              >
+                Continue Process
+              </a>
+            </div>
+          </section>
+        </aside>
+      </div>
+    </ng-container>
+
+    <div class="empty-box" *ngIf="!isLoading && !application && !loadError">
+      Visa application not found.
+    </div>
+  </div>
+</section>

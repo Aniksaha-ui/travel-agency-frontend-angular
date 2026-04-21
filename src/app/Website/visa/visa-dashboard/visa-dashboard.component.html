@@ -1,0 +1,133 @@
+<section class="visa-dashboard-shell">
+  <div class="container">
+    <div class="page-hero">
+      <div class="hero-copy">
+        <span class="hero-kicker">Customer Visa Panel</span>
+        <h1>Follow the documented visa process from draft to payment.</h1>
+        <p>
+          Browse countries and visa types, create a draft, add applicant details, upload required
+          documents, submit, and pay from one secure customer workspace.
+        </p>
+
+        <div class="hero-actions">
+          <a routerLink="/visa/apply" class="btn btn-style">Start New Visa Application</a>
+          <a routerLink="/tickets" class="btn btn-outline-secondary rounded-pill px-4">
+            Need Support
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-panel">
+        <h3>Process Order</h3>
+        <ol>
+          <li>Create visa application draft</li>
+          <li>Add applicant information</li>
+          <li>Upload required documents</li>
+          <li>Submit application</li>
+          <li>Pay visa fee</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="notice-banner" *ngIf="paymentNotice">
+      Payment status: {{ paymentNotice | titlecase }}
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span>Total Cases</span>
+        <strong>{{ totalCases }}</strong>
+      </div>
+      <div class="stat-card">
+        <span>Active Cases</span>
+        <strong>{{ activeCases }}</strong>
+      </div>
+      <div class="stat-card">
+        <span>Needs Action</span>
+        <strong>{{ needsActionCount }}</strong>
+      </div>
+      <div class="stat-card">
+        <span>Approved</span>
+        <strong>{{ approvedCount }}</strong>
+      </div>
+    </div>
+
+    <div class="section-head">
+      <div>
+        <span class="section-kicker">Applications</span>
+        <h2>Your Visa Applications</h2>
+      </div>
+
+      <div class="filter-group">
+        <button
+          *ngFor="let filter of filters"
+          type="button"
+          class="filter-chip"
+          [class.active]="activeFilter === filter.value"
+          (click)="setFilter(filter.value)"
+        >
+          {{ filter.label }}
+        </button>
+      </div>
+    </div>
+
+    <div class="error-banner" *ngIf="loadError">
+      {{ loadError }}
+    </div>
+
+    <div class="loading-grid" *ngIf="isLoading">
+      <div class="loading-card" *ngFor="let item of [1, 2, 3]"></div>
+    </div>
+
+    <div class="applications-grid" *ngIf="!isLoading && filteredApplications.length > 0">
+      <article class="application-card" *ngFor="let application of filteredApplications">
+        <div class="card-head">
+          <div>
+            <span class="card-kicker">{{ getApplicationReference(application) }}</span>
+            <h3>{{ application.country_name || "Visa Destination" }}</h3>
+            <p>{{ application.visa_name || "Visa Type" }}</p>
+          </div>
+
+          <span class="status-pill" [ngClass]="getStatusClass(application.status)">
+            {{ getStatusLabel(application.status) }}
+          </span>
+        </div>
+
+        <div class="meta-grid">
+          <div>
+            <span class="meta-label">Applied</span>
+            <strong>{{ application.applied_at ? (application.applied_at | date : "mediumDate") : "Draft" }}</strong>
+          </div>
+          <div>
+            <span class="meta-label">Officer</span>
+            <strong>{{ application.assigned_officer_name || "Not Assigned" }}</strong>
+          </div>
+          <div>
+            <span class="meta-label">Payment</span>
+            <strong>{{ getPaymentStatusLabel(application.payment_status) }}</strong>
+          </div>
+        </div>
+
+        <p class="remarks" *ngIf="application.remarks">{{ application.remarks }}</p>
+
+        <div class="card-actions">
+          <a [routerLink]="['/visa', application.id]" class="action-link">View Details</a>
+          <a
+            *ngIf="canContinueProcessing(application)"
+            routerLink="/visa/apply"
+            [queryParams]="{ applicationId: application.id }"
+            class="btn btn-outline-primary rounded-pill px-4"
+          >
+            Continue Process
+          </a>
+        </div>
+      </article>
+    </div>
+
+    <div class="empty-state" *ngIf="!isLoading && !loadError && filteredApplications.length === 0">
+      <h3>No visa applications found</h3>
+      <p>Start a new application to follow the documented customer visa workflow.</p>
+      <a routerLink="/visa/apply" class="btn btn-style">Create Visa Application</a>
+    </div>
+  </div>
+</section>

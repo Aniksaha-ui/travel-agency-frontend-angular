@@ -1,0 +1,439 @@
+<section class="visa-form-shell">
+  <div class="container">
+    <div class="page-head">
+      <div>
+        <span class="page-kicker">Visa Application Process</span>
+        <h1>Build the application exactly in the documented order</h1>
+        <p>
+          This customer flow follows the backend guide: draft, applicant info, documents, submit,
+          and payment.
+        </p>
+      </div>
+
+      <div class="head-actions">
+        <a routerLink="/visa" class="btn btn-outline-secondary rounded-pill px-4">Back to Panel</a>
+        <a
+          *ngIf="applicationId"
+          [routerLink]="['/visa', applicationId]"
+          class="btn btn-outline-primary rounded-pill px-4"
+        >
+          View Details
+        </a>
+      </div>
+    </div>
+
+    <div class="banner banner-success" *ngIf="paymentQueryState">
+      Payment status: {{ paymentQueryState | titlecase }}
+    </div>
+
+    <div class="banner banner-error" *ngIf="pageError">
+      {{ pageError }}
+    </div>
+
+    <div class="process-layout" *ngIf="!isLoadingPage; else loadingState">
+      <div class="main-column">
+        <section class="process-card">
+          <div class="card-head">
+            <div>
+              <span class="section-kicker">Step 1</span>
+              <h2>Create Or Update Draft</h2>
+            </div>
+            <span class="status-pill" *ngIf="application">
+              {{ getStatusLabel(application.status) }}
+            </span>
+          </div>
+
+          <div class="banner banner-success" *ngIf="draftNotice">
+            {{ draftNotice }}
+          </div>
+
+          <form [formGroup]="draftForm" class="field-grid">
+            <div class="field">
+              <label for="country_id">Country</label>
+              <select id="country_id" formControlName="country_id" (change)="onCountryChange()">
+                <option value="">Select destination country</option>
+                <option *ngFor="let country of countries" [value]="country.id">
+                  {{ country.name }} ({{ country.iso_code }})
+                </option>
+              </select>
+              <small *ngIf="draftForm.get('country_id')?.invalid && draftForm.get('country_id')?.touched">
+                Country is required.
+              </small>
+            </div>
+
+            <div class="field">
+              <label for="visa_type_id">Visa Type</label>
+              <select id="visa_type_id" formControlName="visa_type_id" (change)="onVisaTypeChange()">
+                <option value="">Select visa type</option>
+                <option *ngFor="let visaType of visaTypes" [value]="visaType.id">
+                  {{ visaType.visa_name }}
+                  <ng-container *ngIf="visaType.fee">- ৳{{ visaType.fee }}</ng-container>
+                </option>
+              </select>
+              <small *ngIf="draftForm.get('visa_type_id')?.invalid && draftForm.get('visa_type_id')?.touched">
+                Visa type is required.
+              </small>
+            </div>
+
+            <div class="field">
+              <label for="booking_id">Booking ID</label>
+              <input id="booking_id" type="number" formControlName="booking_id" placeholder="Optional flight booking id" />
+            </div>
+
+            <div class="field">
+              <label for="package_booking_id">Package Booking ID</label>
+              <input
+                id="package_booking_id"
+                type="number"
+                formControlName="package_booking_id"
+                placeholder="Optional package booking id"
+              />
+            </div>
+
+            <div class="field field-wide">
+              <label for="draft_remarks">Remarks</label>
+              <textarea
+                id="draft_remarks"
+                rows="4"
+                formControlName="remarks"
+                placeholder="Need urgent processing, travel notes, or customer remarks"
+              ></textarea>
+            </div>
+          </form>
+
+          <div class="action-row">
+            <button type="button" class="btn btn-style" (click)="saveDraft()" [disabled]="isSavingDraft">
+              {{ isSavingDraft ? "Saving..." : applicationId ? "Update Draft" : "Create Draft" }}
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-outline-danger rounded-pill px-4"
+              *ngIf="application && application.status === 'draft'"
+              (click)="deleteDraft()"
+              [disabled]="isSavingDraft"
+            >
+              Delete Draft
+            </button>
+          </div>
+        </section>
+
+        <section class="process-card" [class.section-disabled]="!applicationId || !canEditProcess()">
+          <div class="card-head">
+            <div>
+              <span class="section-kicker">Step 2</span>
+              <h2>Applicant Information</h2>
+            </div>
+            <span class="mini-badge" *ngIf="hasCompleteApplicantInfo()">Saved</span>
+          </div>
+
+          <div class="banner banner-success" *ngIf="applicantNotice">
+            {{ applicantNotice }}
+          </div>
+
+          <form [formGroup]="applicantForm" class="field-grid">
+            <div class="field">
+              <label for="full_name">Full Name</label>
+              <input id="full_name" type="text" formControlName="full_name" />
+              <small *ngIf="applicantForm.get('full_name')?.invalid && applicantForm.get('full_name')?.touched">
+                Full name is required.
+              </small>
+            </div>
+
+            <div class="field">
+              <label for="passport_number">Passport Number</label>
+              <input id="passport_number" type="text" formControlName="passport_number" />
+              <small *ngIf="applicantForm.get('passport_number')?.invalid && applicantForm.get('passport_number')?.touched">
+                Passport number is required.
+              </small>
+            </div>
+
+            <div class="field">
+              <label for="passport_expiry">Passport Expiry</label>
+              <input id="passport_expiry" type="date" formControlName="passport_expiry" />
+            </div>
+
+            <div class="field">
+              <label for="date_of_birth">Date Of Birth</label>
+              <input id="date_of_birth" type="date" formControlName="date_of_birth" />
+            </div>
+
+            <div class="field">
+              <label for="nationality">Nationality</label>
+              <input id="nationality" type="text" formControlName="nationality" />
+            </div>
+
+            <div class="field">
+              <label for="phone">Phone</label>
+              <input id="phone" type="text" formControlName="phone" />
+            </div>
+
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" type="email" formControlName="email" />
+              <small *ngIf="applicantForm.get('email')?.invalid && applicantForm.get('email')?.touched">
+                Enter a valid email address.
+              </small>
+            </div>
+
+            <div class="field field-wide">
+              <label for="address">Address</label>
+              <textarea id="address" rows="3" formControlName="address"></textarea>
+            </div>
+          </form>
+
+          <div class="action-row">
+            <button
+              type="button"
+              class="btn btn-style"
+              (click)="saveApplicantInfo()"
+              [disabled]="!applicationId || !canEditProcess() || isSavingApplicant"
+            >
+              {{ isSavingApplicant ? "Saving..." : hasApplicantRecord() ? "Update Applicant Info" : "Save Applicant Info" }}
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-outline-danger rounded-pill px-4"
+              *ngIf="hasApplicantRecord() && canEditProcess()"
+              (click)="deleteApplicantInfo()"
+              [disabled]="isSavingApplicant"
+            >
+              Remove Applicant Info
+            </button>
+          </div>
+        </section>
+
+        <section class="process-card" [class.section-disabled]="!applicationId || !draftForm.get('visa_type_id')?.value || !canEditProcess()">
+          <div class="card-head">
+            <div>
+              <span class="section-kicker">Step 3</span>
+              <h2>Required Documents</h2>
+            </div>
+            <span class="mini-badge">
+              {{ requirements.length ? requirements.length : 0 }} required rules loaded
+            </span>
+          </div>
+
+          <div class="banner banner-success" *ngIf="documentNotice">
+            {{ documentNotice }}
+          </div>
+
+          <div class="requirements-grid" *ngIf="requirements.length > 0; else noRequirements">
+            <article class="requirement-card" *ngFor="let requirement of requirements">
+              <div class="requirement-head">
+                <div>
+                  <h3>{{ requirement.document_name }}</h3>
+                  <p>Accepted files: PDF, JPG, JPEG, PNG. Maximum size 10 MB.</p>
+                </div>
+
+                <span class="requirement-tag" [class.optional]="!isRequirementRequired(requirement)">
+                  {{ isRequirementRequired(requirement) ? "Required" : "Optional" }}
+                </span>
+              </div>
+
+              <div class="uploaded-box" *ngIf="getRequirementDocument(requirement) as document">
+                <div>
+                  <span class="status-pill small" [ngClass]="getDocumentStatusClass(document.status)">
+                    {{ document.status | titlecase }}
+                  </span>
+                  <p>{{ document.remarks || "Document uploaded for review." }}</p>
+                </div>
+
+                <div class="uploaded-actions">
+                  <a
+                    *ngIf="getDocumentUrl(document)"
+                    [href]="getDocumentUrl(document)"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="action-link"
+                  >
+                    View File
+                  </a>
+                  <button
+                    type="button"
+                    class="btn btn-outline-danger rounded-pill px-3"
+                    (click)="deleteDocument(document)"
+                    [disabled]="deletingDocumentId === document.id || !canEditProcess()"
+                  >
+                    {{ deletingDocumentId === document.id ? "Deleting..." : "Delete" }}
+                  </button>
+                </div>
+              </div>
+
+              <label class="field-label">Remarks For Upload</label>
+              <textarea
+                rows="3"
+                [value]="documentRemarks[requirement.id] || ''"
+                (input)="setDocumentRemark(requirement.id, $event)"
+                placeholder="Optional note for this document"
+              ></textarea>
+
+              <label class="upload-btn" [class.disabled]="!canEditProcess()">
+                <input
+                  type="file"
+                  accept=".pdf,.jpg,.jpeg,.png"
+                  (change)="uploadRequirementDocument(requirement, $event)"
+                  [disabled]="!canEditProcess()"
+                />
+                {{
+                  uploadingDocumentType === requirement.document_name
+                    ? "Uploading..."
+                    : getRequirementDocument(requirement)
+                    ? "Replace Document"
+                    : "Upload Document"
+                }}
+              </label>
+            </article>
+          </div>
+
+          <ng-template #noRequirements>
+            <div class="empty-box">
+              Required documents will appear after you choose a visa type.
+            </div>
+          </ng-template>
+        </section>
+
+        <section class="process-card" [class.section-disabled]="!applicationId">
+          <div class="card-head">
+            <div>
+              <span class="section-kicker">Step 4</span>
+              <h2>Submit And Pay</h2>
+            </div>
+          </div>
+
+          <div class="banner banner-success" *ngIf="submitNotice">
+            {{ submitNotice }}
+          </div>
+
+          <div class="submit-block">
+            <form [formGroup]="submitForm">
+              <label for="submit_remarks">Submission Remarks</label>
+              <textarea
+                id="submit_remarks"
+                rows="4"
+                formControlName="remarks"
+                placeholder="Anything the visa desk should know when reviewing the final application"
+              ></textarea>
+            </form>
+
+            <button
+              type="button"
+              class="btn btn-style"
+              (click)="submitApplication()"
+              [disabled]="!canSubmitApplication() || isSubmittingApplication"
+            >
+              {{ isSubmittingApplication ? "Submitting..." : "Submit Application" }}
+            </button>
+          </div>
+
+          <div class="payment-block" [class.payment-disabled]="!canOpenPayment()">
+            <div class="banner banner-success" *ngIf="paymentNotice">
+              {{ paymentNotice }}
+            </div>
+
+            <form [formGroup]="paymentForm" class="field-grid">
+              <div class="field">
+                <label for="amount">Amount</label>
+                <input id="amount" type="number" formControlName="amount" />
+              </div>
+
+              <div class="field">
+                <label for="payment_method">Payment Method</label>
+                <select id="payment_method" formControlName="payment_method" (change)="onPaymentMethodChange()">
+                  <option value="bkash">bKash</option>
+                  <option value="nagad">Nagad</option>
+                  <option value="card">Card</option>
+                  <option value="internet_banking">Internet Banking</option>
+                </select>
+              </div>
+
+              <div class="field" *ngIf="paymentForm.get('payment_method')?.value === 'bkash'">
+                <label for="bkash">bKash Number</label>
+                <input id="bkash" type="text" formControlName="bkash" />
+              </div>
+
+              <div class="field" *ngIf="paymentForm.get('payment_method')?.value === 'nagad'">
+                <label for="nagad">Nagad Number</label>
+                <input id="nagad" type="text" formControlName="nagad" />
+              </div>
+
+              <div class="field" *ngIf="paymentForm.get('payment_method')?.value === 'card'">
+                <label for="card">Card Number</label>
+                <input id="card" type="text" formControlName="card" />
+              </div>
+            </form>
+
+            <button
+              type="button"
+              class="btn btn-style"
+              (click)="payApplication()"
+              [disabled]="!canOpenPayment() || isPayingApplication"
+            >
+              {{ isPayingApplication ? "Processing Payment..." : "Pay Visa Fee" }}
+            </button>
+          </div>
+        </section>
+      </div>
+
+      <aside class="side-column">
+        <section class="summary-card">
+          <span class="section-kicker">Application Summary</span>
+          <h3>{{ getApplicationReference() }}</h3>
+
+          <div class="summary-row">
+            <span>Country</span>
+            <strong>{{ getSelectedCountryName() }}</strong>
+          </div>
+
+          <div class="summary-row">
+            <span>Visa Type</span>
+            <strong>{{ getSelectedVisaType()?.visa_name || "Not Selected" }}</strong>
+          </div>
+
+          <div class="summary-row">
+            <span>Status</span>
+            <strong>{{ application ? getStatusLabel(application.status) : "Not Started" }}</strong>
+          </div>
+
+          <div class="summary-row">
+            <span>Required Documents</span>
+            <strong>{{ requirements.length }}</strong>
+          </div>
+
+          <div class="summary-row">
+            <span>Uploaded Documents</span>
+            <strong>{{ application?.documents?.length || 0 }}</strong>
+          </div>
+
+          <div class="summary-row">
+            <span>Payment Status</span>
+            <strong>{{ getPaymentStatusLabel(application?.payment_status) }}</strong>
+          </div>
+
+          <div class="summary-note">
+            Files are uploaded immediately and are not stored in browser local storage after the
+            request is sent.
+          </div>
+        </section>
+
+        <section class="summary-card">
+          <span class="section-kicker">Security Notes</span>
+          <ul class="security-list">
+            <li>Only the documented file types are accepted before upload.</li>
+            <li>Draft and document-pending applications remain editable.</li>
+            <li>Payment only opens after the application reaches a payable status.</li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<ng-template #loadingState>
+  <section class="visa-form-shell">
+    <div class="container">
+      <div class="loading-card"></div>
+    </div>
+  </section>
+</ng-template>
