@@ -50,8 +50,8 @@
                   TRAVEL AND TOUR • TRAVEL AND TOUR •
                 </textPath>
               </text>
-              <text x="50" y="54" text-anchor="middle" class="seal-status-text">
-                {{ ticketResolvedStatus[ticket.resloved_status] }}
+              <text x="50" y="54" text-anchor="middle" class="seal-status-text" [ngClass]="getStatusClass(ticket)">
+                {{ getDisplayStatus(ticket) }}
               </text>
             </svg>
           </div>

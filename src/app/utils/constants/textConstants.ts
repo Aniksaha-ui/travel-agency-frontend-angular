@@ -18,4 +18,4 @@ export const textConstants = {
 
 
 export const ticketStatus = ['pending', 'processing', 'closed'];
-export const ticketResolvedStatus = ['pending', 'resolved', 'declined'];
+export const ticketResolvedStatus = ['pending', 'accepted', 'declined'];

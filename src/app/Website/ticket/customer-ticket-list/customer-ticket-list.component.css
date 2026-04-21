@@ -281,7 +281,23 @@
 
 .modal-field div {
   font-size: 1rem;
-  margin-top: 4px;
+  margin-top: 8px;
+}
+
+/* Custom Status Styles for SVG Seal */
+.status-resolved {
+    fill: #2ecc71 !important;
+    color: #2ecc71 !important;
+}
+
+.status-declined {
+    fill: #e74c3c !important;
+    color: #e74c3c !important;
+}
+
+.status-pending {
+    fill: #f39c12 !important;
+    color: #f39c12 !important;
 }
 
 /* Status badges */

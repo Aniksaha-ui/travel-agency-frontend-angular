@@ -29,6 +29,10 @@ import { SkeletonComponent } from './shared/skeleton/skeleton.component';
 import { OurGuidesComponent } from './Website/our-guides/our-guides.component';
 import { BlogListComponent } from './Website/blog/blog-list/blog-list.component';
 import { BlogDetailComponent } from './Website/blog/blog-detail/blog-detail.component';
+import { RecentActivityComponent } from './shared/recent-activity/recent-activity.component';
+import { TrendingPackagesComponent } from './shared/trending-packages/trending-packages.component';
+import { TrendingPageComponent } from './Website/trending/trending-page.component';
+
 
 @NgModule({
   declarations: [
@@ -54,7 +58,10 @@ import { BlogDetailComponent } from './Website/blog/blog-detail/blog-detail.comp
     SkeletonComponent,
     OurGuidesComponent,
     BlogListComponent,
-    BlogDetailComponent
+    BlogDetailComponent,
+    RecentActivityComponent,
+    TrendingPackagesComponent,
+    TrendingPageComponent
   ],
   imports: [
     BrowserModule,

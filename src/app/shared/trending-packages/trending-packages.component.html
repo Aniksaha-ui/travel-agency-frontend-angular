@@ -1,0 +1,46 @@
+<section class="trending-section" *ngIf="trendingPackages.length > 0 || isLoading">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="badge-trending shadow-sm">
+        <i class="fas fa-fire me-2"></i> HOT DEALS
+      </span>
+      <h2 class="section-title mt-3">People’s Favorite Packages</h2>
+      <p class="section-subtitle mx-auto">Discover the most booked and highly-rated experiences by our community.</p>
+    </div>
+
+    <div class="row g-4 mt-2" *ngIf="!isLoading && trendingPackages.length > 0">
+      <div class="col-md-6 col-lg-4" *ngFor="let pkg of trendingPackages">
+        <div class="trending-card shadow-sm" (click)="goToDetails(pkg.id)">
+          <div class="trending-img-wrapper">
+            <img [src]="pkg.image === null ? defaultImage : environment.imageBaseUrl + pkg.image" 
+                 [alt]="pkg.name" 
+                 class="trending-img">
+            <div class="booking-badge">
+              <i class="fas fa-chart-line me-1"></i> {{ pkg.booking_count }} Booked recently
+            </div>
+          </div>
+          <div class="trending-info">
+            <h3 class="pkg-name">{{ pkg.name }}</h3>
+            <div class="pkg-footer">
+              <span class="trending-tag">Trending Now</span>
+              <button class="btn-detail-small">
+                Explore <i class="fas fa-arrow-right ms-1"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="error-msg text-center py-5" *ngIf="hasError">
+        <p class="text-muted">Currently unable to load trending deals.</p>
+        <button class="btn btn-primary rounded-pill px-4" (click)="fetchTrending()">Retry</button>
+    </div>
+
+    <div class="row g-4 mt-2" *ngIf="isLoading">
+        <div class="col-md-6 col-lg-4" *ngFor="let i of [1,2,3]">
+          <div class="skeleton-trending"></div>
+        </div>
+    </div>
+  </div>
+</section>
