@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AppdataService } from 'src/app/service/appdata.service';
 import { LoginService } from 'src/app/service/login.service';
 
@@ -10,6 +10,8 @@ import { LoginService } from 'src/app/service/login.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
+  private readonly returnUrl: string;
+
   loginForm: FormGroup = new FormGroup({
     email: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
@@ -18,8 +20,11 @@ export class LoginComponent {
   constructor(
     private loginService: LoginService,
     private data: AppdataService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
+    this.returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/';
+  }
 
   onSubmit(): void {
     this.loginService.login(this.loginForm.value).subscribe((res: any) => {
@@ -29,7 +34,7 @@ export class LoginComponent {
         localStorage.setItem('isLoggedIn', JSON.stringify(true));
         this.data.userInfo.next(res);
         this.data.loginStatus.next(true);
-        this.router.navigate(['/']);
+        this.router.navigateByUrl(this.returnUrl);
       }
     });
   }

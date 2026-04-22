@@ -32,6 +32,10 @@ import { BlogDetailComponent } from './Website/blog/blog-detail/blog-detail.comp
 import { RecentActivityComponent } from './shared/recent-activity/recent-activity.component';
 import { TrendingPackagesComponent } from './shared/trending-packages/trending-packages.component';
 import { TrendingPageComponent } from './Website/trending/trending-page.component';
+import { VisaDashboardComponent } from './Website/visa/visa-dashboard/visa-dashboard.component';
+import { VisaApplicationFormComponent } from './Website/visa/visa-application-form/visa-application-form.component';
+import { VisaApplicationDetailsComponent } from './Website/visa/visa-application-details/visa-application-details.component';
+import { VisaCatalogComponent } from './Website/visa/visa-catalog/visa-catalog.component';
 
 
 @NgModule({
@@ -61,7 +65,11 @@ import { TrendingPageComponent } from './Website/trending/trending-page.componen
     BlogDetailComponent,
     RecentActivityComponent,
     TrendingPackagesComponent,
-    TrendingPageComponent
+    TrendingPageComponent,
+    VisaDashboardComponent,
+    VisaApplicationFormComponent,
+    VisaApplicationDetailsComponent,
+    VisaCatalogComponent,
   ],
   imports: [
     BrowserModule,

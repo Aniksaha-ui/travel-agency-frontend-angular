@@ -32,6 +32,9 @@
             <a class="nav-link" routerLinkActive="active" routerLink="/my-bookings">Bookings</a>
           </li>
           <li class="nav-item" *ngIf="isLogin">
+            <a class="nav-link" routerLinkActive="active" routerLink="/visa">Visa</a>
+          </li>
+          <li class="nav-item" *ngIf="isLogin">
             <a class="nav-link" routerLinkActive="active" routerLink="/refund">Refund</a>
           </li>
           <li class="nav-item" *ngIf="isLogin">
@@ -134,6 +137,11 @@
         </a>
       </li>
       <li *ngIf="isLogin">
+        <a routerLink="/visa" routerLinkActive="active" (click)="toggleMobileMenu()">
+          <i class="fas fa-passport me-3"></i> Visa Applications
+        </a>
+      </li>
+      <li *ngIf="isLogin">
         <a routerLink="/tickets" routerLinkActive="active" (click)="toggleMobileMenu()">
           <i class="fas fa-receipt me-3"></i> Tickets
         </a>
@@ -203,10 +211,10 @@
     <span class="nav-text">Bookings</span>
   </div>
 
-  <!-- 5. Refund (Login) OR Contact (Guest) -->
-  <div class="mobile-nav-item" *ngIf="isLogin" routerLink="/refund" routerLinkActive="active">
-    <div class="nav-icon"><i class="fas fa-undo"></i></div>
-    <span class="nav-text">Refund</span>
+  <!-- 5. Visa (Login) OR Contact (Guest) -->
+  <div class="mobile-nav-item" *ngIf="isLogin" routerLink="/visa" routerLinkActive="active">
+    <div class="nav-icon"><i class="fas fa-passport"></i></div>
+    <span class="nav-text">Visa</span>
   </div>
   <div class="mobile-nav-item" *ngIf="!isLogin" routerLink="/contact" routerLinkActive="active">
     <div class="nav-icon"><i class="fas fa-envelope"></i></div>
