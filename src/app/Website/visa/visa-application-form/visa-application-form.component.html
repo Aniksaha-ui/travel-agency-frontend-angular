@@ -11,10 +11,10 @@
       </div>
 
       <div class="head-actions">
-        <a routerLink="/visa" class="btn btn-outline-secondary rounded-pill px-4">Back to Panel</a>
+        <a routerLink="/visa/my-applications" class="btn btn-outline-secondary rounded-pill px-4">Back to Applications</a>
         <a
           *ngIf="applicationId"
-          [routerLink]="['/visa', applicationId]"
+          [routerLink]="['/visa/application', applicationId]"
           class="btn btn-outline-primary rounded-pill px-4"
         >
           View Details

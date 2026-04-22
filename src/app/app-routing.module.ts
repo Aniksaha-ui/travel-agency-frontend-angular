@@ -22,6 +22,7 @@ import { AuthGuard } from './auth.guard';
 import { VisaDashboardComponent } from './Website/visa/visa-dashboard/visa-dashboard.component';
 import { VisaApplicationFormComponent } from './Website/visa/visa-application-form/visa-application-form.component';
 import { VisaApplicationDetailsComponent } from './Website/visa/visa-application-details/visa-application-details.component';
+import { VisaCatalogComponent } from './Website/visa/visa-catalog/visa-catalog.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -38,8 +39,12 @@ const routes: Routes = [
   { path: 'refund', component: RefundComponent, canActivate: [AuthGuard] },
   { path: 'add/tickets', component: AddTicketsComponent, canActivate: [AuthGuard] },
   { path: 'tickets', component: CustomerTicketListComponent, canActivate: [AuthGuard] },
-  { path: 'visa', component: VisaDashboardComponent, canActivate: [AuthGuard] },
+  { path: 'visa', component: VisaCatalogComponent },
+  { path: 'visa/country/:countryId', component: VisaCatalogComponent },
+  { path: 'visa/country/:countryId/type/:visaTypeId', component: VisaCatalogComponent },
+  { path: 'visa/my-applications', component: VisaDashboardComponent, canActivate: [AuthGuard] },
   { path: 'visa/apply', component: VisaApplicationFormComponent, canActivate: [AuthGuard] },
+  { path: 'visa/application/:id', component: VisaApplicationDetailsComponent, canActivate: [AuthGuard] },
   { path: 'visa/:id', component: VisaApplicationDetailsComponent, canActivate: [AuthGuard] },
   { path: 'visa-applications', component: VisaDashboardComponent, canActivate: [AuthGuard] },
   { path: 'visa-applications/:id', component: VisaApplicationDetailsComponent, canActivate: [AuthGuard] },

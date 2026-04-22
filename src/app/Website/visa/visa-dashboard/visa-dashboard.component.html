@@ -10,6 +10,9 @@
         </p>
 
         <div class="hero-actions">
+          <a routerLink="/visa" class="btn btn-outline-secondary rounded-pill px-4">
+            Browse Visa Countries
+          </a>
           <a routerLink="/visa/apply" class="btn btn-style">Start New Visa Application</a>
           <a routerLink="/tickets" class="btn btn-outline-secondary rounded-pill px-4">
             Need Support
@@ -111,7 +114,7 @@
         <p class="remarks" *ngIf="application.remarks">{{ application.remarks }}</p>
 
         <div class="card-actions">
-          <a [routerLink]="['/visa', application.id]" class="action-link">View Details</a>
+          <a [routerLink]="['/visa/application', application.id]" class="action-link">View Details</a>
           <a
             *ngIf="canContinueProcessing(application)"
             routerLink="/visa/apply"

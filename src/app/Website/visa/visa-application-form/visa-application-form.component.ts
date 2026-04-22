@@ -25,6 +25,8 @@ export class VisaApplicationFormComponent implements OnInit {
   countries: VisaCountry[] = [];
   visaTypes: VisaType[] = [];
   requirements: VisaRequirement[] = [];
+  preselectedCountryId: number | null = null;
+  preselectedVisaTypeId: number | null = null;
 
   isLoadingPage = true;
   isSavingDraft = false;
@@ -89,6 +91,12 @@ export class VisaApplicationFormComponent implements OnInit {
     this.applicationId = this.parseOptionalNumber(
       this.route.snapshot.queryParamMap.get('applicationId')
     );
+    this.preselectedCountryId = this.parseOptionalNumber(
+      this.route.snapshot.queryParamMap.get('countryId')
+    );
+    this.preselectedVisaTypeId = this.parseOptionalNumber(
+      this.route.snapshot.queryParamMap.get('visaTypeId')
+    );
 
     this.onPaymentMethodChange();
     this.loadCountries();
@@ -107,6 +115,8 @@ export class VisaApplicationFormComponent implements OnInit {
             this.loadApplication(this.applicationId);
             return;
           }
+
+          this.applyPrefilledSelection();
         } else {
           this.pageError = response.message || 'Unable to load visa countries.';
         }
@@ -550,7 +560,7 @@ export class VisaApplicationFormComponent implements OnInit {
           return;
         }
 
-        this.router.navigate(['/visa']);
+        this.router.navigate(['/visa/my-applications']);
       },
       error: (error) => {
         this.isSavingDraft = false;
@@ -901,5 +911,24 @@ export class VisaApplicationFormComponent implements OnInit {
     this.documentNotice = '';
     this.submitNotice = '';
     this.paymentNotice = '';
+  }
+
+  private applyPrefilledSelection(): void {
+    if (!this.preselectedCountryId) {
+      return;
+    }
+
+    this.draftForm.patchValue({
+      country_id: this.preselectedCountryId,
+    });
+
+    this.loadVisaTypes(this.preselectedCountryId, this.preselectedVisaTypeId || undefined);
+
+    if (this.preselectedVisaTypeId) {
+      this.draftForm.patchValue({
+        visa_type_id: this.preselectedVisaTypeId,
+      });
+      this.loadRequirements(this.preselectedVisaTypeId);
+    }
   }
 }

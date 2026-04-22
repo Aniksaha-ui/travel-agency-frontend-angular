@@ -35,6 +35,7 @@ import { TrendingPageComponent } from './Website/trending/trending-page.componen
 import { VisaDashboardComponent } from './Website/visa/visa-dashboard/visa-dashboard.component';
 import { VisaApplicationFormComponent } from './Website/visa/visa-application-form/visa-application-form.component';
 import { VisaApplicationDetailsComponent } from './Website/visa/visa-application-details/visa-application-details.component';
+import { VisaCatalogComponent } from './Website/visa/visa-catalog/visa-catalog.component';
 
 
 @NgModule({
@@ -68,6 +69,7 @@ import { VisaApplicationDetailsComponent } from './Website/visa/visa-application
     VisaDashboardComponent,
     VisaApplicationFormComponent,
     VisaApplicationDetailsComponent,
+    VisaCatalogComponent,
   ],
   imports: [
     BrowserModule,
