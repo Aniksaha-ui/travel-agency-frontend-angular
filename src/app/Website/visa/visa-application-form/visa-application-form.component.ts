@@ -50,7 +50,6 @@ export class VisaApplicationFormComponent implements OnInit {
     country_id: ['', Validators.required],
     visa_type_id: ['', Validators.required],
     booking_id: [''],
-    package_booking_id: [''],
     remarks: ['', Validators.maxLength(500)],
   });
 
@@ -76,26 +75,26 @@ export class VisaApplicationFormComponent implements OnInit {
     nagad: [''],
     card: [''],
     booking_id: [''],
-    package_booking_id: [''],
   });
 
   constructor(
     private fb: FormBuilder,
     private visaService: VisaService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
-    this.paymentQueryState = this.route.snapshot.queryParamMap.get('payment') || '';
+    this.paymentQueryState =
+      this.route.snapshot.queryParamMap.get('payment') || '';
     this.applicationId = this.parseOptionalNumber(
-      this.route.snapshot.queryParamMap.get('applicationId')
+      this.route.snapshot.queryParamMap.get('applicationId'),
     );
     this.preselectedCountryId = this.parseOptionalNumber(
-      this.route.snapshot.queryParamMap.get('countryId')
+      this.route.snapshot.queryParamMap.get('countryId'),
     );
     this.preselectedVisaTypeId = this.parseOptionalNumber(
-      this.route.snapshot.queryParamMap.get('visaTypeId')
+      this.route.snapshot.queryParamMap.get('visaTypeId'),
     );
 
     this.onPaymentMethodChange();
@@ -109,7 +108,9 @@ export class VisaApplicationFormComponent implements OnInit {
     this.visaService.getCountries().subscribe({
       next: (response) => {
         if (this.visaService.isSuccess(response.isExecute)) {
-          this.countries = response.data || [];
+          // Extract data from paginated response
+          const paginatedData = response.data as any;
+          this.countries = paginatedData.data || paginatedData || [];
 
           if (this.applicationId) {
             this.loadApplication(this.applicationId);
@@ -126,7 +127,7 @@ export class VisaApplicationFormComponent implements OnInit {
       error: (error) => {
         this.pageError = this.visaService.getErrorMessage(
           error,
-          'Unable to load visa countries.'
+          'Unable to load visa countries.',
         );
         this.isLoadingPage = false;
       },
@@ -140,10 +141,11 @@ export class VisaApplicationFormComponent implements OnInit {
       next: (response) => {
         if (this.visaService.isSuccess(response.isExecute)) {
           this.application = response.data;
-          this.applicationId = response.data.id;
+          this.applicationId = this.parseOptionalNumber(response.data.id);
           this.patchFormsFromApplication(response.data);
         } else {
-          this.pageError = response.message || 'Unable to load visa application.';
+          this.pageError =
+            response.message || 'Unable to load visa application.';
         }
 
         this.isLoadingPage = false;
@@ -151,7 +153,7 @@ export class VisaApplicationFormComponent implements OnInit {
       error: (error) => {
         this.pageError = this.visaService.getErrorMessage(
           error,
-          'Unable to load visa application.'
+          'Unable to load visa application.',
         );
         this.isLoadingPage = false;
       },
@@ -159,7 +161,9 @@ export class VisaApplicationFormComponent implements OnInit {
   }
 
   onCountryChange(): void {
-    const countryId = this.parseOptionalNumber(this.draftForm.get('country_id')?.value);
+    const countryId = this.parseOptionalNumber(
+      this.draftForm.get('country_id')?.value,
+    );
 
     this.visaTypes = [];
     this.requirements = [];
@@ -172,7 +176,9 @@ export class VisaApplicationFormComponent implements OnInit {
   }
 
   onVisaTypeChange(): void {
-    const visaTypeId = this.parseOptionalNumber(this.draftForm.get('visa_type_id')?.value);
+    const visaTypeId = this.parseOptionalNumber(
+      this.draftForm.get('visa_type_id')?.value,
+    );
 
     this.requirements = [];
 
@@ -183,7 +189,8 @@ export class VisaApplicationFormComponent implements OnInit {
   }
 
   onPaymentMethodChange(): void {
-    const paymentMethod = this.paymentForm.get('payment_method')?.value as VisaPaymentMethod;
+    const paymentMethod = this.paymentForm.get('payment_method')
+      ?.value as VisaPaymentMethod;
     const bkashControl = this.paymentForm.get('bkash');
     const nagadControl = this.paymentForm.get('nagad');
     const cardControl = this.paymentForm.get('card');
@@ -193,15 +200,24 @@ export class VisaApplicationFormComponent implements OnInit {
     cardControl?.clearValidators();
 
     if (paymentMethod === 'bkash') {
-      bkashControl?.setValidators([Validators.required, Validators.maxLength(50)]);
+      bkashControl?.setValidators([
+        Validators.required,
+        Validators.maxLength(50),
+      ]);
     }
 
     if (paymentMethod === 'nagad') {
-      nagadControl?.setValidators([Validators.required, Validators.maxLength(50)]);
+      nagadControl?.setValidators([
+        Validators.required,
+        Validators.maxLength(50),
+      ]);
     }
 
     if (paymentMethod === 'card') {
-      cardControl?.setValidators([Validators.required, Validators.maxLength(50)]);
+      cardControl?.setValidators([
+        Validators.required,
+        Validators.maxLength(50),
+      ]);
     }
 
     bkashControl?.updateValueAndValidity();
@@ -234,7 +250,8 @@ export class VisaApplicationFormComponent implements OnInit {
         }
 
         this.draftNotice = response.message || 'Visa draft saved successfully.';
-        const returnedId = response.data?.id || this.applicationId;
+        const returnedId =
+          this.parseOptionalNumber(response.data?.id) || this.applicationId;
 
         if (returnedId) {
           this.applicationId = returnedId;
@@ -244,7 +261,10 @@ export class VisaApplicationFormComponent implements OnInit {
       },
       error: (error) => {
         this.isSavingDraft = false;
-        this.pageError = this.visaService.getErrorMessage(error, 'Unable to save visa draft.');
+        this.pageError = this.visaService.getErrorMessage(
+          error,
+          'Unable to save visa draft.',
+        );
       },
     });
   }
@@ -277,18 +297,20 @@ export class VisaApplicationFormComponent implements OnInit {
         this.isSavingApplicant = false;
 
         if (!this.visaService.isSuccess(response.isExecute)) {
-          this.pageError = response.message || 'Unable to save applicant information.';
+          this.pageError =
+            response.message || 'Unable to save applicant information.';
           return;
         }
 
-        this.applicantNotice = response.message || 'Applicant information saved successfully.';
+        this.applicantNotice =
+          response.message || 'Applicant information saved successfully.';
         this.loadApplication(this.applicationId!);
       },
       error: (error) => {
         this.isSavingApplicant = false;
         this.pageError = this.visaService.getErrorMessage(
           error,
-          'Unable to save applicant information.'
+          'Unable to save applicant information.',
         );
       },
     });
@@ -301,7 +323,11 @@ export class VisaApplicationFormComponent implements OnInit {
       return;
     }
 
-    if (!window.confirm('Remove applicant information from this visa application?')) {
+    if (
+      !window.confirm(
+        'Remove applicant information from this visa application?',
+      )
+    ) {
       return;
     }
 
@@ -312,18 +338,20 @@ export class VisaApplicationFormComponent implements OnInit {
         this.isSavingApplicant = false;
 
         if (!this.visaService.isSuccess(response.isExecute)) {
-          this.pageError = response.message || 'Unable to delete applicant information.';
+          this.pageError =
+            response.message || 'Unable to delete applicant information.';
           return;
         }
 
-        this.applicantNotice = response.message || 'Applicant information deleted successfully.';
+        this.applicantNotice =
+          response.message || 'Applicant information deleted successfully.';
         this.loadApplication(this.applicationId!);
       },
       error: (error) => {
         this.isSavingApplicant = false;
         this.pageError = this.visaService.getErrorMessage(
           error,
-          'Unable to delete applicant information.'
+          'Unable to delete applicant information.',
         );
       },
     });
@@ -356,19 +384,27 @@ export class VisaApplicationFormComponent implements OnInit {
       return;
     }
 
+    const documentType = this.getRequirementDocumentType(requirement);
+
+    if (!documentType) {
+      this.pageError = 'This document requirement is missing a document type.';
+      input.value = '';
+      return;
+    }
+
     const existingDocument = this.getRequirementDocument(requirement);
     const remarks = this.documentRemarks[requirement.id] || '';
-    this.uploadingDocumentType = requirement.document_name;
+    this.uploadingDocumentType = documentType;
 
     const request$ = existingDocument
       ? this.visaService.updateDocument(existingDocument.id, {
-          document_type: requirement.document_name,
+          document_type: documentType,
           remarks: remarks || undefined,
           file,
         })
       : this.visaService.uploadDocument({
           visa_application_id: this.applicationId,
-          document_type: requirement.document_name,
+          document_type: documentType,
           remarks: remarks || undefined,
           file,
         });
@@ -384,13 +420,17 @@ export class VisaApplicationFormComponent implements OnInit {
         }
 
         this.documentRemarks[requirement.id] = '';
-        this.documentNotice = response.message || 'Document uploaded successfully.';
+        this.documentNotice =
+          response.message || 'Document uploaded successfully.';
         this.loadApplication(this.applicationId!);
       },
       error: (error) => {
         this.uploadingDocumentType = '';
         input.value = '';
-        this.pageError = this.visaService.getErrorMessage(error, 'Unable to upload document.');
+        this.pageError = this.visaService.getErrorMessage(
+          error,
+          'Unable to upload document.',
+        );
       },
     });
   }
@@ -398,7 +438,11 @@ export class VisaApplicationFormComponent implements OnInit {
   deleteDocument(document: VisaDocument): void {
     this.resetMessages();
 
-    if (!window.confirm(`Delete "${document.document_type}" from this application?`)) {
+    if (
+      !window.confirm(
+        `Delete "${document.document_type}" from this application?`,
+      )
+    ) {
       return;
     }
 
@@ -413,12 +457,16 @@ export class VisaApplicationFormComponent implements OnInit {
           return;
         }
 
-        this.documentNotice = response.message || 'Document deleted successfully.';
+        this.documentNotice =
+          response.message || 'Document deleted successfully.';
         this.loadApplication(this.applicationId!);
       },
       error: (error) => {
         this.deletingDocumentId = null;
-        this.pageError = this.visaService.getErrorMessage(error, 'Unable to delete document.');
+        this.pageError = this.visaService.getErrorMessage(
+          error,
+          'Unable to delete document.',
+        );
       },
     });
   }
@@ -447,25 +495,27 @@ export class VisaApplicationFormComponent implements OnInit {
     this.visaService
       .submitApplication(
         this.applicationId,
-        this.normalizeText(this.submitForm.get('remarks')?.value) || undefined
+        this.normalizeText(this.submitForm.get('remarks')?.value) || undefined,
       )
       .subscribe({
         next: (response) => {
           this.isSubmittingApplication = false;
 
           if (!this.visaService.isSuccess(response.isExecute)) {
-            this.pageError = response.message || 'Unable to submit visa application.';
+            this.pageError =
+              response.message || 'Unable to submit visa application.';
             return;
           }
 
-          this.submitNotice = response.message || 'Visa application submitted successfully.';
+          this.submitNotice =
+            response.message || 'Visa application submitted successfully.';
           this.loadApplication(this.applicationId!);
         },
         error: (error) => {
           this.isSubmittingApplication = false;
           this.pageError = this.visaService.getErrorMessage(
             error,
-            'Unable to submit visa application.'
+            'Unable to submit visa application.',
           );
         },
       });
@@ -485,7 +535,8 @@ export class VisaApplicationFormComponent implements OnInit {
     }
 
     const amount = Number(this.paymentForm.get('amount')?.value);
-    const paymentMethod = this.paymentForm.get('payment_method')?.value as VisaPaymentMethod;
+    const paymentMethod = this.paymentForm.get('payment_method')
+      ?.value as VisaPaymentMethod;
 
     const payload: VisaPaymentPayload = {
       visa_application_id: this.applicationId,
@@ -493,15 +544,14 @@ export class VisaApplicationFormComponent implements OnInit {
       payment_method: paymentMethod,
       booking_id:
         this.parseOptionalNumber(this.paymentForm.get('booking_id')?.value) ||
-        this.application?.booking_id ||
+        this.parseOptionalNumber(this.application?.booking_id) ||
         undefined,
-      package_booking_id:
-        this.parseOptionalNumber(this.paymentForm.get('package_booking_id')?.value) ||
-        this.application?.package_booking_id ||
-        undefined,
-      bkash: this.normalizeText(this.paymentForm.get('bkash')?.value) || undefined,
-      nagad: this.normalizeText(this.paymentForm.get('nagad')?.value) || undefined,
-      card: this.normalizeText(this.paymentForm.get('card')?.value) || undefined,
+      bkash:
+        this.normalizeText(this.paymentForm.get('bkash')?.value) || undefined,
+      nagad:
+        this.normalizeText(this.paymentForm.get('nagad')?.value) || undefined,
+      card:
+        this.normalizeText(this.paymentForm.get('card')?.value) || undefined,
     };
 
     this.isPayingApplication = true;
@@ -511,7 +561,8 @@ export class VisaApplicationFormComponent implements OnInit {
         this.isPayingApplication = false;
 
         if (!this.visaService.isSuccess(response.isExecute)) {
-          this.pageError = response.message || 'Unable to process visa payment.';
+          this.pageError =
+            response.message || 'Unable to process visa payment.';
           return;
         }
 
@@ -523,16 +574,19 @@ export class VisaApplicationFormComponent implements OnInit {
         }
 
         const paymentStatus = response.data?.payment_status || 'success';
-        this.paymentNotice = response.message || 'Visa payment completed successfully.';
+        this.paymentNotice =
+          response.message || 'Visa payment completed successfully.';
         this.router.navigate(['/visa', this.applicationId], {
-          queryParams: { payment: paymentStatus === 'paid' ? 'success' : paymentStatus },
+          queryParams: {
+            payment: paymentStatus === 'paid' ? 'success' : paymentStatus,
+          },
         });
       },
       error: (error) => {
         this.isPayingApplication = false;
         this.pageError = this.visaService.getErrorMessage(
           error,
-          'Unable to process visa payment.'
+          'Unable to process visa payment.',
         );
       },
     });
@@ -541,7 +595,11 @@ export class VisaApplicationFormComponent implements OnInit {
   deleteDraft(): void {
     this.resetMessages();
 
-    if (!this.applicationId || !this.application || this.application.status !== 'draft') {
+    if (
+      !this.applicationId ||
+      !this.application ||
+      this.application.status !== 'draft'
+    ) {
       return;
     }
 
@@ -564,7 +622,10 @@ export class VisaApplicationFormComponent implements OnInit {
       },
       error: (error) => {
         this.isSavingDraft = false;
-        this.pageError = this.visaService.getErrorMessage(error, 'Unable to delete visa draft.');
+        this.pageError = this.visaService.getErrorMessage(
+          error,
+          'Unable to delete visa draft.',
+        );
       },
     });
   }
@@ -588,8 +649,7 @@ export class VisaApplicationFormComponent implements OnInit {
     const applicantInfo = this.application?.applicant_info;
 
     return !!(
-      applicantInfo?.full_name?.trim() &&
-      applicantInfo?.passport_number?.trim()
+      applicantInfo?.full_name?.trim() && applicantInfo?.passport_number?.trim()
     );
   }
 
@@ -598,7 +658,10 @@ export class VisaApplicationFormComponent implements OnInit {
   }
 
   canEditProcess(): boolean {
-    return !this.application || this.visaService.isEditableStatus(this.application.status);
+    return (
+      !this.application ||
+      this.visaService.isEditableStatus(this.application.status)
+    );
   }
 
   canSubmitApplication(): boolean {
@@ -626,22 +689,58 @@ export class VisaApplicationFormComponent implements OnInit {
     }
 
     return (
-      this.application?.payments?.some((payment) => payment.payment_status === 'paid') || false
+      this.application?.payments?.some(
+        (payment) => payment.payment_status === 'paid',
+      ) || false
     );
   }
 
   getSelectedVisaType(): VisaType | undefined {
-    const visaTypeId = this.parseOptionalNumber(this.draftForm.get('visa_type_id')?.value);
+    const visaTypeId = this.parseOptionalNumber(
+      this.draftForm.get('visa_type_id')?.value,
+    );
     return this.visaTypes.find((visaType) => visaType.id === visaTypeId);
   }
 
   getSelectedCountryName(): string {
-    const countryId = this.parseOptionalNumber(this.draftForm.get('country_id')?.value);
-    return this.countries.find((country) => country.id === countryId)?.name || 'Not Selected';
+    const countryId = this.parseOptionalNumber(
+      this.draftForm.get('country_id')?.value,
+    );
+
+    return (
+      this.countries.find((country) => country.id === countryId)?.name ||
+      this.normalizeText(this.application?.country_name_snapshot) ||
+      this.normalizeText(this.application?.country_name) ||
+      'Not Selected'
+    );
+  }
+
+  getSelectedVisaTypeName(): string {
+    return (
+      this.getSelectedVisaType()?.visa_name ||
+      this.normalizeText(this.application?.visa_type_snapshot) ||
+      this.normalizeText(this.application?.visa_name) ||
+      'Not Selected'
+    );
+  }
+
+  getSelectedVisaFeeText(): string {
+    const selectedFee = this.getSelectedVisaType()?.fee;
+    const snapshotFee = this.application?.fee_snapshot;
+    const fee = selectedFee ?? snapshotFee;
+
+    if (fee === null || fee === undefined || fee === '') {
+      return 'Will appear after selection';
+    }
+
+    return `৳${fee}`;
   }
 
   getApplicationReference(): string {
-    return this.application?.application_no || (this.applicationId ? `Draft #${this.applicationId}` : 'New Application');
+    return (
+      this.application?.application_no ||
+      (this.applicationId ? `Draft #${this.applicationId}` : 'New Application')
+    );
   }
 
   isDraftStepComplete(): boolean {
@@ -657,11 +756,17 @@ export class VisaApplicationFormComponent implements OnInit {
   }
 
   isDocumentStepComplete(): boolean {
-    return this.isDocumentStepReady() && this.getCompletedRequiredDocumentCount() >= this.getRequiredDocumentCount();
+    return (
+      this.isDocumentStepReady() &&
+      this.getCompletedRequiredDocumentCount() >=
+        this.getRequiredDocumentCount()
+    );
   }
 
   getRequiredDocumentCount(): number {
-    return this.requirements.filter((requirement) => this.isRequirementRequired(requirement)).length;
+    return this.requirements.filter((requirement) =>
+      this.isRequirementRequired(requirement),
+    ).length;
   }
 
   getCompletedRequiredDocumentCount(): number {
@@ -699,12 +804,30 @@ export class VisaApplicationFormComponent implements OnInit {
     return completedSteps;
   }
 
-  getRequirementDocument(requirement: VisaRequirement): VisaDocument | undefined {
+  getRequirementDocument(
+    requirement: VisaRequirement,
+  ): VisaDocument | undefined {
+    const documentKey = this.getRequirementDocumentType(requirement)
+      .trim()
+      .toLowerCase();
+
     return this.application?.documents?.find(
       (document) =>
-        document.document_type?.trim().toLowerCase() ===
-        requirement.document_name.trim().toLowerCase()
+        document.document_type?.trim().toLowerCase() === documentKey,
     );
+  }
+
+  private getRequirementDocumentType(requirement: VisaRequirement): string {
+    return (requirement.document_key || requirement.document_name || '').trim();
+  }
+
+  getRequirementLabel(requirement: VisaRequirement): string {
+    return (
+      requirement.document_label ||
+      requirement.document_name ||
+      requirement.document_key ||
+      'Unknown'
+    ).trim();
   }
 
   hasAllRequiredDocuments(): boolean {
@@ -748,11 +871,14 @@ export class VisaApplicationFormComponent implements OnInit {
   }
 
   private patchFormsFromApplication(application: VisaApplicationDetail): void {
+    const countryId = this.resolveApplicationCountryId(application);
+    const visaTypeId = this.parseOptionalNumber(application.visa_type_id);
+    const bookingId = this.parseOptionalNumber(application.booking_id);
+
     this.draftForm.patchValue({
-      country_id: application.country_id || '',
-      visa_type_id: application.visa_type_id || '',
-      booking_id: application.booking_id || '',
-      package_booking_id: application.package_booking_id || '',
+      country_id: countryId || '',
+      visa_type_id: visaTypeId || '',
+      booking_id: bookingId || '',
       remarks: application.remarks || '',
     });
 
@@ -772,20 +898,15 @@ export class VisaApplicationFormComponent implements OnInit {
     });
 
     this.paymentForm.patchValue({
-      booking_id: application.booking_id || '',
-      package_booking_id: application.package_booking_id || '',
+      booking_id: bookingId || '',
     });
 
-    if (application.country_id) {
-      this.loadVisaTypes(application.country_id, application.visa_type_id || undefined);
+    this.requirements = application.required_documents || [];
+
+    if (countryId) {
+      this.loadVisaTypes(countryId, visaTypeId || undefined);
     } else {
       this.visaTypes = [];
-    }
-
-    if (application.visa_type_id) {
-      this.loadRequirements(application.visa_type_id);
-    } else {
-      this.requirements = [];
     }
 
     this.syncPaymentAmount();
@@ -795,7 +916,9 @@ export class VisaApplicationFormComponent implements OnInit {
     this.visaService.getVisaTypes(countryId).subscribe({
       next: (response) => {
         if (this.visaService.isSuccess(response.isExecute)) {
-          this.visaTypes = response.data || [];
+          // Extract data from paginated response
+          const paginatedData = response.data as any;
+          this.visaTypes = paginatedData.data || paginatedData || [];
 
           if (selectedVisaTypeId) {
             this.draftForm.patchValue({
@@ -809,7 +932,10 @@ export class VisaApplicationFormComponent implements OnInit {
         }
       },
       error: (error) => {
-        this.pageError = this.visaService.getErrorMessage(error, 'Unable to load visa types.');
+        this.pageError = this.visaService.getErrorMessage(
+          error,
+          'Unable to load visa types.',
+        );
       },
     });
   }
@@ -818,15 +944,18 @@ export class VisaApplicationFormComponent implements OnInit {
     this.visaService.getRequirements(visaTypeId).subscribe({
       next: (response) => {
         if (this.visaService.isSuccess(response.isExecute)) {
-          this.requirements = response.data || [];
+          // Extract data from paginated response
+          const paginatedData = response.data as any;
+          this.requirements = paginatedData.data || paginatedData || [];
         } else {
-          this.pageError = response.message || 'Unable to load required documents.';
+          this.pageError =
+            response.message || 'Unable to load required documents.';
         }
       },
       error: (error) => {
         this.pageError = this.visaService.getErrorMessage(
           error,
-          'Unable to load required documents.'
+          'Unable to load required documents.',
         );
       },
     });
@@ -834,7 +963,7 @@ export class VisaApplicationFormComponent implements OnInit {
 
   private syncPaymentAmount(): void {
     const selectedVisaType = this.getSelectedVisaType();
-    const fee = Number(selectedVisaType?.fee || 0);
+    const fee = Number(selectedVisaType?.fee || this.application?.fee_snapshot || 0);
 
     if (!fee || this.isPaymentCompleted()) {
       return;
@@ -844,11 +973,7 @@ export class VisaApplicationFormComponent implements OnInit {
       amount: fee,
       booking_id:
         this.parseOptionalNumber(this.draftForm.get('booking_id')?.value) ||
-        this.application?.booking_id ||
-        '',
-      package_booking_id:
-        this.parseOptionalNumber(this.draftForm.get('package_booking_id')?.value) ||
-        this.application?.package_booking_id ||
+        this.parseOptionalNumber(this.application?.booking_id) ||
         '',
     });
   }
@@ -857,10 +982,11 @@ export class VisaApplicationFormComponent implements OnInit {
     return {
       country_id: Number(this.draftForm.get('country_id')?.value),
       visa_type_id: Number(this.draftForm.get('visa_type_id')?.value),
-      booking_id: this.parseOptionalNumber(this.draftForm.get('booking_id')?.value) || undefined,
-      package_booking_id:
-        this.parseOptionalNumber(this.draftForm.get('package_booking_id')?.value) || undefined,
-      remarks: this.normalizeText(this.draftForm.get('remarks')?.value) || undefined,
+      booking_id:
+        this.parseOptionalNumber(this.draftForm.get('booking_id')?.value) ||
+        undefined,
+      remarks:
+        this.normalizeText(this.draftForm.get('remarks')?.value) || undefined,
     };
   }
 
@@ -868,14 +994,22 @@ export class VisaApplicationFormComponent implements OnInit {
     return {
       full_name: this.normalizeText(this.applicantForm.get('full_name')?.value),
       passport_number: this.normalizeText(
-        this.applicantForm.get('passport_number')?.value
+        this.applicantForm.get('passport_number')?.value,
       ).toUpperCase(),
-      passport_expiry: this.applicantForm.get('passport_expiry')?.value || undefined,
-      date_of_birth: this.applicantForm.get('date_of_birth')?.value || undefined,
-      nationality: this.normalizeText(this.applicantForm.get('nationality')?.value) || undefined,
-      phone: this.normalizeText(this.applicantForm.get('phone')?.value) || undefined,
-      email: this.normalizeText(this.applicantForm.get('email')?.value) || undefined,
-      address: this.normalizeText(this.applicantForm.get('address')?.value) || undefined,
+      passport_expiry:
+        this.applicantForm.get('passport_expiry')?.value || undefined,
+      date_of_birth:
+        this.applicantForm.get('date_of_birth')?.value || undefined,
+      nationality:
+        this.normalizeText(this.applicantForm.get('nationality')?.value) ||
+        undefined,
+      phone:
+        this.normalizeText(this.applicantForm.get('phone')?.value) || undefined,
+      email:
+        this.normalizeText(this.applicantForm.get('email')?.value) || undefined,
+      address:
+        this.normalizeText(this.applicantForm.get('address')?.value) ||
+        undefined,
     };
   }
 
@@ -890,6 +1024,30 @@ export class VisaApplicationFormComponent implements OnInit {
     return Number.isFinite(parsed) && parsed > 0 ? parsed : null;
   }
 
+  private resolveApplicationCountryId(
+    application: VisaApplicationDetail,
+  ): number | null {
+    const directCountryId = this.parseOptionalNumber(application.country_id);
+
+    if (directCountryId) {
+      return directCountryId;
+    }
+
+    const countryName = this.normalizeText(
+      application.country_name_snapshot || application.country_name,
+    ).toLowerCase();
+
+    if (!countryName) {
+      return null;
+    }
+
+    const matchedCountry = this.countries.find(
+      (country) => country.name.trim().toLowerCase() === countryName,
+    );
+
+    return matchedCountry?.id || null;
+  }
+
   private updateQueryParams(applicationId: number): void {
     this.router.navigate([], {
       relativeTo: this.route,
@@ -901,7 +1059,9 @@ export class VisaApplicationFormComponent implements OnInit {
   }
 
   private isAllowedFile(file: File): boolean {
-    return ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'].includes(file.type);
+    return ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'].includes(
+      file.type,
+    );
   }
 
   private resetMessages(): void {
@@ -922,7 +1082,10 @@ export class VisaApplicationFormComponent implements OnInit {
       country_id: this.preselectedCountryId,
     });
 
-    this.loadVisaTypes(this.preselectedCountryId, this.preselectedVisaTypeId || undefined);
+    this.loadVisaTypes(
+      this.preselectedCountryId,
+      this.preselectedVisaTypeId || undefined,
+    );
 
     if (this.preselectedVisaTypeId) {
       this.draftForm.patchValue({

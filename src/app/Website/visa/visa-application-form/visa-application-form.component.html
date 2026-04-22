@@ -5,13 +5,18 @@
         <span class="page-kicker">Visa Application Process</span>
         <h1>Apply in a clearer, step-by-step flow</h1>
         <p>
-          Save your draft first, then complete traveler details, upload the required documents,
-          submit the application, and pay when the visa desk opens payment.
+          Save your draft first, then complete traveler details, upload the
+          required documents, submit the application, and pay when the visa desk
+          opens payment.
         </p>
       </div>
 
       <div class="head-actions">
-        <a routerLink="/visa/my-applications" class="btn btn-outline-secondary rounded-pill px-4">Back to Applications</a>
+        <a
+          routerLink="/visa/my-applications"
+          class="btn btn-outline-secondary rounded-pill px-4"
+          >Back to Applications</a
+        >
         <a
           *ngIf="applicationId"
           [routerLink]="['/visa/application', applicationId]"
@@ -36,15 +41,18 @@
           <span class="section-kicker">Application Journey</span>
           <h2>A more professional, colorful, and guided visa experience.</h2>
           <p>
-            Every part of the application is grouped into polished cards so customers can move from
-            draft to payment with less confusion and better visibility.
+            Every part of the application is grouped into polished cards so
+            customers can move from draft to payment with less confusion and
+            better visibility.
           </p>
         </div>
 
         <div class="journey-progress">
           <div class="progress-meta">
             <strong>{{ getCompletedStepCount() }}/4 steps completed</strong>
-            <span>{{ application ? getStatusLabel(application.status) : "Not Started" }}</span>
+            <span>{{
+              application ? getStatusLabel(application.status) : "Not Started"
+            }}</span>
           </div>
 
           <div class="progress-track" aria-hidden="true">
@@ -54,24 +62,41 @@
 
         <div class="journey-highlights">
           <article class="highlight-card highlight-card-primary">
-            <div class="highlight-icon"><i class="fas fa-passport" aria-hidden="true"></i></div>
+            <div class="highlight-icon">
+              <i class="fas fa-passport" aria-hidden="true"></i>
+            </div>
             <span>Application Ref</span>
             <strong>{{ getApplicationReference() }}</strong>
             <p>Continue from where you left off without losing progress.</p>
           </article>
 
           <article class="highlight-card highlight-card-secondary">
-            <div class="highlight-icon"><i class="fas fa-file-upload" aria-hidden="true"></i></div>
+            <div class="highlight-icon">
+              <i class="fas fa-file-upload" aria-hidden="true"></i>
+            </div>
             <span>Required Documents</span>
-            <strong>{{ getCompletedRequiredDocumentCount() }}/{{ getRequiredDocumentCount() }}</strong>
-            <p>Track missing files before you reach the final submission step.</p>
+            <strong
+              >{{ getCompletedRequiredDocumentCount() }}/{{
+                getRequiredDocumentCount()
+              }}</strong
+            >
+            <p>
+              Track missing files before you reach the final submission step.
+            </p>
           </article>
 
           <article class="highlight-card highlight-card-accent">
-            <div class="highlight-icon"><i class="fas fa-credit-card" aria-hidden="true"></i></div>
+            <div class="highlight-icon">
+              <i class="fas fa-credit-card" aria-hidden="true"></i>
+            </div>
             <span>Payment Status</span>
-            <strong>{{ getPaymentStatusLabel(application?.payment_status) }}</strong>
-            <p>Payment becomes active only when your application is ready to be charged.</p>
+            <strong>{{
+              getPaymentStatusLabel(application?.payment_status)
+            }}</strong>
+            <p>
+              Payment becomes active only when your application is ready to be
+              charged.
+            </p>
           </article>
         </div>
 
@@ -110,7 +135,9 @@
           <article
             class="journey-step"
             [class.is-complete]="isDocumentStepComplete()"
-            [class.is-active]="isDocumentStepReady() && !isDocumentStepComplete()"
+            [class.is-active]="
+              isDocumentStepReady() && !isDocumentStepComplete()
+            "
             [class.is-locked]="!isDocumentStepReady()"
           >
             <div class="step-badge">
@@ -135,7 +162,9 @@
             </div>
             <div>
               <h3>Submit And Pay</h3>
-              <p>Send the application and pay once payment becomes available.</p>
+              <p>
+                Send the application and pay once payment becomes available.
+              </p>
             </div>
           </article>
         </div>
@@ -146,14 +175,16 @@
           <section class="process-card card-draft">
             <div class="card-head">
               <div class="card-head-main">
-                <div class="card-icon"><i class="fas fa-suitcase-rolling" aria-hidden="true"></i></div>
+                <div class="card-icon">
+                  <i class="fas fa-suitcase-rolling" aria-hidden="true"></i>
+                </div>
                 <div>
-                <span class="section-kicker">Step 1</span>
-                <h2>Create or update your draft</h2>
-                <p class="section-copy">
-                  Start with the travel basics. After saving the draft, the rest of the form opens
-                  automatically.
-                </p>
+                  <span class="section-kicker">Step 1</span>
+                  <h2>Create or update your draft</h2>
+                  <p class="section-copy">
+                    Start with the travel basics. After saving the draft, the
+                    rest of the form opens automatically.
+                  </p>
                 </div>
               </div>
               <span class="status-pill" *ngIf="application">
@@ -167,41 +198,51 @@
 
             <div class="quick-info-grid">
               <article class="info-chip">
-                <div class="info-chip-icon"><i class="fas fa-globe-asia" aria-hidden="true"></i></div>
+                <div class="info-chip-icon">
+                  <i class="fas fa-globe-asia" aria-hidden="true"></i>
+                </div>
                 <span>Destination</span>
                 <strong>{{ getSelectedCountryName() }}</strong>
               </article>
 
               <article class="info-chip">
-                <div class="info-chip-icon"><i class="fas fa-stamp" aria-hidden="true"></i></div>
+                <div class="info-chip-icon">
+                  <i class="fas fa-stamp" aria-hidden="true"></i>
+                </div>
                 <span>Visa Type</span>
-                <strong>{{ getSelectedVisaType()?.visa_name || "Not Selected" }}</strong>
+                <strong>{{ getSelectedVisaTypeName() }}</strong>
               </article>
 
               <article class="info-chip">
-                <div class="info-chip-icon"><i class="fas fa-wallet" aria-hidden="true"></i></div>
+                <div class="info-chip-icon">
+                  <i class="fas fa-wallet" aria-hidden="true"></i>
+                </div>
                 <span>Estimated Fee</span>
-                <strong>
-                  {{
-                    getSelectedVisaType()?.fee
-                      ? "৳" + getSelectedVisaType()?.fee
-                      : "Will appear after selection"
-                  }}
-                </strong>
+                <strong>{{ getSelectedVisaFeeText() }}</strong>
               </article>
             </div>
 
             <form [formGroup]="draftForm" class="field-grid luxe-form">
               <div class="field">
                 <label for="country_id">Destination Country</label>
-                <select id="country_id" formControlName="country_id" (change)="onCountryChange()">
+                <select
+                  id="country_id"
+                  formControlName="country_id"
+                  (change)="onCountryChange()"
+                >
                   <option value="">Select destination country</option>
-                  <option *ngFor="let country of countries" [value]="country.id">
+                  <option
+                    *ngFor="let country of countries"
+                    [value]="country.id"
+                  >
                     {{ country.name }} ({{ country.iso_code }})
                   </option>
                 </select>
                 <small
-                  *ngIf="draftForm.get('country_id')?.invalid && draftForm.get('country_id')?.touched"
+                  *ngIf="
+                    draftForm.get('country_id')?.invalid &&
+                    draftForm.get('country_id')?.touched
+                  "
                 >
                   Country is required.
                 </small>
@@ -209,15 +250,27 @@
 
               <div class="field">
                 <label for="visa_type_id">Visa Type</label>
-                <select id="visa_type_id" formControlName="visa_type_id" (change)="onVisaTypeChange()">
+                <select
+                  id="visa_type_id"
+                  formControlName="visa_type_id"
+                  (change)="onVisaTypeChange()"
+                >
                   <option value="">Select visa type</option>
-                  <option *ngFor="let visaType of visaTypes" [value]="visaType.id">
+                  <option
+                    *ngFor="let visaType of visaTypes"
+                    [value]="visaType.id"
+                  >
                     {{ visaType.visa_name }}
-                    <ng-container *ngIf="visaType.fee">- ৳{{ visaType.fee }}</ng-container>
+                    <ng-container *ngIf="visaType.fee"
+                      >- ৳{{ visaType.fee }}</ng-container
+                    >
                   </option>
                 </select>
                 <small
-                  *ngIf="draftForm.get('visa_type_id')?.invalid && draftForm.get('visa_type_id')?.touched"
+                  *ngIf="
+                    draftForm.get('visa_type_id')?.invalid &&
+                    draftForm.get('visa_type_id')?.touched
+                  "
                 >
                   Visa type is required.
                 </small>
@@ -231,18 +284,10 @@
                   formControlName="booking_id"
                   placeholder="Optional flight booking id"
                 />
-                <small class="field-hint">Add this only if the traveler already has a flight booking.</small>
-              </div>
-
-              <div class="field">
-                <label for="package_booking_id">Package Booking ID</label>
-                <input
-                  id="package_booking_id"
-                  type="number"
-                  formControlName="package_booking_id"
-                  placeholder="Optional package booking id"
-                />
-                <small class="field-hint">Useful when the visa is tied to a package booking.</small>
+                <small class="field-hint"
+                  >Add this only if the traveler already has a flight
+                  booking.</small
+                >
               </div>
 
               <div class="field field-wide">
@@ -257,8 +302,19 @@
             </form>
 
             <div class="action-row">
-              <button type="button" class="btn btn-style" (click)="saveDraft()" [disabled]="isSavingDraft">
-                {{ isSavingDraft ? "Saving..." : applicationId ? "Update Draft" : "Create Draft" }}
+              <button
+                type="button"
+                class="btn btn-style"
+                (click)="saveDraft()"
+                [disabled]="isSavingDraft"
+              >
+                {{
+                  isSavingDraft
+                    ? "Saving..."
+                    : applicationId
+                      ? "Update Draft"
+                      : "Create Draft"
+                }}
               </button>
 
               <button
@@ -273,19 +329,27 @@
             </div>
           </section>
 
-          <section class="process-card card-applicant" [class.section-disabled]="!applicationId || !canEditProcess()">
+          <section
+            class="process-card card-applicant"
+            [class.section-disabled]="!applicationId || !canEditProcess()"
+          >
             <div class="card-head">
               <div class="card-head-main">
-                <div class="card-icon"><i class="fas fa-id-card" aria-hidden="true"></i></div>
+                <div class="card-icon">
+                  <i class="fas fa-id-card" aria-hidden="true"></i>
+                </div>
                 <div>
-                <span class="section-kicker">Step 2</span>
-                <h2>Applicant information</h2>
-                <p class="section-copy">
-                  Fill in the traveler details exactly as they appear on the passport.
-                </p>
+                  <span class="section-kicker">Step 2</span>
+                  <h2>Applicant information</h2>
+                  <p class="section-copy">
+                    Fill in the traveler details exactly as they appear on the
+                    passport.
+                  </p>
                 </div>
               </div>
-              <span class="mini-badge" *ngIf="hasCompleteApplicantInfo()">Saved</span>
+              <span class="mini-badge" *ngIf="hasCompleteApplicantInfo()"
+                >Saved</span
+              >
             </div>
 
             <div class="inline-tip" *ngIf="!applicationId">
@@ -310,7 +374,10 @@
                   placeholder="Enter full name as shown on passport"
                 />
                 <small
-                  *ngIf="applicantForm.get('full_name')?.invalid && applicantForm.get('full_name')?.touched"
+                  *ngIf="
+                    applicantForm.get('full_name')?.invalid &&
+                    applicantForm.get('full_name')?.touched
+                  "
                 >
                   Full name is required.
                 </small>
@@ -336,12 +403,20 @@
 
               <div class="field">
                 <label for="passport_expiry">Passport Expiry</label>
-                <input id="passport_expiry" type="date" formControlName="passport_expiry" />
+                <input
+                  id="passport_expiry"
+                  type="date"
+                  formControlName="passport_expiry"
+                />
               </div>
 
               <div class="field">
                 <label for="date_of_birth">Date of Birth</label>
-                <input id="date_of_birth" type="date" formControlName="date_of_birth" />
+                <input
+                  id="date_of_birth"
+                  type="date"
+                  formControlName="date_of_birth"
+                />
               </div>
 
               <div class="field">
@@ -372,7 +447,12 @@
                   formControlName="email"
                   placeholder="Where application updates should be sent"
                 />
-                <small *ngIf="applicantForm.get('email')?.invalid && applicantForm.get('email')?.touched">
+                <small
+                  *ngIf="
+                    applicantForm.get('email')?.invalid &&
+                    applicantForm.get('email')?.touched
+                  "
+                >
                   Enter a valid email address.
                 </small>
               </div>
@@ -393,14 +473,16 @@
                 type="button"
                 class="btn btn-style"
                 (click)="saveApplicantInfo()"
-                [disabled]="!applicationId || !canEditProcess() || isSavingApplicant"
+                [disabled]="
+                  !applicationId || !canEditProcess() || isSavingApplicant
+                "
               >
                 {{
                   isSavingApplicant
                     ? "Saving..."
                     : hasApplicantRecord()
-                    ? "Update Applicant Info"
-                    : "Save Applicant Info"
+                      ? "Update Applicant Info"
+                      : "Save Applicant Info"
                 }}
               </button>
 
@@ -418,22 +500,31 @@
 
           <section
             class="process-card card-documents"
-            [class.section-disabled]="!applicationId || !draftForm.get('visa_type_id')?.value || !canEditProcess()"
+            [class.section-disabled]="
+              !applicationId ||
+              !draftForm.get('visa_type_id')?.value ||
+              !canEditProcess()
+            "
           >
             <div class="card-head">
               <div class="card-head-main">
-                <div class="card-icon"><i class="fas fa-file-alt" aria-hidden="true"></i></div>
+                <div class="card-icon">
+                  <i class="fas fa-file-alt" aria-hidden="true"></i>
+                </div>
                 <div>
-                <span class="section-kicker">Step 3</span>
-                <h2>Required documents</h2>
-                <p class="section-copy">
-                  Upload clear copies of the requested files. Required documents must be uploaded
-                  before submission.
-                </p>
+                  <span class="section-kicker">Step 3</span>
+                  <h2>Required documents</h2>
+                  <p class="section-copy">
+                    Upload clear copies of the requested files. Required
+                    documents must be uploaded before submission.
+                  </p>
                 </div>
               </div>
               <span class="mini-badge">
-                {{ getCompletedRequiredDocumentCount() }}/{{ getRequiredDocumentCount() }} required uploaded
+                {{ getCompletedRequiredDocumentCount() }}/{{
+                  getRequiredDocumentCount()
+                }}
+                required uploaded
               </span>
             </div>
 
@@ -441,11 +532,21 @@
               Save the draft first to load document requirements.
             </div>
 
-            <div class="inline-tip" *ngIf="applicationId && !draftForm.get('visa_type_id')?.value">
+            <div
+              class="inline-tip"
+              *ngIf="applicationId && !draftForm.get('visa_type_id')?.value"
+            >
               Select a visa type to see which documents are needed.
             </div>
 
-            <div class="inline-tip" *ngIf="applicationId && draftForm.get('visa_type_id')?.value && !canEditProcess()">
+            <div
+              class="inline-tip"
+              *ngIf="
+                applicationId &&
+                draftForm.get('visa_type_id')?.value &&
+                !canEditProcess()
+              "
+            >
               Documents cannot be updated while this application is locked.
             </div>
 
@@ -453,8 +554,14 @@
               {{ documentNotice }}
             </div>
 
-            <div class="requirements-grid" *ngIf="requirements.length > 0; else noRequirements">
-              <article class="requirement-card" *ngFor="let requirement of requirements">
+            <div
+              class="requirements-grid"
+              *ngIf="requirements.length > 0; else noRequirements"
+            >
+              <article
+                class="requirement-card"
+                *ngFor="let requirement of requirements"
+              >
                 <div class="requirement-head">
                   <div>
                     <div class="requirement-title-row">
@@ -463,23 +570,44 @@
                         class="requirement-state"
                         [class.is-ready]="!!getRequirementDocument(requirement)"
                       >
-                        {{ getRequirementDocument(requirement) ? "Uploaded" : "Needs Upload" }}
+                        {{
+                          getRequirementDocument(requirement)
+                            ? "Uploaded"
+                            : "Needs Upload"
+                        }}
                       </span>
                     </div>
-                    <p>Accepted files: PDF, JPG, JPEG, PNG. Maximum size 10 MB.</p>
+                    <p>
+                      Accepted files: PDF, JPG, JPEG, PNG. Maximum size 10 MB.
+                    </p>
                   </div>
 
-                  <span class="requirement-tag" [class.optional]="!isRequirementRequired(requirement)">
-                    {{ isRequirementRequired(requirement) ? "Required" : "Optional" }}
+                  <span
+                    class="requirement-tag"
+                    [class.optional]="!isRequirementRequired(requirement)"
+                  >
+                    {{
+                      isRequirementRequired(requirement)
+                        ? "Required"
+                        : "Optional"
+                    }}
                   </span>
                 </div>
 
-                <div class="uploaded-box" *ngIf="getRequirementDocument(requirement) as document">
+                <div
+                  class="uploaded-box"
+                  *ngIf="getRequirementDocument(requirement) as document"
+                >
                   <div class="uploaded-copy">
-                    <span class="status-pill small" [ngClass]="getDocumentStatusClass(document.status)">
+                    <span
+                      class="status-pill small"
+                      [ngClass]="getDocumentStatusClass(document.status)"
+                    >
                       {{ document.status | titlecase }}
                     </span>
-                    <p>{{ document.remarks || "Document uploaded for review." }}</p>
+                    <p>
+                      {{ document.remarks || "Document uploaded for review." }}
+                    </p>
                   </div>
 
                   <div class="uploaded-actions">
@@ -496,9 +624,15 @@
                       type="button"
                       class="btn btn-outline-danger rounded-pill px-3"
                       (click)="deleteDocument(document)"
-                      [disabled]="deletingDocumentId === document.id || !canEditProcess()"
+                      [disabled]="
+                        deletingDocumentId === document.id || !canEditProcess()
+                      "
                     >
-                      {{ deletingDocumentId === document.id ? "Deleting..." : "Delete" }}
+                      {{
+                        deletingDocumentId === document.id
+                          ? "Deleting..."
+                          : "Delete"
+                      }}
                     </button>
                   </div>
                 </div>
@@ -522,8 +656,8 @@
                     uploadingDocumentType === requirement.document_name
                       ? "Uploading..."
                       : getRequirementDocument(requirement)
-                      ? "Replace Document"
-                      : "Upload Document"
+                        ? "Replace Document"
+                        : "Upload Document"
                   }}
                 </label>
               </article>
@@ -536,17 +670,23 @@
             </ng-template>
           </section>
 
-          <section class="process-card card-payment" [class.section-disabled]="!applicationId">
+          <section
+            class="process-card card-payment"
+            [class.section-disabled]="!applicationId"
+          >
             <div class="card-head">
               <div class="card-head-main">
-                <div class="card-icon"><i class="fas fa-receipt" aria-hidden="true"></i></div>
+                <div class="card-icon">
+                  <i class="fas fa-receipt" aria-hidden="true"></i>
+                </div>
                 <div>
-                <span class="section-kicker">Step 4</span>
-                <h2>Submit and pay</h2>
-                <p class="section-copy">
-                  Submit once the details and required documents are complete. Payment becomes
-                  available only when the application reaches a payable status.
-                </p>
+                  <span class="section-kicker">Step 4</span>
+                  <h2>Submit and pay</h2>
+                  <p class="section-copy">
+                    Submit once the details and required documents are complete.
+                    Payment becomes available only when the application reaches
+                    a payable status.
+                  </p>
                 </div>
               </div>
             </div>
@@ -560,27 +700,43 @@
             </div>
 
             <div class="submit-checklist">
-              <article class="check-item" [class.complete]="isDraftStepComplete()">
+              <article
+                class="check-item"
+                [class.complete]="isDraftStepComplete()"
+              >
                 <span></span>
                 <div>
                   <strong>Draft saved</strong>
-                  <p>Create the application record before finishing the remaining steps.</p>
+                  <p>
+                    Create the application record before finishing the remaining
+                    steps.
+                  </p>
                 </div>
               </article>
 
-              <article class="check-item" [class.complete]="hasCompleteApplicantInfo()">
+              <article
+                class="check-item"
+                [class.complete]="hasCompleteApplicantInfo()"
+              >
                 <span></span>
                 <div>
                   <strong>Applicant info completed</strong>
-                  <p>Full name and passport number are required for submission.</p>
+                  <p>
+                    Full name and passport number are required for submission.
+                  </p>
                 </div>
               </article>
 
-              <article class="check-item" [class.complete]="hasAllRequiredDocuments()">
+              <article
+                class="check-item"
+                [class.complete]="hasAllRequiredDocuments()"
+              >
                 <span></span>
                 <div>
                   <strong>Required documents uploaded</strong>
-                  <p>Every required document must be attached and not rejected.</p>
+                  <p>
+                    Every required document must be attached and not rejected.
+                  </p>
                 </div>
               </article>
             </div>
@@ -602,17 +758,24 @@
                 (click)="submitApplication()"
                 [disabled]="!canSubmitApplication() || isSubmittingApplication"
               >
-                {{ isSubmittingApplication ? "Submitting..." : "Submit Application" }}
+                {{
+                  isSubmittingApplication
+                    ? "Submitting..."
+                    : "Submit Application"
+                }}
               </button>
             </div>
 
-            <div class="payment-block card-subpanel" [class.payment-disabled]="!canOpenPayment()">
+            <div
+              class="payment-block card-subpanel"
+              [class.payment-disabled]="!canOpenPayment()"
+            >
               <div class="payment-head">
                 <div>
                   <h3>Visa payment</h3>
                   <p>
-                    The amount is prefilled from the selected visa type. Complete payment only when
-                    this section becomes active.
+                    The amount is prefilled from the selected visa type.
+                    Complete payment only when this section becomes active.
                   </p>
                 </div>
                 <span class="mini-badge">
@@ -625,14 +788,19 @@
               </div>
 
               <div class="inline-tip" *ngIf="!canOpenPayment()">
-                Payment opens after the application reaches a payable status and no paid payment is
-                already recorded.
+                Payment opens after the application reaches a payable status and
+                no paid payment is already recorded.
               </div>
 
               <form [formGroup]="paymentForm" class="field-grid luxe-form">
                 <div class="field">
                   <label for="amount">Amount</label>
-                  <input id="amount" type="number" formControlName="amount" placeholder="Visa fee amount" />
+                  <input
+                    id="amount"
+                    type="number"
+                    formControlName="amount"
+                    placeholder="Visa fee amount"
+                  />
                 </div>
 
                 <div class="field">
@@ -649,19 +817,43 @@
                   </select>
                 </div>
 
-                <div class="field" *ngIf="paymentForm.get('payment_method')?.value === 'bkash'">
+                <div
+                  class="field"
+                  *ngIf="paymentForm.get('payment_method')?.value === 'bkash'"
+                >
                   <label for="bkash">bKash Number</label>
-                  <input id="bkash" type="text" formControlName="bkash" placeholder="Enter bKash account number" />
+                  <input
+                    id="bkash"
+                    type="text"
+                    formControlName="bkash"
+                    placeholder="Enter bKash account number"
+                  />
                 </div>
 
-                <div class="field" *ngIf="paymentForm.get('payment_method')?.value === 'nagad'">
+                <div
+                  class="field"
+                  *ngIf="paymentForm.get('payment_method')?.value === 'nagad'"
+                >
                   <label for="nagad">Nagad Number</label>
-                  <input id="nagad" type="text" formControlName="nagad" placeholder="Enter Nagad account number" />
+                  <input
+                    id="nagad"
+                    type="text"
+                    formControlName="nagad"
+                    placeholder="Enter Nagad account number"
+                  />
                 </div>
 
-                <div class="field" *ngIf="paymentForm.get('payment_method')?.value === 'card'">
+                <div
+                  class="field"
+                  *ngIf="paymentForm.get('payment_method')?.value === 'card'"
+                >
                   <label for="card">Card Number</label>
-                  <input id="card" type="text" formControlName="card" placeholder="Enter card number" />
+                  <input
+                    id="card"
+                    type="text"
+                    formControlName="card"
+                    placeholder="Enter card number"
+                  />
                 </div>
               </form>
 
@@ -671,20 +863,28 @@
                 (click)="payApplication()"
                 [disabled]="!canOpenPayment() || isPayingApplication"
               >
-                {{ isPayingApplication ? "Processing Payment..." : "Pay Visa Fee" }}
+                {{
+                  isPayingApplication ? "Processing Payment..." : "Pay Visa Fee"
+                }}
               </button>
             </div>
           </section>
         </div>
 
         <aside class="side-column">
-          <section class="summary-card summary-card-accent summary-card-primary">
+          <section
+            class="summary-card summary-card-accent summary-card-primary"
+          >
             <span class="section-kicker">Application Summary</span>
             <h3>{{ getApplicationReference() }}</h3>
 
             <div class="summary-topline">
               <span class="status-pill">
-                {{ application ? getStatusLabel(application.status) : "Not Started" }}
+                {{
+                  application
+                    ? getStatusLabel(application.status)
+                    : "Not Started"
+                }}
               </span>
               <span class="mini-badge">
                 {{ getPaymentStatusLabel(application?.payment_status) }}
@@ -710,7 +910,7 @@
 
             <div class="summary-row">
               <span>Visa Type</span>
-              <strong>{{ getSelectedVisaType()?.visa_name || "Not Selected" }}</strong>
+              <strong>{{ getSelectedVisaTypeName() }}</strong>
             </div>
 
             <div class="summary-row">
@@ -720,24 +920,33 @@
 
             <div class="summary-row">
               <span>Applicant Info</span>
-              <strong>{{ hasCompleteApplicantInfo() ? "Completed" : "Pending" }}</strong>
+              <strong>{{
+                hasCompleteApplicantInfo() ? "Completed" : "Pending"
+              }}</strong>
             </div>
 
             <div class="summary-row">
               <span>Required Uploads</span>
-              <strong>{{ getCompletedRequiredDocumentCount() }}/{{ getRequiredDocumentCount() }}</strong>
+              <strong
+                >{{ getCompletedRequiredDocumentCount() }}/{{
+                  getRequiredDocumentCount()
+                }}</strong
+              >
             </div>
 
             <div class="summary-note">
-              Your files are uploaded directly to the server and are not kept in browser storage
-              after the request completes.
+              Your files are uploaded directly to the server and are not kept in
+              browser storage after the request completes.
             </div>
           </section>
 
           <section class="summary-card summary-card-soft">
             <span class="section-kicker">Before You Finish</span>
             <div class="side-checklist">
-              <article class="check-item" [class.complete]="isDraftStepComplete()">
+              <article
+                class="check-item"
+                [class.complete]="isDraftStepComplete()"
+              >
                 <span></span>
                 <div>
                   <strong>Draft created</strong>
@@ -745,7 +954,10 @@
                 </div>
               </article>
 
-              <article class="check-item" [class.complete]="isApplicantStepComplete()">
+              <article
+                class="check-item"
+                [class.complete]="isApplicantStepComplete()"
+              >
                 <span></span>
                 <div>
                   <strong>Traveler details saved</strong>
@@ -753,7 +965,10 @@
                 </div>
               </article>
 
-              <article class="check-item" [class.complete]="isDocumentStepComplete()">
+              <article
+                class="check-item"
+                [class.complete]="isDocumentStepComplete()"
+              >
                 <span></span>
                 <div>
                   <strong>Documents uploaded</strong>
@@ -761,7 +976,10 @@
                 </div>
               </article>
 
-              <article class="check-item" [class.complete]="isPaymentCompleted()">
+              <article
+                class="check-item"
+                [class.complete]="isPaymentCompleted()"
+              >
                 <span></span>
                 <div>
                   <strong>Payment completed</strong>
@@ -777,7 +995,10 @@
               <li>Only PDF, JPG, JPEG, and PNG files are accepted.</li>
               <li>Each upload must be 10 MB or smaller.</li>
               <li>Draft and document-pending applications remain editable.</li>
-              <li>Payment is available only after the application reaches a payable status.</li>
+              <li>
+                Payment is available only after the application reaches a
+                payable status.
+              </li>
             </ul>
           </section>
         </aside>

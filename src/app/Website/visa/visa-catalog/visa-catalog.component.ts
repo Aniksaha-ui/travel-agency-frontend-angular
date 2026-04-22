@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { VisaCountry, VisaRequirement, VisaType } from 'src/app/models/visa.models';
+import {
+  VisaCountry,
+  VisaRequirement,
+  VisaType,
+} from 'src/app/models/visa.models';
 import { VisaService } from 'src/app/service/visa.service';
 
 @Component({
@@ -25,7 +29,7 @@ export class VisaCatalogComponent implements OnInit {
   constructor(
     private visaService: VisaService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -48,7 +52,15 @@ export class VisaCatalogComponent implements OnInit {
   }
 
   openCountry(country: VisaCountry): void {
-    this.router.navigate(['/visa/country', country.id]);
+    this.selectedCountry = country;
+    this.selectedVisaType = null;
+    this.requirements = [];
+    this.loadVisaTypes(country.id);
+  }
+
+  selectVisaType(visaType: VisaType): void {
+    this.selectedVisaType = visaType;
+    this.loadRequirements(visaType.id);
   }
 
   openVisaType(visaType: VisaType): void {
@@ -77,7 +89,7 @@ export class VisaCatalogComponent implements OnInit {
     }
 
     const returnUrl = this.router.serializeUrl(
-      this.router.createUrlTree(['/visa/apply'], { queryParams })
+      this.router.createUrlTree(['/visa/apply'], { queryParams }),
     );
 
     this.router.navigate(['/login'], {
@@ -101,9 +113,15 @@ export class VisaCatalogComponent implements OnInit {
   }
 
   getCountryCountLabel(country: VisaCountry): string {
-    const count = this.visaTypes.filter((visaType) => visaType.country_id === country.id).length;
+    const count = this.visaTypes.filter(
+      (visaType) => visaType.country_id === country.id,
+    ).length;
 
-    if (!this.selectedCountry || this.selectedCountry.id !== country.id || !count) {
+    if (
+      !this.selectedCountry ||
+      this.selectedCountry.id !== country.id ||
+      !count
+    ) {
       return 'Browse Packages';
     }
 
@@ -119,10 +137,18 @@ export class VisaCatalogComponent implements OnInit {
     this.visaTypes = [];
     this.requirements = [];
 
-    this.loadCountries(this.countrySearch.trim(), countryId || undefined, visaTypeId || undefined);
+    this.loadCountries(
+      this.countrySearch.trim(),
+      countryId || undefined,
+      visaTypeId || undefined,
+    );
   }
 
-  private loadCountries(search?: string, countryId?: number, visaTypeId?: number): void {
+  private loadCountries(
+    search?: string,
+    countryId?: number,
+    visaTypeId?: number,
+  ): void {
     this.isLoadingCountries = true;
     this.pageError = '';
 
@@ -134,7 +160,9 @@ export class VisaCatalogComponent implements OnInit {
           return;
         }
 
-        this.countries = response.data || [];
+        // Extract data from paginated response
+        const paginatedData = response.data as any;
+        this.countries = paginatedData.data || paginatedData || [];
         this.selectedCountry = countryId
           ? this.countries.find((country) => country.id === countryId) || null
           : null;
@@ -146,7 +174,10 @@ export class VisaCatalogComponent implements OnInit {
         }
       },
       error: (error) => {
-        this.pageError = this.visaService.getErrorMessage(error, 'Unable to load visa countries.');
+        this.pageError = this.visaService.getErrorMessage(
+          error,
+          'Unable to load visa countries.',
+        );
         this.isLoadingCountries = false;
       },
     });
@@ -164,9 +195,12 @@ export class VisaCatalogComponent implements OnInit {
           return;
         }
 
-        this.visaTypes = response.data || [];
+        // Extract data from paginated response
+        const paginatedData = response.data as any;
+        this.visaTypes = paginatedData.data || paginatedData || [];
         this.selectedVisaType = visaTypeId
-          ? this.visaTypes.find((visaType) => visaType.id === visaTypeId) || null
+          ? this.visaTypes.find((visaType) => visaType.id === visaTypeId) ||
+            null
           : null;
 
         this.isLoadingVisaTypes = false;
@@ -176,7 +210,10 @@ export class VisaCatalogComponent implements OnInit {
         }
       },
       error: (error) => {
-        this.pageError = this.visaService.getErrorMessage(error, 'Unable to load visa packages.');
+        this.pageError = this.visaService.getErrorMessage(
+          error,
+          'Unable to load visa packages.',
+        );
         this.isLoadingVisaTypes = false;
       },
     });
@@ -188,9 +225,12 @@ export class VisaCatalogComponent implements OnInit {
     this.visaService.getRequirements(visaTypeId).subscribe({
       next: (response) => {
         if (this.visaService.isSuccess(response.isExecute)) {
-          this.requirements = response.data || [];
+          // Extract data from paginated response
+          const paginatedData = response.data as any;
+          this.requirements = paginatedData.data || paginatedData || [];
         } else {
-          this.pageError = response.message || 'Unable to load visa requirements.';
+          this.pageError =
+            response.message || 'Unable to load visa requirements.';
         }
 
         this.isLoadingRequirements = false;
@@ -198,7 +238,7 @@ export class VisaCatalogComponent implements OnInit {
       error: (error) => {
         this.pageError = this.visaService.getErrorMessage(
           error,
-          'Unable to load visa requirements.'
+          'Unable to load visa requirements.',
         );
         this.isLoadingRequirements = false;
       },

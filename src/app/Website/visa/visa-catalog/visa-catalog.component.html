@@ -3,15 +3,25 @@
     <div class="catalog-hero">
       <div class="hero-copy">
         <span class="hero-kicker">Visa Explorer</span>
-        <h1>Browse visa countries, packages, and requirements before you apply.</h1>
+        <h1>
+          Browse visa countries, packages, and requirements before you apply.
+        </h1>
         <p>
-          Customers can explore available destinations, compare visa packages, and review required
-          documents first. Applying starts only after login.
+          Customers can explore available destinations, compare visa packages,
+          and review required documents first. Applying starts only after login.
         </p>
 
         <div class="hero-actions">
-          <button type="button" class="btn btn-style" (click)="goToApplications()">
-            <i class="fas" [ngClass]="isLoggedIn ? 'fa-briefcase' : 'fa-sign-in-alt'" aria-hidden="true"></i>
+          <button
+            type="button"
+            class="btn btn-style"
+            (click)="goToApplications()"
+          >
+            <i
+              class="fas"
+              [ngClass]="isLoggedIn ? 'fa-briefcase' : 'fa-sign-in-alt'"
+              aria-hidden="true"
+            ></i>
             {{ isLoggedIn ? "My Visa Applications" : "Login To Apply" }}
           </button>
         </div>
@@ -58,7 +68,9 @@
           </div>
         </div>
 
-        <div class="loading-state" *ngIf="isLoadingCountries">Loading visa countries...</div>
+        <div class="loading-state" *ngIf="isLoadingCountries">
+          Loading visa countries...
+        </div>
 
         <div class="country-grid" *ngIf="!isLoadingCountries">
           <button
@@ -89,17 +101,25 @@
           </div>
         </div>
 
-        <div class="empty-state" *ngIf="!selectedCountry && !isLoadingVisaTypes">
+        <div
+          class="empty-state"
+          *ngIf="!selectedCountry && !isLoadingVisaTypes"
+        >
           Choose a country to see available visa packages.
         </div>
 
-        <div class="loading-state" *ngIf="isLoadingVisaTypes">Loading visa packages...</div>
+        <div class="loading-state" *ngIf="isLoadingVisaTypes">
+          Loading visa packages...
+        </div>
 
         <div class="type-grid" *ngIf="selectedCountry && !isLoadingVisaTypes">
           <article
             class="type-card"
             *ngFor="let visaType of visaTypes"
             [class.active]="selectedVisaType?.id === visaType.id"
+            (click)="selectVisaType(visaType)"
+            role="button"
+            tabindex="0"
           >
             <div class="type-head">
               <div class="type-icon">
@@ -109,23 +129,38 @@
             </div>
 
             <h3>{{ visaType.visa_name }}</h3>
-            <p>{{ visaType.description || "Review package details and requirements before starting the application." }}</p>
+            <p>
+              {{
+                visaType.description ||
+                  "Review package details and requirements before starting the application."
+              }}
+            </p>
 
             <div class="type-meta">
               <div>
                 <span>Fee</span>
-                <strong>{{ visaType.fee ? "৳" + visaType.fee : "Contact Us" }}</strong>
+                <strong>{{
+                  visaType.fee ? "৳" + visaType.fee : "Contact Us"
+                }}</strong>
               </div>
               <div>
                 <span>Processing</span>
                 <strong>
-                  {{ visaType.processing_days ? visaType.processing_days + " days" : "Varies" }}
+                  {{
+                    visaType.processing_days
+                      ? visaType.processing_days + " days"
+                      : "Varies"
+                  }}
                 </strong>
               </div>
             </div>
 
             <div class="type-actions">
-              <button type="button" class="action-link" (click)="openVisaType(visaType)">
+              <button
+                type="button"
+                class="action-link"
+                (click)="openVisaType(visaType)"
+              >
                 View Details
               </button>
             </div>
@@ -140,13 +175,21 @@
           <span class="section-kicker">Step 3</span>
           <h2>{{ selectedVisaType.visa_name }}</h2>
           <p>
-            {{ selectedCountry?.name || selectedVisaType.country_name || "Selected Country" }}
+            {{
+              selectedCountry?.name ||
+                selectedVisaType.country_name ||
+                "Selected Country"
+            }}
             visa package details and required documents.
           </p>
         </div>
 
         <button type="button" class="btn btn-style" (click)="goToApply()">
-          <i class="fas" [ngClass]="isLoggedIn ? 'fa-arrow-right' : 'fa-lock'" aria-hidden="true"></i>
+          <i
+            class="fas"
+            [ngClass]="isLoggedIn ? 'fa-arrow-right' : 'fa-lock'"
+            aria-hidden="true"
+          ></i>
           {{ isLoggedIn ? "Apply Now" : "Login To Apply" }}
         </button>
       </div>
@@ -155,7 +198,9 @@
         <article class="detail-info">
           <div class="info-row">
             <span>Country</span>
-            <strong>{{ selectedCountry?.name || selectedVisaType.country_name || "N/A" }}</strong>
+            <strong>{{
+              selectedCountry?.name || selectedVisaType.country_name || "N/A"
+            }}</strong>
           </div>
           <div class="info-row">
             <span>Package</span>
@@ -163,33 +208,51 @@
           </div>
           <div class="info-row">
             <span>Fee</span>
-            <strong>{{ selectedVisaType.fee ? "৳" + selectedVisaType.fee : "Contact Us" }}</strong>
+            <strong>{{
+              selectedVisaType.fee ? "৳" + selectedVisaType.fee : "Contact Us"
+            }}</strong>
           </div>
           <div class="info-row">
             <span>Processing Time</span>
             <strong>
-              {{ selectedVisaType.processing_days ? selectedVisaType.processing_days + " days" : "Varies" }}
+              {{
+                selectedVisaType.processing_days
+                  ? selectedVisaType.processing_days + " days"
+                  : "Varies"
+              }}
             </strong>
           </div>
         </article>
 
         <article class="requirements-panel">
           <h3>Required Documents</h3>
-          <div class="loading-state small" *ngIf="isLoadingRequirements">Loading requirements...</div>
+          <div class="loading-state small" *ngIf="isLoadingRequirements">
+            Loading requirements...
+          </div>
 
-          <ul class="requirements-list" *ngIf="!isLoadingRequirements && requirements.length > 0">
+          <ul
+            class="requirements-list"
+            *ngIf="!isLoadingRequirements && requirements.length > 0"
+          >
             <li *ngFor="let requirement of requirements">
               <i
                 class="fas"
-                [ngClass]="requirement.is_required ? 'fa-check-circle' : 'fa-circle'"
+                [ngClass]="
+                  requirement.is_required ? 'fa-check-circle' : 'fa-circle'
+                "
                 aria-hidden="true"
               ></i>
               <span>{{ requirement.document_name }}</span>
-              <small>{{ requirement.is_required ? "Required" : "Optional" }}</small>
+              <small>{{
+                requirement.is_required ? "Required" : "Optional"
+              }}</small>
             </li>
           </ul>
 
-          <div class="empty-state" *ngIf="!isLoadingRequirements && requirements.length === 0">
+          <div
+            class="empty-state"
+            *ngIf="!isLoadingRequirements && requirements.length === 0"
+          >
             No requirements found for this visa package yet.
           </div>
         </article>

@@ -50,9 +50,15 @@ export interface VisaType {
 
 export interface VisaRequirement {
   id: number;
-  visa_type_id: number;
-  document_name: string;
+  visa_type_id?: number;
+  visa_package_id?: number;
+  document_name?: string;
+  document_key?: string;
+  document_label?: string;
+  instructions?: string | null;
   is_required: number | boolean;
+  allow_multiple?: number | boolean;
+  sort_order?: number | string;
   created_at?: string;
   updated_at?: string;
 }
@@ -104,15 +110,20 @@ export interface VisaStatusLog {
 }
 
 export interface VisaApplicationSummary {
-  id: number;
+  id: number | string;
   application_no?: string | null;
-  country_id?: number | null;
-  visa_type_id?: number | null;
-  visa_package_id?: number | null;
-  booking_id?: number | null;
-  package_booking_id?: number | null;
+  country_id?: number | string | null;
+  visa_type_id?: number | string | null;
+  visa_package_id?: number | string | null;
+  booking_id?: number | string | null;
+  package_booking_id?: number | string | null;
   country_name?: string | null;
   visa_name?: string | null;
+  country_name_snapshot?: string | null;
+  visa_type_snapshot?: string | null;
+  fee_snapshot?: number | string | null;
+  currency_snapshot?: string | null;
+  processing_days_snapshot?: number | string | null;
   status: VisaApplicationStatus | string;
   remarks?: string | null;
   assigned_officer_name?: string | null;
