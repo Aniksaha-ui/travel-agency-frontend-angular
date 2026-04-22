@@ -634,6 +634,61 @@ export class VisaApplicationFormComponent implements OnInit {
     return this.application?.application_no || (this.applicationId ? `Draft #${this.applicationId}` : 'New Application');
   }
 
+  isDraftStepComplete(): boolean {
+    return !!this.applicationId;
+  }
+
+  isApplicantStepComplete(): boolean {
+    return this.hasCompleteApplicantInfo();
+  }
+
+  isDocumentStepReady(): boolean {
+    return !!this.applicationId && !!this.draftForm.get('visa_type_id')?.value;
+  }
+
+  isDocumentStepComplete(): boolean {
+    return this.isDocumentStepReady() && this.getCompletedRequiredDocumentCount() >= this.getRequiredDocumentCount();
+  }
+
+  getRequiredDocumentCount(): number {
+    return this.requirements.filter((requirement) => this.isRequirementRequired(requirement)).length;
+  }
+
+  getCompletedRequiredDocumentCount(): number {
+    return this.requirements
+      .filter((requirement) => this.isRequirementRequired(requirement))
+      .filter((requirement) => {
+        const document = this.getRequirementDocument(requirement);
+        return !!document && document.status !== 'rejected';
+      }).length;
+  }
+
+  getUploadedDocumentCount(): number {
+    return this.application?.documents?.length || 0;
+  }
+
+  getCompletedStepCount(): number {
+    let completedSteps = 0;
+
+    if (this.isDraftStepComplete()) {
+      completedSteps += 1;
+    }
+
+    if (this.isApplicantStepComplete()) {
+      completedSteps += 1;
+    }
+
+    if (this.isDocumentStepComplete()) {
+      completedSteps += 1;
+    }
+
+    if (this.isPaymentCompleted()) {
+      completedSteps += 1;
+    }
+
+    return completedSteps;
+  }
+
   getRequirementDocument(requirement: VisaRequirement): VisaDocument | undefined {
     return this.application?.documents?.find(
       (document) =>

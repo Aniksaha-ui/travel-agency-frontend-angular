@@ -8,3 +8,1544 @@
         /* Space for fixed bottom nav */
     }
 }
+
+app-visa-application-form {
+    display: block;
+    font-family: 'Ubuntu', sans-serif;
+    color: #173042;
+}
+
+app-visa-application-form *,
+app-visa-application-form *::before,
+app-visa-application-form *::after {
+    box-sizing: border-box;
+}
+
+app-visa-application-form .visa-form-shell {
+    padding: 128px 0 72px;
+    background:
+        radial-gradient(circle at top left, rgba(14, 165, 233, 0.12), transparent 28%),
+        radial-gradient(circle at top right, rgba(15, 118, 110, 0.08), transparent 24%),
+        linear-gradient(180deg, #f4fbfb 0%, #ffffff 38%, #f6faff 100%);
+}
+
+app-visa-application-form .page-head,
+app-visa-application-form .card-head,
+app-visa-application-form .requirement-head,
+app-visa-application-form .uploaded-box,
+app-visa-application-form .uploaded-actions,
+app-visa-application-form .payment-head,
+app-visa-application-form .summary-topline,
+app-visa-application-form .summary-row,
+app-visa-application-form .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+app-visa-application-form .page-head {
+    gap: 24px;
+    margin-bottom: 22px;
+}
+
+app-visa-application-form .page-copy {
+    max-width: 720px;
+}
+
+app-visa-application-form .page-kicker,
+app-visa-application-form .section-kicker,
+app-visa-application-form .field-label {
+    display: block;
+    font-size: .79rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: #0f766e;
+}
+
+app-visa-application-form .page-head h1 {
+    margin: 12px 0 14px;
+    font-size: clamp(2.1rem, 3vw, 3.2rem);
+    line-height: 1.06;
+    color: #173042;
+}
+
+app-visa-application-form .page-head p,
+app-visa-application-form .section-copy,
+app-visa-application-form .journey-copy p,
+app-visa-application-form .field-hint,
+app-visa-application-form .summary-note,
+app-visa-application-form .security-list li,
+app-visa-application-form .requirement-head p,
+app-visa-application-form .uploaded-box p,
+app-visa-application-form .payment-head p,
+app-visa-application-form .check-item p,
+app-visa-application-form .journey-step p,
+app-visa-application-form .inline-tip {
+    color: #607285;
+}
+
+app-visa-application-form .head-actions,
+app-visa-application-form .action-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+app-visa-application-form .head-actions {
+    justify-content: flex-end;
+}
+
+app-visa-application-form .action-row {
+    margin-top: 20px;
+}
+
+app-visa-application-form .banner {
+    margin-bottom: 16px;
+    border-radius: 18px;
+    padding: 14px 18px;
+    font-weight: 600;
+}
+
+app-visa-application-form .banner-success {
+    background: rgba(15, 118, 110, 0.1);
+    color: #0c5f59;
+}
+
+app-visa-application-form .banner-error {
+    background: rgba(244, 63, 94, 0.12);
+    color: #be123c;
+}
+
+app-visa-application-form .journey-card,
+app-visa-application-form .process-card,
+app-visa-application-form .summary-card,
+app-visa-application-form .loading-card {
+    border-radius: 28px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+}
+
+app-visa-application-form .journey-card {
+    display: grid;
+    gap: 22px;
+    padding: 28px;
+    margin-bottom: 22px;
+    background:
+        linear-gradient(135deg, rgba(15, 118, 110, 0.06), rgba(37, 99, 235, 0.05)),
+        rgba(255, 255, 255, 0.98);
+}
+
+app-visa-application-form .journey-copy h2,
+app-visa-application-form .journey-step h3,
+app-visa-application-form .card-head h2,
+app-visa-application-form .summary-card h3,
+app-visa-application-form .requirement-head h3,
+app-visa-application-form .payment-head h3 {
+    margin: 0;
+    color: #173042;
+}
+
+app-visa-application-form .journey-copy h2 {
+    margin: 10px 0 12px;
+}
+
+app-visa-application-form .progress-meta {
+    margin-bottom: 10px;
+}
+
+app-visa-application-form .progress-meta strong {
+    font-size: 1.05rem;
+    color: #173042;
+}
+
+app-visa-application-form .progress-meta span {
+    color: #0f766e;
+    font-weight: 700;
+}
+
+app-visa-application-form .progress-track {
+    height: 12px;
+    border-radius: 999px;
+    background: rgba(148, 163, 184, 0.16);
+    overflow: hidden;
+}
+
+app-visa-application-form .progress-track span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #0f766e, #0ea5e9);
+}
+
+app-visa-application-form .journey-steps,
+app-visa-application-form .quick-info-grid,
+app-visa-application-form .summary-stats,
+app-visa-application-form .field-grid,
+app-visa-application-form .requirements-grid,
+app-visa-application-form .submit-checklist,
+app-visa-application-form .side-checklist {
+    display: grid;
+    gap: 14px;
+}
+
+app-visa-application-form .journey-steps {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+app-visa-application-form .quick-info-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-bottom: 20px;
+}
+
+app-visa-application-form .summary-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-bottom: 18px;
+}
+
+app-visa-application-form .field-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+app-visa-application-form .journey-step,
+app-visa-application-form .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+app-visa-application-form .journey-step {
+    min-height: 112px;
+    border-radius: 22px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 18px;
+    transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+
+app-visa-application-form .journey-step.is-active {
+    border-color: rgba(14, 165, 233, 0.35);
+    box-shadow: 0 14px 28px rgba(14, 165, 233, 0.12);
+    transform: translateY(-2px);
+}
+
+app-visa-application-form .journey-step.is-complete {
+    border-color: rgba(15, 118, 110, 0.28);
+    background: rgba(236, 253, 245, 0.92);
+}
+
+app-visa-application-form .journey-step.is-locked,
+app-visa-application-form .payment-disabled,
+app-visa-application-form .section-disabled {
+    opacity: .72;
+}
+
+app-visa-application-form .step-number,
+app-visa-application-form .check-item span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+app-visa-application-form .step-number {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(15, 118, 110, 0.12);
+    color: #0f766e;
+    font-weight: 700;
+}
+
+app-visa-application-form .journey-step p,
+app-visa-application-form .check-item p {
+    margin: 8px 0 0;
+    font-size: .95rem;
+    line-height: 1.45;
+}
+
+app-visa-application-form .process-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.55fr) minmax(300px, 0.85fr);
+    gap: 24px;
+}
+
+app-visa-application-form .process-card {
+    padding: 26px;
+}
+
+app-visa-application-form .process-card + .process-card,
+app-visa-application-form .summary-card + .summary-card {
+    margin-top: 18px;
+}
+
+app-visa-application-form .card-head {
+    gap: 18px;
+    margin-bottom: 20px;
+}
+
+app-visa-application-form .section-copy {
+    margin: 10px 0 0;
+    max-width: 680px;
+}
+
+app-visa-application-form .info-chip,
+app-visa-application-form .stat-card,
+app-visa-application-form .check-item,
+app-visa-application-form .submit-block,
+app-visa-application-form .payment-block,
+app-visa-application-form .requirement-card {
+    border-radius: 20px;
+    border: 1px solid rgba(15, 23, 42, 0.06);
+    background: #f8fbfd;
+}
+
+app-visa-application-form .info-chip,
+app-visa-application-form .stat-card {
+    padding: 16px 18px;
+}
+
+app-visa-application-form .info-chip span,
+app-visa-application-form .stat-card span {
+    display: block;
+    margin-bottom: 6px;
+    color: #607285;
+    font-size: .9rem;
+}
+
+app-visa-application-form .info-chip strong,
+app-visa-application-form .stat-card strong,
+app-visa-application-form .summary-row strong,
+app-visa-application-form .check-item strong {
+    color: #173042;
+}
+
+app-visa-application-form .field-wide {
+    grid-column: 1 / -1;
+}
+
+app-visa-application-form .field label,
+app-visa-application-form .submit-block label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: #173042;
+}
+
+app-visa-application-form .field input,
+app-visa-application-form .field select,
+app-visa-application-form .field textarea,
+app-visa-application-form .submit-block textarea,
+app-visa-application-form .requirement-card textarea {
+    width: 100%;
+    min-width: 0;
+    border: 1px solid #d9e4ef;
+    border-radius: 16px;
+    background: #f9fbfd;
+    padding: 14px 16px;
+    color: #173042;
+    font: inherit;
+}
+
+app-visa-application-form .field input::placeholder,
+app-visa-application-form .field textarea::placeholder,
+app-visa-application-form .submit-block textarea::placeholder,
+app-visa-application-form .requirement-card textarea::placeholder {
+    color: #91a0ae;
+}
+
+app-visa-application-form .field input:focus,
+app-visa-application-form .field select:focus,
+app-visa-application-form .field textarea:focus,
+app-visa-application-form .submit-block textarea:focus,
+app-visa-application-form .requirement-card textarea:focus {
+    outline: none;
+    border-color: #0f766e;
+    box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.08);
+    background: #fff;
+}
+
+app-visa-application-form .field small {
+    display: block;
+    margin-top: 6px;
+    color: #be123c;
+}
+
+app-visa-application-form .field-hint {
+    color: #607285;
+}
+
+app-visa-application-form .inline-tip,
+app-visa-application-form .empty-box,
+app-visa-application-form .uploaded-box {
+    border-radius: 18px;
+    padding: 16px;
+}
+
+app-visa-application-form .inline-tip,
+app-visa-application-form .empty-box {
+    margin-bottom: 16px;
+    background: rgba(37, 99, 235, 0.06);
+}
+
+app-visa-application-form .empty-box {
+    color: #28586d;
+}
+
+app-visa-application-form .action-row .btn,
+app-visa-application-form .submit-block .btn,
+app-visa-application-form .payment-block .btn {
+    min-height: 48px;
+}
+
+app-visa-application-form .status-pill,
+app-visa-application-form .mini-badge,
+app-visa-application-form .requirement-tag,
+app-visa-application-form .requirement-state {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    padding: 8px 12px;
+    font-size: .8rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+app-visa-application-form .status-pill {
+    background: rgba(37, 99, 235, 0.12);
+    color: #1d4ed8;
+}
+
+app-visa-application-form .status-pill.small {
+    padding: 6px 10px;
+}
+
+app-visa-application-form .mini-badge,
+app-visa-application-form .requirement-state.is-ready,
+app-visa-application-form .requirement-tag {
+    background: rgba(15, 118, 110, 0.1);
+    color: #0f766e;
+}
+
+app-visa-application-form .requirement-tag.optional,
+app-visa-application-form .status-default {
+    background: rgba(100, 116, 139, 0.12);
+    color: #475569;
+}
+
+app-visa-application-form .requirement-state {
+    background: rgba(37, 99, 235, 0.08);
+    color: #1d4ed8;
+}
+
+app-visa-application-form .status-pending {
+    background: rgba(234, 179, 8, 0.14);
+    color: #a16207;
+}
+
+app-visa-application-form .status-approved {
+    background: rgba(34, 197, 94, 0.14);
+    color: #15803d;
+}
+
+app-visa-application-form .status-rejected {
+    background: rgba(244, 63, 94, 0.12);
+    color: #be123c;
+}
+
+app-visa-application-form .requirement-card {
+    background: linear-gradient(180deg, #fbfdff 0%, #fff 100%);
+    padding: 20px;
+}
+
+app-visa-application-form .requirement-title-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+}
+
+app-visa-application-form .uploaded-box {
+    margin: 16px 0;
+    background: rgba(15, 118, 110, 0.06);
+}
+
+app-visa-application-form .uploaded-copy {
+    display: grid;
+    gap: 10px;
+}
+
+app-visa-application-form .uploaded-actions {
+    align-items: center;
+}
+
+app-visa-application-form .upload-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    min-height: 48px;
+    margin-top: 14px;
+    border-radius: 999px;
+    padding: 0 20px;
+    font-weight: 700;
+    background: #0f766e;
+    color: #fff;
+    cursor: pointer;
+}
+
+app-visa-application-form .upload-btn input {
+    display: none;
+}
+
+app-visa-application-form .upload-btn.disabled {
+    opacity: .55;
+    pointer-events: none;
+}
+
+app-visa-application-form .check-item {
+    padding: 14px 16px;
+}
+
+app-visa-application-form .check-item span {
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    border-radius: 50%;
+    border: 2px solid #cbd5e1;
+    background: #fff;
+}
+
+app-visa-application-form .check-item.complete {
+    border-color: rgba(15, 118, 110, 0.16);
+    background: rgba(236, 253, 245, 0.88);
+}
+
+app-visa-application-form .check-item.complete span {
+    border-color: #0f766e;
+    background: radial-gradient(circle at center, #0f766e 0 45%, transparent 46%);
+}
+
+app-visa-application-form .submit-block,
+app-visa-application-form .payment-block {
+    display: grid;
+    gap: 18px;
+    padding: 20px;
+}
+
+app-visa-application-form .summary-card {
+    padding: 24px;
+    position: sticky;
+    top: 110px;
+}
+
+app-visa-application-form .summary-card-accent {
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(245, 251, 255, 0.98)),
+        #fff;
+}
+
+app-visa-application-form .summary-topline {
+    margin: 16px 0 18px;
+    align-items: center;
+}
+
+app-visa-application-form .summary-row {
+    padding: 13px 0;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+app-visa-application-form .summary-row span {
+    color: #607285;
+}
+
+app-visa-application-form .summary-row strong {
+    text-align: right;
+}
+
+app-visa-application-form .summary-note {
+    margin-top: 18px;
+}
+
+app-visa-application-form .security-list {
+    margin: 16px 0 0;
+    padding-left: 18px;
+}
+
+app-visa-application-form .security-list li + li {
+    margin-top: 10px;
+}
+
+app-visa-application-form .action-link {
+    color: #0f766e;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+app-visa-application-form .action-link:hover {
+    text-decoration: underline;
+}
+
+app-visa-application-form .loading-card {
+    height: 360px;
+    background: linear-gradient(90deg, #edf2f7, #f8fbfd, #edf2f7);
+    background-size: 200% 100%;
+    animation: visaShimmer 1.2s infinite linear;
+}
+
+@keyframes visaShimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+@media (max-width: 1199px) {
+    app-visa-application-form .journey-steps {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    app-visa-application-form .process-layout {
+        grid-template-columns: 1fr;
+    }
+
+    app-visa-application-form .summary-card {
+        position: static;
+    }
+}
+
+@media (max-width: 991px) {
+    app-visa-application-form .visa-form-shell {
+        padding: 104px 0 42px;
+    }
+
+    app-visa-application-form .page-head {
+        display: grid;
+    }
+
+    app-visa-application-form .field-grid,
+    app-visa-application-form .quick-info-grid,
+    app-visa-application-form .summary-stats {
+        grid-template-columns: 1fr;
+    }
+
+    app-visa-application-form .head-actions {
+        justify-content: flex-start;
+    }
+
+    app-visa-application-form .journey-card,
+    app-visa-application-form .process-card,
+    app-visa-application-form .summary-card {
+        padding: 22px;
+    }
+}
+
+@media (max-width: 767px) {
+    app-visa-application-form .visa-form-shell {
+        padding-top: 92px;
+    }
+
+    app-visa-application-form .page-head h1 {
+        font-size: 1.95rem;
+    }
+
+    app-visa-application-form .journey-card,
+    app-visa-application-form .process-card,
+    app-visa-application-form .summary-card,
+    app-visa-application-form .submit-block,
+    app-visa-application-form .payment-block,
+    app-visa-application-form .requirement-card {
+        border-radius: 22px;
+        padding: 18px;
+    }
+
+    app-visa-application-form .journey-steps {
+        grid-template-columns: 1fr;
+    }
+
+    app-visa-application-form .card-head,
+    app-visa-application-form .requirement-head,
+    app-visa-application-form .uploaded-box,
+    app-visa-application-form .uploaded-actions,
+    app-visa-application-form .action-row,
+    app-visa-application-form .head-actions,
+    app-visa-application-form .summary-row,
+    app-visa-application-form .payment-head,
+    app-visa-application-form .summary-topline,
+    app-visa-application-form .progress-meta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    app-visa-application-form .summary-row strong {
+        text-align: left;
+    }
+
+    app-visa-application-form .action-row .btn,
+    app-visa-application-form .submit-block .btn,
+    app-visa-application-form .payment-block .btn,
+    app-visa-application-form .upload-btn,
+    app-visa-application-form .head-actions .btn {
+        width: 100%;
+    }
+
+    app-visa-application-form .upload-btn {
+        justify-content: center;
+    }
+}
+
+app-visa-application-form {
+    --visa-ink: #173042;
+    --visa-copy: #5f7389;
+    --visa-line: rgba(32, 61, 93, 0.12);
+    --visa-white: rgba(255, 255, 255, 0.96);
+    --visa-surface: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(246, 250, 255, 0.98));
+    --visa-primary: #0f766e;
+    --visa-primary-strong: #0d9488;
+    --visa-royal: #2563eb;
+    --visa-sky: #38bdf8;
+    --visa-amber: #f59e0b;
+    --visa-rose: #ef476f;
+}
+
+app-visa-application-form .visa-form-shell {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(90deg, #d9eefb 0%, #edf5fb 42%, #f4edde 100%);
+}
+
+app-visa-application-form .hero-panel {
+    position: relative;
+    overflow: hidden;
+    grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.8fr);
+    padding: 32px;
+    border: 1px solid rgba(37, 99, 235, 0.12);
+    background:
+        linear-gradient(135deg, rgba(9, 132, 227, 0.11), rgba(15, 118, 110, 0.08) 45%, rgba(245, 158, 11, 0.09)),
+        rgba(255, 255, 255, 0.98);
+}
+
+app-visa-application-form .hero-panel::before,
+app-visa-application-form .process-card::before,
+app-visa-application-form .summary-card::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, var(--visa-primary), var(--visa-sky), var(--visa-amber));
+}
+
+app-visa-application-form .hero-panel::after {
+    content: '';
+    position: absolute;
+    right: -120px;
+    top: -100px;
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0));
+    pointer-events: none;
+}
+
+app-visa-application-form .page-kicker,
+app-visa-application-form .section-kicker {
+    width: fit-content;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(15, 118, 110, 0.14);
+    background: rgba(255, 255, 255, 0.78);
+    box-shadow: 0 10px 24px rgba(37, 99, 235, 0.07);
+}
+
+app-visa-application-form .page-head h1,
+app-visa-application-form .journey-copy h2 {
+    letter-spacing: -0.03em;
+}
+
+app-visa-application-form .journey-progress {
+    align-self: center;
+    padding: 22px;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.8), rgba(243, 249, 255, 0.72));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+app-visa-application-form .progress-track {
+    height: 14px;
+    background: rgba(23, 48, 66, 0.08);
+}
+
+app-visa-application-form .progress-track span {
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.28);
+}
+
+app-visa-application-form .journey-highlights {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+app-visa-application-form .highlight-card {
+    position: relative;
+    overflow: hidden;
+    min-height: 150px;
+    padding: 22px;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: 0 20px 40px rgba(27, 39, 53, 0.08);
+}
+
+app-visa-application-form .highlight-card::after {
+    content: '';
+    position: absolute;
+    right: -28px;
+    bottom: -28px;
+    width: 110px;
+    height: 110px;
+    border-radius: 28px;
+    transform: rotate(28deg);
+    background: rgba(255, 255, 255, 0.22);
+}
+
+app-visa-application-form .highlight-card span,
+app-visa-application-form .highlight-card p {
+    position: relative;
+    z-index: 1;
+}
+
+app-visa-application-form .highlight-card strong {
+    position: relative;
+    z-index: 1;
+    display: block;
+    margin: 10px 0 12px;
+    font-size: 1.4rem;
+    line-height: 1.2;
+}
+
+app-visa-application-form .highlight-card p {
+    margin: 0;
+    max-width: 28ch;
+    color: rgba(255, 255, 255, 0.84);
+}
+
+app-visa-application-form .highlight-card-primary {
+    background: linear-gradient(145deg, #0f766e, #11998e);
+    color: #fff;
+}
+
+app-visa-application-form .highlight-card-secondary {
+    background: linear-gradient(145deg, #2563eb, #38bdf8);
+    color: #fff;
+}
+
+app-visa-application-form .highlight-card-accent {
+    background: linear-gradient(145deg, #f59e0b, #ef476f);
+    color: #fff;
+}
+
+app-visa-application-form .journey-step {
+    border: 1px solid rgba(255, 255, 255, 0.62);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(246, 250, 255, 0.92));
+    box-shadow: 0 18px 35px rgba(19, 37, 58, 0.06);
+}
+
+app-visa-application-form .journey-step.is-active {
+    border-color: rgba(37, 99, 235, 0.24);
+    box-shadow: 0 20px 38px rgba(37, 99, 235, 0.14);
+}
+
+app-visa-application-form .journey-step.is-complete {
+    background: linear-gradient(180deg, rgba(236, 253, 245, 0.98), rgba(243, 255, 251, 0.98));
+}
+
+app-visa-application-form .step-number {
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.14), rgba(15, 118, 110, 0.18));
+    color: var(--visa-ink);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+app-visa-application-form .process-card,
+app-visa-application-form .summary-card {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.58);
+    background: var(--visa-surface);
+    box-shadow: 0 26px 48px rgba(20, 36, 54, 0.08);
+}
+
+app-visa-application-form .card-draft {
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(239, 249, 255, 0.96)),
+        #fff;
+}
+
+app-visa-application-form .card-applicant {
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(239, 255, 249, 0.95)),
+        #fff;
+}
+
+app-visa-application-form .card-documents {
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 248, 236, 0.96)),
+        #fff;
+}
+
+app-visa-application-form .card-payment {
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 242, 255, 0.95)),
+        #fff;
+}
+
+app-visa-application-form .card-draft::before {
+    background: linear-gradient(90deg, #0ea5e9, #2563eb);
+}
+
+app-visa-application-form .card-applicant::before {
+    background: linear-gradient(90deg, #0f766e, #22c55e);
+}
+
+app-visa-application-form .card-documents::before {
+    background: linear-gradient(90deg, #f59e0b, #ef476f);
+}
+
+app-visa-application-form .card-payment::before {
+    background: linear-gradient(90deg, #7c3aed, #2563eb);
+}
+
+app-visa-application-form .status-pill,
+app-visa-application-form .mini-badge,
+app-visa-application-form .requirement-state,
+app-visa-application-form .requirement-tag {
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 10px 20px rgba(28, 43, 61, 0.08);
+}
+
+app-visa-application-form .status-pill {
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.14), rgba(56, 189, 248, 0.1));
+}
+
+app-visa-application-form .mini-badge {
+    background: linear-gradient(135deg, rgba(15, 118, 110, 0.14), rgba(34, 197, 94, 0.1));
+}
+
+app-visa-application-form .quick-info-grid {
+    gap: 16px;
+}
+
+app-visa-application-form .info-chip {
+    position: relative;
+    overflow: hidden;
+    border-radius: 22px;
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    box-shadow: 0 18px 34px rgba(18, 34, 51, 0.06);
+}
+
+app-visa-application-form .info-chip::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 6px;
+    border-radius: inherit;
+}
+
+app-visa-application-form .info-chip:nth-child(1) {
+    background: linear-gradient(180deg, rgba(237, 248, 255, 0.98), rgba(246, 252, 255, 0.98));
+}
+
+app-visa-application-form .info-chip:nth-child(1)::before {
+    background: linear-gradient(180deg, #2563eb, #38bdf8);
+}
+
+app-visa-application-form .info-chip:nth-child(2) {
+    background: linear-gradient(180deg, rgba(237, 255, 249, 0.98), rgba(246, 255, 252, 0.98));
+}
+
+app-visa-application-form .info-chip:nth-child(2)::before {
+    background: linear-gradient(180deg, #0f766e, #22c55e);
+}
+
+app-visa-application-form .info-chip:nth-child(3) {
+    background: linear-gradient(180deg, rgba(255, 248, 233, 0.98), rgba(255, 252, 245, 0.98));
+}
+
+app-visa-application-form .info-chip:nth-child(3)::before {
+    background: linear-gradient(180deg, #f59e0b, #ef476f);
+}
+
+app-visa-application-form .luxe-form .field {
+    padding: 18px;
+    border-radius: 24px;
+    border: 1px solid rgba(37, 99, 235, 0.08);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(248, 251, 255, 0.88));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+app-visa-application-form .luxe-form .field:focus-within {
+    transform: translateY(-2px);
+    border-color: rgba(37, 99, 235, 0.18);
+    box-shadow: 0 16px 28px rgba(37, 99, 235, 0.08);
+}
+
+app-visa-application-form .field label,
+app-visa-application-form .submit-block label {
+    font-size: 0.92rem;
+    letter-spacing: -0.01em;
+}
+
+app-visa-application-form .field input,
+app-visa-application-form .field select,
+app-visa-application-form .field textarea,
+app-visa-application-form .submit-block textarea,
+app-visa-application-form .requirement-card textarea {
+    border-width: 1.5px;
+    border-color: rgba(108, 129, 153, 0.2);
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: inset 0 1px 2px rgba(14, 23, 38, 0.04);
+}
+
+app-visa-application-form .field input,
+app-visa-application-form .field select {
+    min-height: 54px;
+}
+
+app-visa-application-form .inline-tip {
+    border: 1px solid rgba(37, 99, 235, 0.08);
+    background: linear-gradient(180deg, rgba(234, 245, 255, 0.9), rgba(243, 249, 255, 0.88));
+}
+
+app-visa-application-form .requirement-card {
+    border-radius: 24px;
+    border-color: rgba(245, 158, 11, 0.12);
+    box-shadow: 0 16px 32px rgba(26, 34, 44, 0.06);
+}
+
+app-visa-application-form .uploaded-box {
+    border: 1px solid rgba(15, 118, 110, 0.08);
+    background: linear-gradient(180deg, rgba(233, 252, 244, 0.9), rgba(241, 255, 249, 0.9));
+}
+
+app-visa-application-form .card-subpanel {
+    border-radius: 24px;
+    border: 1px solid rgba(37, 99, 235, 0.08);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(247, 250, 255, 0.92));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.88);
+}
+
+app-visa-application-form .check-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(247, 251, 255, 0.94));
+}
+
+app-visa-application-form .check-item::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 5px;
+    background: linear-gradient(180deg, rgba(148, 163, 184, 0.28), rgba(148, 163, 184, 0.08));
+}
+
+app-visa-application-form .check-item.complete::before {
+    background: linear-gradient(180deg, #0f766e, #22c55e);
+}
+
+app-visa-application-form .summary-card-primary {
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(241, 247, 255, 0.96)),
+        #fff;
+}
+
+app-visa-application-form .summary-card-soft {
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(247, 251, 255, 0.95)),
+        #fff;
+}
+
+app-visa-application-form .summary-card::before {
+    background: linear-gradient(90deg, rgba(37, 99, 235, 0.9), rgba(15, 118, 110, 0.9));
+}
+
+app-visa-application-form .stat-card {
+    border-radius: 22px;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 16px 30px rgba(25, 42, 60, 0.06);
+}
+
+app-visa-application-form .stat-card:first-child {
+    background: linear-gradient(180deg, rgba(236, 248, 255, 0.98), rgba(246, 252, 255, 0.98));
+}
+
+app-visa-application-form .stat-card:last-child {
+    background: linear-gradient(180deg, rgba(238, 255, 248, 0.98), rgba(247, 255, 251, 0.98));
+}
+
+app-visa-application-form .summary-row {
+    align-items: center;
+}
+
+app-visa-application-form .btn,
+app-visa-application-form .upload-btn,
+app-visa-application-form .action-link {
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+app-visa-application-form .btn:hover,
+app-visa-application-form .upload-btn:hover {
+    transform: translateY(-1px);
+}
+
+app-visa-application-form .btn-style,
+app-visa-application-form .upload-btn {
+    border: none;
+    background: linear-gradient(135deg, #0f766e, #2563eb);
+    box-shadow: 0 16px 28px rgba(37, 99, 235, 0.22);
+    color: #fff;
+}
+
+app-visa-application-form .btn-outline-secondary,
+app-visa-application-form .btn-outline-primary,
+app-visa-application-form .btn-outline-danger {
+    border-width: 1.5px;
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 0 12px 24px rgba(17, 24, 39, 0.06);
+}
+
+app-visa-application-form .btn-outline-secondary:hover,
+app-visa-application-form .btn-outline-primary:hover,
+app-visa-application-form .btn-outline-danger:hover {
+    background: #fff;
+}
+
+app-visa-application-form .action-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 42px;
+    padding: 0 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid rgba(15, 118, 110, 0.12);
+    text-decoration: none;
+}
+
+app-visa-application-form .action-link:hover {
+    box-shadow: 0 12px 22px rgba(15, 118, 110, 0.1);
+    text-decoration: none;
+}
+
+@media (max-width: 1199px) {
+    app-visa-application-form .hero-panel {
+        grid-template-columns: 1fr;
+    }
+
+    app-visa-application-form .journey-highlights {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 991px) {
+    app-visa-application-form .hero-panel {
+        padding: 24px;
+    }
+
+    app-visa-application-form .journey-highlights {
+        grid-template-columns: 1fr;
+    }
+
+    app-visa-application-form .process-card,
+    app-visa-application-form .summary-card {
+        padding: 24px;
+    }
+}
+
+@media (max-width: 767px) {
+    app-visa-application-form .highlight-card {
+        min-height: unset;
+    }
+
+    app-visa-application-form .luxe-form .field {
+        padding: 16px;
+    }
+
+    app-visa-application-form .journey-progress,
+    app-visa-application-form .card-subpanel {
+        padding: 18px;
+    }
+}
+
+app-visa-application-form .hero-panel {
+    grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+    background:
+        radial-gradient(circle at top right, rgba(59, 130, 246, 0.18), transparent 28%),
+        linear-gradient(145deg, #0f172a, #111827 48%, #172033);
+    border-color: rgba(96, 165, 250, 0.18);
+    box-shadow: 0 28px 60px rgba(2, 6, 23, 0.42);
+}
+
+app-visa-application-form .hero-panel::before {
+    background: linear-gradient(90deg, #38bdf8, #3b82f6, #22c55e);
+}
+
+app-visa-application-form .hero-panel .journey-copy,
+app-visa-application-form .hero-panel .journey-progress {
+    position: relative;
+    z-index: 1;
+}
+
+app-visa-application-form .hero-panel .journey-highlights,
+app-visa-application-form .hero-panel .journey-steps {
+    grid-column: 1 / -1;
+}
+
+app-visa-application-form .hero-panel .journey-copy h2,
+app-visa-application-form .hero-panel .journey-copy p,
+app-visa-application-form .hero-panel .progress-meta strong,
+app-visa-application-form .hero-panel .progress-meta span,
+app-visa-application-form .hero-panel .journey-step h3,
+app-visa-application-form .hero-panel .journey-step p {
+    color: #eef6ff;
+}
+
+app-visa-application-form .hero-panel .section-kicker {
+    color: #8ce7ff;
+    border-color: rgba(140, 231, 255, 0.22);
+    background: rgba(8, 15, 31, 0.44);
+}
+
+app-visa-application-form .hero-panel .journey-progress {
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.7), rgba(30, 41, 59, 0.62));
+    border-color: rgba(148, 163, 184, 0.12);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+app-visa-application-form .hero-panel .progress-track {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+app-visa-application-form .journey-highlights {
+    margin-top: 4px;
+}
+
+app-visa-application-form .highlight-card {
+    min-height: 176px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 18px 38px rgba(2, 6, 23, 0.24);
+}
+
+app-visa-application-form .highlight-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    margin-bottom: 18px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.16);
+    font-size: 1.15rem;
+    color: #fff;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+app-visa-application-form .journey-steps {
+    margin-top: 2px;
+}
+
+app-visa-application-form .journey-step {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    min-height: 168px;
+    padding: 22px 18px;
+    border-color: rgba(96, 165, 250, 0.12);
+    background: linear-gradient(180deg, rgba(9, 16, 29, 0.8), rgba(17, 24, 39, 0.88));
+    box-shadow: 0 16px 34px rgba(2, 6, 23, 0.22);
+}
+
+app-visa-application-form .journey-step.is-active {
+    border-color: rgba(56, 189, 248, 0.4);
+    box-shadow: 0 18px 42px rgba(14, 165, 233, 0.18);
+}
+
+app-visa-application-form .journey-step.is-complete {
+    background: linear-gradient(180deg, rgba(10, 36, 33, 0.92), rgba(13, 62, 53, 0.9));
+}
+
+app-visa-application-form .journey-step.is-locked {
+    opacity: 0.6;
+}
+
+app-visa-application-form .step-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+app-visa-application-form .step-badge i {
+    color: #8fdcff;
+    font-size: 1.05rem;
+}
+
+app-visa-application-form .step-number {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.32), rgba(34, 197, 94, 0.2));
+    color: #fff;
+}
+
+app-visa-application-form .process-card,
+app-visa-application-form .summary-card {
+    background:
+        radial-gradient(circle at top right, rgba(59, 130, 246, 0.1), transparent 30%),
+        linear-gradient(145deg, #111827, #0f172a 52%, #162132);
+    border-color: rgba(96, 165, 250, 0.12);
+    box-shadow: 0 24px 52px rgba(2, 6, 23, 0.32);
+}
+
+app-visa-application-form .process-card::before,
+app-visa-application-form .summary-card::before {
+    height: 4px;
+}
+
+app-visa-application-form .process-card .section-kicker,
+app-visa-application-form .summary-card .section-kicker,
+app-visa-application-form .page-kicker {
+    color: #93c5fd;
+    border-color: rgba(147, 197, 253, 0.14);
+    background: rgba(15, 23, 42, 0.64);
+}
+
+app-visa-application-form .process-card h2,
+app-visa-application-form .summary-card h3,
+app-visa-application-form .process-card label,
+app-visa-application-form .process-card strong,
+app-visa-application-form .summary-card strong,
+app-visa-application-form .requirement-card h3,
+app-visa-application-form .payment-head h3 {
+    color: #f8fbff;
+}
+
+app-visa-application-form .process-card p,
+app-visa-application-form .summary-card p,
+app-visa-application-form .summary-row span,
+app-visa-application-form .field-hint,
+app-visa-application-form .security-list li,
+app-visa-application-form .requirement-head p,
+app-visa-application-form .inline-tip,
+app-visa-application-form .empty-box {
+    color: #9eb0c8;
+}
+
+app-visa-application-form .card-head-main {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+app-visa-application-form .card-icon,
+app-visa-application-form .info-chip-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 18px;
+    background: linear-gradient(145deg, rgba(59, 130, 246, 0.22), rgba(34, 197, 94, 0.14));
+    color: #9fdaff;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+app-visa-application-form .card-icon {
+    width: 52px;
+    height: 52px;
+    font-size: 1.2rem;
+}
+
+app-visa-application-form .info-chip {
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.72), rgba(20, 30, 48, 0.9));
+    border-color: rgba(96, 165, 250, 0.1);
+    box-shadow: 0 14px 26px rgba(2, 6, 23, 0.22);
+}
+
+app-visa-application-form .info-chip::before {
+    width: 4px;
+}
+
+app-visa-application-form .info-chip span {
+    color: #9eb0c8;
+}
+
+app-visa-application-form .info-chip strong {
+    color: #f8fbff;
+}
+
+app-visa-application-form .info-chip-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 14px;
+    font-size: 1rem;
+}
+
+app-visa-application-form .luxe-form .field,
+app-visa-application-form .card-subpanel,
+app-visa-application-form .requirement-card,
+app-visa-application-form .check-item,
+app-visa-application-form .stat-card {
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.7), rgba(19, 30, 48, 0.94));
+    border-color: rgba(96, 165, 250, 0.1);
+    box-shadow: 0 14px 30px rgba(2, 6, 23, 0.2);
+}
+
+app-visa-application-form .luxe-form .field:focus-within {
+    border-color: rgba(56, 189, 248, 0.32);
+    box-shadow: 0 16px 32px rgba(37, 99, 235, 0.12);
+}
+
+app-visa-application-form .field input,
+app-visa-application-form .field select,
+app-visa-application-form .field textarea,
+app-visa-application-form .submit-block textarea,
+app-visa-application-form .requirement-card textarea {
+    color: #eef6ff;
+    border-color: rgba(148, 163, 184, 0.16);
+    background: rgba(7, 12, 23, 0.7);
+}
+
+app-visa-application-form .field input::placeholder,
+app-visa-application-form .field textarea::placeholder,
+app-visa-application-form .submit-block textarea::placeholder,
+app-visa-application-form .requirement-card textarea::placeholder {
+    color: #7f93af;
+}
+
+app-visa-application-form .field input:focus,
+app-visa-application-form .field select:focus,
+app-visa-application-form .field textarea:focus,
+app-visa-application-form .submit-block textarea:focus,
+app-visa-application-form .requirement-card textarea:focus {
+    background: rgba(8, 14, 27, 0.94);
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.12);
+}
+
+app-visa-application-form .inline-tip,
+app-visa-application-form .empty-box,
+app-visa-application-form .uploaded-box {
+    border-color: rgba(96, 165, 250, 0.12);
+    background: linear-gradient(180deg, rgba(10, 19, 35, 0.72), rgba(17, 26, 43, 0.9));
+}
+
+app-visa-application-form .uploaded-box,
+app-visa-application-form .uploaded-copy p {
+    color: #c6d2e4;
+}
+
+app-visa-application-form .summary-topline,
+app-visa-application-form .summary-row,
+app-visa-application-form .security-list,
+app-visa-application-form .summary-note {
+    color: #c0cedf;
+}
+
+app-visa-application-form .summary-row {
+    border-bottom-color: rgba(148, 163, 184, 0.12);
+}
+
+app-visa-application-form .status-pill {
+    color: #dbeafe;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.24), rgba(37, 99, 235, 0.18));
+    border-color: rgba(96, 165, 250, 0.16);
+}
+
+app-visa-application-form .mini-badge,
+app-visa-application-form .requirement-state.is-ready,
+app-visa-application-form .requirement-tag {
+    color: #d1fae5;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.22), rgba(34, 197, 94, 0.12));
+    border-color: rgba(74, 222, 128, 0.14);
+}
+
+app-visa-application-form .requirement-state {
+    color: #dbeafe;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(14, 165, 233, 0.12));
+    border-color: rgba(96, 165, 250, 0.14);
+}
+
+app-visa-application-form .requirement-tag.optional,
+app-visa-application-form .status-default {
+    color: #d8e3f1;
+    background: linear-gradient(135deg, rgba(100, 116, 139, 0.28), rgba(71, 85, 105, 0.16));
+    border-color: rgba(148, 163, 184, 0.14);
+}
+
+app-visa-application-form .status-pending {
+    color: #fde68a;
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.26), rgba(234, 179, 8, 0.14));
+}
+
+app-visa-application-form .status-approved {
+    color: #bbf7d0;
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.24), rgba(22, 163, 74, 0.14));
+}
+
+app-visa-application-form .status-rejected {
+    color: #fecdd3;
+    background: linear-gradient(135deg, rgba(244, 63, 94, 0.24), rgba(190, 24, 93, 0.12));
+}
+
+app-visa-application-form .btn-style,
+app-visa-application-form .upload-btn {
+    background: linear-gradient(135deg, #2563eb, #0ea5e9 55%, #22c55e);
+    box-shadow: 0 16px 30px rgba(37, 99, 235, 0.3);
+}
+
+app-visa-application-form .btn-outline-secondary,
+app-visa-application-form .btn-outline-primary,
+app-visa-application-form .btn-outline-danger,
+app-visa-application-form .action-link {
+    color: #e2e8f0;
+    border-color: rgba(148, 163, 184, 0.18);
+    background: rgba(15, 23, 42, 0.72);
+    box-shadow: 0 10px 24px rgba(2, 6, 23, 0.18);
+}
+
+app-visa-application-form .action-link:hover,
+app-visa-application-form .btn-outline-secondary:hover,
+app-visa-application-form .btn-outline-primary:hover,
+app-visa-application-form .btn-outline-danger:hover {
+    color: #fff;
+    background: rgba(30, 41, 59, 0.94);
+}
+
+@media (max-width: 1199px) {
+    app-visa-application-form .hero-panel {
+        grid-template-columns: 1fr;
+    }
+
+    app-visa-application-form .journey-steps {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 767px) {
+    app-visa-application-form .journey-step {
+        grid-template-columns: 1fr;
+    }
+
+    app-visa-application-form .step-badge {
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+
+    app-visa-application-form .card-head-main {
+        width: 100%;
+    }
+}
