@@ -122,7 +122,7 @@ export class PackageDetailsComponent implements OnInit {
         paymentinfo: paymentInfo,
       };
       this.packageService.bookPackage(bookingData).subscribe((res: any) => {
-        if (res.package_booking_id) {
+        if (res.isExecture.toUpperCase() === 'SUCCESS') {
           this.router.navigate(['/my-bookings']);
         }
       });

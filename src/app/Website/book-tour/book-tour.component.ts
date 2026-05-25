@@ -72,7 +72,8 @@ export class BookTourComponent {
       paymentinfo: this.loginForm.value,
     };
     this.bookingService.bookTour(requestData).subscribe((res: any) => {
-      if (res.status.toUpperCase() === 'SUCCESS') {
+      
+      if (res.isExecture.toUpperCase() === 'SUCCESS') {
         if (res && res.data && res.data.redirected_url) {
           window.location.href = res.data.redirected_url;
         }
