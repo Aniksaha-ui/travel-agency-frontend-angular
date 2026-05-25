@@ -1,10 +1,26 @@
+<div class="container py-5" *ngIf="isLoadingHotel">
+  <div class="text-center py-5">
+    <h3 class="fw-bold mb-2">Loading hotel details...</h3>
+    <p class="text-muted mb-0">Please wait while we prepare the stay information.</p>
+  </div>
+</div>
+
+<div class="container py-5" *ngIf="!isLoadingHotel && pageError">
+  <div class="alert alert-danger rounded-4 shadow-sm" role="alert">
+    {{ pageError }}
+  </div>
+</div>
+
 <!-- Top Hero Section -->
-<div class="hotel-details-container" *ngIf="hotel">
+<div class="hotel-details-container" *ngIf="!isLoadingHotel && hotel">
   <!-- Hero Banner -->
   <header class="hotel-header">
     <div class="hero-image-wrapper">
-      <img [src]="hotel.photos.length > 0 ? hotel.photos[0] : 'assets/default-hotel.jpg'" alt="{{ hotel.name }}"
-        class="main-hero-img" />
+      <img
+        [src]="hotel.photos?.length > 0 ? hotel.photos[0] : 'assets/default-hotel.jpg'"
+        alt="{{ hotel.name }}"
+        class="main-hero-img"
+      />
     </div>
     <div class="hero-overlay-gradient"></div>
 
@@ -76,7 +92,7 @@
         <section class="mb-5">
           <div class="d-flex justify-content-between align-items-center mb-4">
             <h4 class="fw-bold text-dark m-0">Select Your Room</h4>
-            <span class="text-muted small">{{ hotel.rooms.length }} rooms available</span>
+            <span class="text-muted small">{{ hotel.rooms?.length || 0 }} rooms available</span>
           </div>
 
           <div class="d-flex flex-column gap-4">
@@ -95,10 +111,14 @@
                     <div class="d-flex justify-content-between align-items-start mb-2">
                       <div>
                         <h5 class="fw-bold mb-1">Room {{ room.room_id }}</h5>
-                        <div class="text-muted small">{{ room.prices[0].type_name }}</div>
+                        <div class="text-muted small">
+                          {{ getPrimaryRoomPrice(room)?.type_name || 'Standard Room' }}
+                        </div>
                       </div>
                       <div class="text-end">
-                        <div class="fs-4 fw-bold text-travel">৳{{ room.prices[0].price_per_night }}</div>
+                        <div class="fs-4 fw-bold text-travel">
+                          ৳{{ getPrimaryRoomPrice(room)?.price_per_night || 0 }}
+                        </div>
                         <small class="text-muted">per night</small>
                       </div>
                     </div>
@@ -113,7 +133,16 @@
                     <div class="d-flex justify-content-between align-items-center bg-light rounded p-2 small">
                       <div>
                         <span class="fw-bold text-dark">Availability:</span>
-                        {{ room.prices[0].season_start | date:'MMM d' }} - {{ room.prices[0].season_end | date:'MMM d'
+                        {{
+                          getPrimaryRoomPrice(room)?.season_start
+                            ? (getPrimaryRoomPrice(room)?.season_start | date:'MMM d')
+                            : 'Not set'
+                        }}
+                        -
+                        {{
+                          getPrimaryRoomPrice(room)?.season_end
+                            ? (getPrimaryRoomPrice(room)?.season_end | date:'MMM d')
+                            : 'Not set'
                         }}
                       </div>
                       <button class="btn btn-sm btn-outline-dark rounded-pill px-3"
@@ -149,7 +178,7 @@
                       (change)="onRoomSelect(roomSelect.value)">
                       <option value="">Select a room...</option>
                       <option *ngFor="let room of hotel.rooms" [value]="room.room_id">
-                        Room #{{ room.room_id }} ({{ room.prices[0].type_name }})
+                        Room #{{ room.room_id }} ({{ getPrimaryRoomPrice(room)?.type_name || 'Standard Room' }})
                       </option>
                     </select>
                   </div>

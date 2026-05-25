@@ -9,10 +9,12 @@ import { HotelServiceService } from 'src/app/service/hotel-service.service';
   styleUrls: ['./hotel-details.component.css'],
 })
 export class HotelDetailsComponent implements OnInit {
-  hotel: any;
+  hotel: any = null;
   bookingForm: FormGroup;
   totalCost: number = 0;
   selectedRoom: any = null;
+  isLoadingHotel = true;
+  pageError = '';
 
   constructor(
     private fb: FormBuilder,
@@ -41,14 +43,50 @@ export class HotelDetailsComponent implements OnInit {
   /** Fetch hotel details */
   getSingleHotel() {
     this.route.paramMap.subscribe((params) => {
-      this.hotelService
-        .getSingleHotel(params.get('id'))
-        .subscribe((res: any) => {
-          console.log('Hotel Response:', res.hotel);
+      const hotelId = params.get('id');
 
-          if (res.hotel) {
-            this.hotel = res.hotel;
-          }
+      if (!hotelId) {
+        this.pageError = 'Hotel id is missing.';
+        this.isLoadingHotel = false;
+        return;
+      }
+
+      this.isLoadingHotel = true;
+      this.pageError = '';
+      this.hotel = null;
+      this.selectedRoom = null;
+      this.totalCost = 0;
+
+      this.hotelService
+        .getSingleHotel(hotelId)
+        .subscribe({
+          next: (res: any) => {
+            const hotel = this.normalizeHotelResponse(res);
+
+            if (!hotel) {
+              this.pageError = res?.message || 'Hotel details not found.';
+              this.isLoadingHotel = false;
+              return;
+            }
+
+            this.hotel = {
+              ...hotel,
+              photos: Array.isArray(hotel.photos) ? hotel.photos : [],
+              rooms: Array.isArray(hotel.rooms)
+                ? hotel.rooms.map((room: any) => ({
+                    ...room,
+                    prices: Array.isArray(room.prices) ? room.prices : [],
+                  }))
+                : [],
+            };
+
+            this.isLoadingHotel = false;
+          },
+          error: (error: any) => {
+            this.pageError =
+              error?.error?.message || 'Unable to load hotel details. Please try again.';
+            this.isLoadingHotel = false;
+          },
         });
     });
   }
@@ -56,9 +94,9 @@ export class HotelDetailsComponent implements OnInit {
   /** When user selects a room */
   onRoomSelect(roomId: string) {
     this.bookingForm.patchValue({ hotel_room_id: roomId });
-    this.selectedRoom = this.hotel.rooms.find(
+    this.selectedRoom = this.hotel?.rooms?.find(
       (r: any) => r.room_id == parseInt(roomId, 10)
-    );
+    ) || null;
     this.calculateCost();
   }
 
@@ -75,7 +113,7 @@ export class HotelDetailsComponent implements OnInit {
 
   /** Calculate total cost based on date and seasonal price */
   calculateCost() {
-    if (!this.selectedRoom) return;
+    if (!this.selectedRoom || !Array.isArray(this.selectedRoom.prices)) return;
 
     const checkIn = new Date(this.bookingForm.value.check_in_date);
     const checkOut = new Date(this.bookingForm.value.check_out_date);
@@ -126,5 +164,13 @@ export class HotelDetailsComponent implements OnInit {
         alert('Booking failed: ' + res.message);
       }
     });
+  }
+
+  getPrimaryRoomPrice(room: any): any | null {
+    return Array.isArray(room?.prices) && room.prices.length > 0 ? room.prices[0] : null;
+  }
+
+  private normalizeHotelResponse(response: any): any | null {
+    return response?.data?.hotel || response?.hotel || response?.data || null;
   }
 }
