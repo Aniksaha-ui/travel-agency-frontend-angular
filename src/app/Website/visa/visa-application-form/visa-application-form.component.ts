@@ -14,12 +14,16 @@ import {
 } from 'src/app/models/visa.models';
 import { VisaService } from 'src/app/service/visa.service';
 
+type JourneyStepKey = 'draft' | 'applicant' | 'documents' | 'payment';
+
 @Component({
   selector: 'app-visa-application-form',
   templateUrl: './visa-application-form.component.html',
   styleUrls: ['./visa-application-form.component.css'],
 })
 export class VisaApplicationFormComponent implements OnInit {
+  readonly stepOrder: JourneyStepKey[] = ['draft', 'applicant', 'documents', 'payment'];
+
   applicationId: number | null = null;
   application: VisaApplicationDetail | null = null;
   countries: VisaCountry[] = [];
@@ -27,8 +31,10 @@ export class VisaApplicationFormComponent implements OnInit {
   requirements: VisaRequirement[] = [];
   preselectedCountryId: number | null = null;
   preselectedVisaTypeId: number | null = null;
+  activeStep: JourneyStepKey = 'draft';
 
   isLoadingPage = true;
+  isLoadingVisaTypes = false;
   isSavingDraft = false;
   isSavingApplicant = false;
   isSubmittingApplication = false;
@@ -142,6 +148,7 @@ export class VisaApplicationFormComponent implements OnInit {
           this.application = response.data;
           this.applicationId = response.data.id;
           this.patchFormsFromApplication(response.data);
+          this.setRecommendedStep();
         } else {
           this.pageError = response.message || 'Unable to load visa application.';
         }
@@ -238,6 +245,7 @@ export class VisaApplicationFormComponent implements OnInit {
 
         if (returnedId) {
           this.applicationId = returnedId;
+          this.activeStep = 'applicant';
           this.updateQueryParams(returnedId);
           this.loadApplication(returnedId);
         }
@@ -282,6 +290,7 @@ export class VisaApplicationFormComponent implements OnInit {
         }
 
         this.applicantNotice = response.message || 'Applicant information saved successfully.';
+        this.activeStep = 'documents';
         this.loadApplication(this.applicationId!);
       },
       error: (error) => {
@@ -459,6 +468,7 @@ export class VisaApplicationFormComponent implements OnInit {
           }
 
           this.submitNotice = response.message || 'Visa application submitted successfully.';
+          this.activeStep = 'payment';
           this.loadApplication(this.applicationId!);
         },
         error: (error) => {
@@ -699,6 +709,227 @@ export class VisaApplicationFormComponent implements OnInit {
     return completedSteps;
   }
 
+  getCurrentStepNumber(): number {
+    return this.stepOrder.indexOf(this.activeStep) + 1;
+  }
+
+  isStepActive(step: JourneyStepKey): boolean {
+    return this.activeStep === step;
+  }
+
+  isStepAccessible(step: JourneyStepKey): boolean {
+    switch (step) {
+      case 'draft':
+        return true;
+      case 'applicant':
+        return !!this.applicationId;
+      case 'documents':
+        return !!this.applicationId && this.hasCompleteApplicantInfo();
+      case 'payment':
+        return (
+          !!this.applicationId &&
+          this.hasCompleteApplicantInfo() &&
+          this.hasAllRequiredDocuments()
+        );
+    }
+  }
+
+  getStepLabel(step: JourneyStepKey): string {
+    switch (step) {
+      case 'draft':
+        return 'Travel Setup';
+      case 'applicant':
+        return 'Traveler Details';
+      case 'documents':
+        return 'Documents';
+      case 'payment':
+        return 'Submit & Pay';
+    }
+  }
+
+  goToStep(step: JourneyStepKey): void {
+    if (!this.isStepAccessible(step)) {
+      return;
+    }
+
+    this.activeStep = step;
+  }
+
+  getPreviousStepKey(): JourneyStepKey | null {
+    const currentIndex = this.stepOrder.indexOf(this.activeStep);
+    if (currentIndex <= 0) {
+      return null;
+    }
+
+    return this.stepOrder[currentIndex - 1];
+  }
+
+  getNextStepKey(): JourneyStepKey | null {
+    const currentIndex = this.stepOrder.indexOf(this.activeStep);
+    if (currentIndex < 0 || currentIndex >= this.stepOrder.length - 1) {
+      return null;
+    }
+
+    return this.stepOrder[currentIndex + 1];
+  }
+
+  canGoToNextStep(): boolean {
+    const nextStep = this.getNextStepKey();
+    return !!nextStep && this.isStepAccessible(nextStep);
+  }
+
+  goToPreviousStep(): void {
+    const previousStep = this.getPreviousStepKey();
+    if (previousStep) {
+      this.activeStep = previousStep;
+    }
+  }
+
+  goToNextStep(): void {
+    const nextStep = this.getNextStepKey();
+    if (nextStep && this.isStepAccessible(nextStep)) {
+      this.activeStep = nextStep;
+    }
+  }
+
+  getNextActionTitle(): string {
+    if (!this.applicationId) {
+      return 'Create the travel draft';
+    }
+
+    if (!this.hasCompleteApplicantInfo()) {
+      return 'Save the traveler details';
+    }
+
+    if (!this.hasAllRequiredDocuments()) {
+      return 'Upload the required documents';
+    }
+
+    if (this.canSubmitApplication()) {
+      return 'Submit the application';
+    }
+
+    if (this.canOpenPayment()) {
+      return 'Complete the visa payment';
+    }
+
+    if (this.isPaymentCompleted()) {
+      return 'Track the final review';
+    }
+
+    if (this.application && this.visaService.isFinalStatus(this.application.status)) {
+      return 'Review the application outcome';
+    }
+
+    return 'Wait for the next status update';
+  }
+
+  getNextActionDescription(): string {
+    if (!this.applicationId) {
+      return 'Start with destination, visa type, and optional booking references so the rest of the application unlocks in order.';
+    }
+
+    if (!this.hasCompleteApplicantInfo()) {
+      return 'Enter passport-matching traveler details so the visa team can process the application without follow-up delays.';
+    }
+
+    if (!this.hasAllRequiredDocuments()) {
+      return 'Upload every required file in a clear, readable format. Missing or rejected files will block submission.';
+    }
+
+    if (this.canSubmitApplication()) {
+      return 'Everything required for review is ready. Add any final note, then submit the application to the visa desk.';
+    }
+
+    if (this.canOpenPayment()) {
+      return 'Payment is now available. Review the prefilled amount and complete the fee using your preferred payment method.';
+    }
+
+    if (this.isPaymentCompleted()) {
+      return 'Payment has been recorded. You can now monitor status changes and final processing updates from the application details page.';
+    }
+
+    if (this.application && this.visaService.isFinalStatus(this.application.status)) {
+      return 'This application has reached a final decision. Open the application details page for the latest outcome and review notes.';
+    }
+
+    return 'The application is currently under review. Keep an eye on the status and return when payment or further action becomes available.';
+  }
+
+  getStepState(step: JourneyStepKey): string {
+    switch (step) {
+      case 'draft':
+        return this.isDraftStepComplete() ? 'Complete' : 'Start Here';
+      case 'applicant':
+        if (!this.applicationId) {
+          return 'Locked';
+        }
+        return this.isApplicantStepComplete() ? 'Complete' : 'Ready';
+      case 'documents':
+        if (!this.isStepAccessible('documents')) {
+          return 'Locked';
+        }
+        if (!this.draftForm.get('visa_type_id')?.value) {
+          return 'Pick Visa';
+        }
+        return this.isDocumentStepComplete() ? 'Complete' : 'Upload Files';
+      case 'payment':
+        if (!this.isStepAccessible('payment')) {
+          return 'Locked';
+        }
+        if (this.isPaymentCompleted()) {
+          return 'Paid';
+        }
+        if (this.canOpenPayment()) {
+          return 'Pay Now';
+        }
+        if (this.application && this.visaService.isFinalStatus(this.application.status)) {
+          return 'Finished';
+        }
+        return 'Waiting';
+    }
+  }
+
+  getStepSupportText(step: JourneyStepKey): string {
+    switch (step) {
+      case 'draft':
+        return this.isDraftStepComplete()
+          ? 'Destination, package, and references are already saved.'
+          : 'Choose the destination, visa package, and travel references.';
+      case 'applicant':
+        if (!this.applicationId) {
+          return 'Unlocks after the draft is created.';
+        }
+        return this.isApplicantStepComplete()
+          ? 'Passport details and contact information are saved.'
+          : 'Add passport-matching traveler details before moving on.';
+      case 'documents':
+        if (!this.isStepAccessible('documents')) {
+          return 'Unlocks after the traveler details are completed.';
+        }
+        if (!this.draftForm.get('visa_type_id')?.value) {
+          return 'Select a visa type to load the required file list.';
+        }
+        return this.isDocumentStepComplete()
+          ? 'Required uploads are in place for submission.'
+          : 'Upload the required files in PDF or image format.';
+      case 'payment':
+        if (!this.isStepAccessible('payment')) {
+          return 'Unlocks after the required documents are completed.';
+        }
+        if (this.canOpenPayment()) {
+          return 'The application is now payable and ready for fee collection.';
+        }
+        if (this.isPaymentCompleted()) {
+          return 'A successful payment is already recorded for this application.';
+        }
+        if (this.application && this.visaService.isFinalStatus(this.application.status)) {
+          return 'The application has reached a final decision.';
+        }
+        return 'Submit the application first so the visa desk can review it before opening payment.';
+    }
+  }
+
   getRequirementDocument(requirement: VisaRequirement): VisaDocument | undefined {
     return this.application?.documents?.find(
       (document) =>
@@ -792,10 +1023,15 @@ export class VisaApplicationFormComponent implements OnInit {
   }
 
   private loadVisaTypes(countryId: number, selectedVisaTypeId?: number): void {
+    this.isLoadingVisaTypes = true;
+    this.pageError = '';
+
     this.visaService.getVisaTypes(countryId).subscribe({
       next: (response) => {
+        this.isLoadingVisaTypes = false;
+
         if (this.visaService.isSuccess(response.isExecute)) {
-          this.visaTypes = response.data || [];
+          this.visaTypes = this.visaService.extractCollectionItems(response.data);
 
           if (selectedVisaTypeId) {
             this.draftForm.patchValue({
@@ -809,6 +1045,7 @@ export class VisaApplicationFormComponent implements OnInit {
         }
       },
       error: (error) => {
+        this.isLoadingVisaTypes = false;
         this.pageError = this.visaService.getErrorMessage(error, 'Unable to load visa types.');
       },
     });
@@ -915,6 +1152,7 @@ export class VisaApplicationFormComponent implements OnInit {
 
   private applyPrefilledSelection(): void {
     if (!this.preselectedCountryId) {
+      this.ensureActiveStepIsReachable();
       return;
     }
 
@@ -930,5 +1168,49 @@ export class VisaApplicationFormComponent implements OnInit {
       });
       this.loadRequirements(this.preselectedVisaTypeId);
     }
+
+    this.ensureActiveStepIsReachable();
+  }
+
+  private ensureActiveStepIsReachable(): void {
+    if (this.isStepAccessible(this.activeStep)) {
+      return;
+    }
+
+    if (this.isStepAccessible('payment')) {
+      this.activeStep = 'payment';
+      return;
+    }
+
+    if (this.isStepAccessible('documents')) {
+      this.activeStep = 'documents';
+      return;
+    }
+
+    if (this.isStepAccessible('applicant')) {
+      this.activeStep = 'applicant';
+      return;
+    }
+
+    this.activeStep = 'draft';
+  }
+
+  private setRecommendedStep(): void {
+    if (!this.applicationId) {
+      this.activeStep = 'draft';
+      return;
+    }
+
+    if (!this.hasCompleteApplicantInfo()) {
+      this.activeStep = 'applicant';
+      return;
+    }
+
+    if (!this.hasAllRequiredDocuments()) {
+      this.activeStep = 'documents';
+      return;
+    }
+
+    this.activeStep = 'payment';
   }
 }

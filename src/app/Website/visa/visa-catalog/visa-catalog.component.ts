@@ -164,7 +164,7 @@ export class VisaCatalogComponent implements OnInit {
           return;
         }
 
-        this.visaTypes = response.data || [];
+        this.visaTypes = this.visaService.extractCollectionItems(response.data);
         this.selectedVisaType = visaTypeId
           ? this.visaTypes.find((visaType) => visaType.id === visaTypeId) || null
           : null;

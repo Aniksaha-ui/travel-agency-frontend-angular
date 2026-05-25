@@ -6,6 +6,7 @@ import {
   VisaApplicantInfoPayload,
   VisaApplicationDetail,
   VisaApplicationSummary,
+  VisaCollectionResponse,
   VisaCountry,
   VisaDocument,
   VisaDocumentPayload,
@@ -32,12 +33,15 @@ export class VisaService {
   }
 
   getVisaTypes(countryId?: number | null, search?: string) {
-    return this.http.get<VisaApiResponse<VisaType[]>>(`${this.baseUrl}/visa-types`, {
-      params: this.buildParams({
-        country_id: countryId ?? undefined,
-        search,
-      }),
-    });
+    return this.http.get<VisaApiResponse<VisaCollectionResponse<VisaType>>>(
+      `${this.baseUrl}/visa-types`,
+      {
+        params: this.buildParams({
+          country_id: countryId ?? undefined,
+          search,
+        }),
+      }
+    );
   }
 
   getRequirements(visaTypeId: number) {
@@ -228,6 +232,18 @@ export class VisaService {
     }
 
     return fallback;
+  }
+
+  extractCollectionItems<T>(payload?: VisaCollectionResponse<T> | null): T[] {
+    if (Array.isArray(payload)) {
+      return payload;
+    }
+
+    if (payload && Array.isArray(payload.data)) {
+      return payload.data;
+    }
+
+    return [];
   }
 
   private buildParams(params: Record<string, string | number | undefined | null>) {

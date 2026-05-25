@@ -93,9 +93,13 @@
           Choose a country to see available visa packages.
         </div>
 
+        <div class="empty-state" *ngIf="selectedCountry && !isLoadingVisaTypes && !visaTypes.length">
+          No visa packages are available for this country yet.
+        </div>
+
         <div class="loading-state" *ngIf="isLoadingVisaTypes">Loading visa packages...</div>
 
-        <div class="type-grid" *ngIf="selectedCountry && !isLoadingVisaTypes">
+        <div class="type-grid" *ngIf="selectedCountry && !isLoadingVisaTypes && visaTypes.length">
           <article
             class="type-card"
             *ngFor="let visaType of visaTypes"

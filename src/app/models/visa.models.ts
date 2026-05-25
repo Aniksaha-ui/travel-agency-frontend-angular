@@ -12,6 +12,8 @@ export interface VisaPaginatedResponse<T> {
   total: number;
 }
 
+export type VisaCollectionResponse<T> = T[] | VisaPaginatedResponse<T>;
+
 export type VisaApplicationStatus =
   | 'draft'
   | 'submitted'

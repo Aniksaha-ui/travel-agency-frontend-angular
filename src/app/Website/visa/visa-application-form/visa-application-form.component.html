@@ -3,10 +3,10 @@
     <div class="page-head">
       <div class="page-copy">
         <span class="page-kicker">Visa Application Process</span>
-        <h1>Apply in a clearer, step-by-step flow</h1>
+        <h1>Apply for your visa through a guided four-step workspace</h1>
         <p>
-          Save your draft first, then complete traveler details, upload the required documents,
-          submit the application, and pay when the visa desk opens payment.
+          This page keeps the process in order so customers can always see what is complete, what
+          is locked, and what must happen next before submission and payment.
         </p>
       </div>
 
@@ -26,19 +26,60 @@
       Payment status: {{ paymentQueryState | titlecase }}
     </div>
 
-    <div class="banner banner-error" *ngIf="pageError">
-      {{ pageError }}
-    </div>
+      <div class="banner banner-error" *ngIf="pageError">
+        {{ pageError }}
+      </div>
 
-    <ng-container *ngIf="!isLoadingPage; else loadingState">
+      <ng-container *ngIf="!isLoadingPage; else loadingState">
+      <div class="head-badges">
+        <span class="head-badge">
+          <i class="fas fa-clipboard-check" aria-hidden="true"></i>
+          {{ getCompletedStepCount() }}/4 milestones completed
+        </span>
+        <span class="head-badge">
+          <i class="fas fa-compass" aria-hidden="true"></i>
+          {{ getNextActionTitle() }}
+        </span>
+        <span class="head-badge" *ngIf="preselectedCountryId || preselectedVisaTypeId">
+          <i class="fas fa-location-arrow" aria-hidden="true"></i>
+          Started from a selected visa package
+        </span>
+      </div>
+
       <section class="journey-card hero-panel">
-        <div class="journey-copy">
-          <span class="section-kicker">Application Journey</span>
-          <h2>A more professional, colorful, and guided visa experience.</h2>
-          <p>
-            Every part of the application is grouped into polished cards so customers can move from
-            draft to payment with less confusion and better visibility.
-          </p>
+        <div class="journey-topline">
+          <div class="journey-copy">
+            <span class="section-kicker">Application Journey</span>
+            <h2>Four guided milestones from travel setup to final payment.</h2>
+            <p>
+              Follow the steps in order: confirm the destination and visa package, save traveler
+              details, upload the required documents, then submit and pay when the application is
+              ready.
+            </p>
+          </div>
+
+          <aside class="journey-focus">
+            <span class="section-kicker">What To Do Now</span>
+            <h3>{{ getNextActionTitle() }}</h3>
+            <p>{{ getNextActionDescription() }}</p>
+
+            <div class="focus-grid">
+              <article class="focus-card">
+                <span>Current Stage</span>
+                <strong>{{ application ? getStatusLabel(application.status) : "Preparing Draft" }}</strong>
+              </article>
+
+              <article class="focus-card">
+                <span>Selected Package</span>
+                <strong>{{ getSelectedVisaType()?.visa_name || "Choose visa type" }}</strong>
+              </article>
+
+              <article class="focus-card">
+                <span>Payment</span>
+                <strong>{{ isPaymentCompleted() ? "Completed" : canOpenPayment() ? "Open" : "Pending" }}</strong>
+              </article>
+            </div>
+          </aside>
         </div>
 
         <div class="journey-progress">
@@ -75,75 +116,102 @@
           </article>
         </div>
 
-        <div class="journey-steps">
-          <article
+        <nav class="journey-steps" aria-label="Application step navigation">
+          <button
+            type="button"
             class="journey-step"
             [class.is-complete]="isDraftStepComplete()"
-            [class.is-active]="!isDraftStepComplete()"
+            [class.is-active]="isStepActive('draft')"
+            (click)="goToStep('draft')"
           >
             <div class="step-badge">
               <span class="step-number">1</span>
               <i class="fas fa-route" aria-hidden="true"></i>
             </div>
-            <div>
-              <h3>Save Draft</h3>
-              <p>Choose destination, visa type, and travel references.</p>
+            <div class="journey-step-copy">
+              <div class="journey-step-head">
+                <h3>{{ getStepLabel("draft") }}</h3>
+                <span class="step-state">{{ getStepState("draft") }}</span>
+              </div>
+              <p>{{ getStepSupportText("draft") }}</p>
             </div>
-          </article>
+          </button>
 
-          <article
+          <button
+            type="button"
             class="journey-step"
             [class.is-complete]="isApplicantStepComplete()"
-            [class.is-active]="applicationId && !isApplicantStepComplete()"
-            [class.is-locked]="!applicationId"
+            [class.is-active]="isStepActive('applicant')"
+            [class.is-locked]="!isStepAccessible('applicant')"
+            [disabled]="!isStepAccessible('applicant')"
+            (click)="goToStep('applicant')"
           >
             <div class="step-badge">
               <span class="step-number">2</span>
               <i class="fas fa-user-edit" aria-hidden="true"></i>
             </div>
-            <div>
-              <h3>Applicant Info</h3>
-              <p>Add passport details and contact information.</p>
+            <div class="journey-step-copy">
+              <div class="journey-step-head">
+                <h3>{{ getStepLabel("applicant") }}</h3>
+                <span class="step-state">{{ getStepState("applicant") }}</span>
+              </div>
+              <p>{{ getStepSupportText("applicant") }}</p>
             </div>
-          </article>
+          </button>
 
-          <article
+          <button
+            type="button"
             class="journey-step"
             [class.is-complete]="isDocumentStepComplete()"
-            [class.is-active]="isDocumentStepReady() && !isDocumentStepComplete()"
-            [class.is-locked]="!isDocumentStepReady()"
+            [class.is-active]="isStepActive('documents')"
+            [class.is-locked]="!isStepAccessible('documents')"
+            [disabled]="!isStepAccessible('documents')"
+            (click)="goToStep('documents')"
           >
             <div class="step-badge">
               <span class="step-number">3</span>
               <i class="fas fa-folder-open" aria-hidden="true"></i>
             </div>
-            <div>
-              <h3>Documents</h3>
-              <p>Upload every required file before final submission.</p>
+            <div class="journey-step-copy">
+              <div class="journey-step-head">
+                <h3>{{ getStepLabel("documents") }}</h3>
+                <span class="step-state">{{ getStepState("documents") }}</span>
+              </div>
+              <p>{{ getStepSupportText("documents") }}</p>
             </div>
-          </article>
+          </button>
 
-          <article
+          <button
+            type="button"
             class="journey-step"
             [class.is-complete]="isPaymentCompleted()"
-            [class.is-active]="applicationId && !isPaymentCompleted()"
-            [class.is-locked]="!applicationId"
+            [class.is-active]="isStepActive('payment')"
+            [class.is-locked]="!isStepAccessible('payment')"
+            [disabled]="!isStepAccessible('payment')"
+            (click)="goToStep('payment')"
           >
             <div class="step-badge">
               <span class="step-number">4</span>
               <i class="fas fa-check-circle" aria-hidden="true"></i>
             </div>
-            <div>
-              <h3>Submit And Pay</h3>
-              <p>Send the application and pay once payment becomes available.</p>
+            <div class="journey-step-copy">
+              <div class="journey-step-head">
+                <h3>{{ getStepLabel("payment") }}</h3>
+                <span class="step-state">{{ getStepState("payment") }}</span>
+              </div>
+              <p>{{ getStepSupportText("payment") }}</p>
             </div>
-          </article>
-        </div>
+          </button>
+        </nav>
       </section>
 
       <div class="process-layout">
         <div class="main-column">
-          <section class="process-card card-draft">
+          <section
+            id="step-draft"
+            class="process-card card-draft"
+            *ngIf="isStepActive('draft')"
+          >
             <div class="card-head">
               <div class="card-head-main">
                 <div class="card-icon"><i class="fas fa-suitcase-rolling" aria-hidden="true"></i></div>
@@ -209,13 +277,24 @@
 
               <div class="field">
                 <label for="visa_type_id">Visa Type</label>
-                <select id="visa_type_id" formControlName="visa_type_id" (change)="onVisaTypeChange()">
-                  <option value="">Select visa type</option>
+                <select
+                  id="visa_type_id"
+                  formControlName="visa_type_id"
+                  (change)="onVisaTypeChange()"
+                  [disabled]="!draftForm.get('country_id')?.value || isLoadingVisaTypes"
+                >
+                  <option value="">{{ isLoadingVisaTypes ? "Loading visa types..." : "Select visa type" }}</option>
                   <option *ngFor="let visaType of visaTypes" [value]="visaType.id">
                     {{ visaType.visa_name }}
                     <ng-container *ngIf="visaType.fee">- ৳{{ visaType.fee }}</ng-container>
                   </option>
                 </select>
+                <small
+                  class="field-hint"
+                  *ngIf="draftForm.get('country_id')?.value && !isLoadingVisaTypes && !visaTypes.length"
+                >
+                  No visa types are available for this country yet.
+                </small>
                 <small
                   *ngIf="draftForm.get('visa_type_id')?.invalid && draftForm.get('visa_type_id')?.touched"
                 >
@@ -273,7 +352,12 @@
             </div>
           </section>
 
-          <section class="process-card card-applicant" [class.section-disabled]="!applicationId || !canEditProcess()">
+          <section
+            id="step-applicant"
+            class="process-card card-applicant"
+            [class.section-disabled]="!applicationId || !canEditProcess()"
+            *ngIf="isStepActive('applicant')"
+          >
             <div class="card-head">
               <div class="card-head-main">
                 <div class="card-icon"><i class="fas fa-id-card" aria-hidden="true"></i></div>
@@ -417,8 +501,10 @@
           </section>
 
           <section
+            id="step-documents"
             class="process-card card-documents"
             [class.section-disabled]="!applicationId || !draftForm.get('visa_type_id')?.value || !canEditProcess()"
+            *ngIf="isStepActive('documents')"
           >
             <div class="card-head">
               <div class="card-head-main">
@@ -536,7 +622,12 @@
             </ng-template>
           </section>
 
-          <section class="process-card card-payment" [class.section-disabled]="!applicationId">
+          <section
+            id="step-payment"
+            class="process-card card-payment"
+            [class.section-disabled]="!applicationId"
+            *ngIf="isStepActive('payment')"
+          >
             <div class="card-head">
               <div class="card-head-main">
                 <div class="card-icon"><i class="fas fa-receipt" aria-hidden="true"></i></div>
@@ -585,99 +676,152 @@
               </article>
             </div>
 
-            <div class="submit-block card-subpanel">
-              <form [formGroup]="submitForm" class="luxe-form-single">
-                <label for="submit_remarks">Submission Remarks</label>
-                <textarea
-                  id="submit_remarks"
-                  rows="4"
-                  formControlName="remarks"
-                  placeholder="Anything the visa desk should know before they review the application"
-                ></textarea>
-              </form>
+            <div class="final-stage-grid">
+              <div class="submit-block card-subpanel">
+                <form [formGroup]="submitForm" class="luxe-form-single">
+                  <label for="submit_remarks">Submission Remarks</label>
+                  <textarea
+                    id="submit_remarks"
+                    rows="4"
+                    formControlName="remarks"
+                    placeholder="Anything the visa desk should know before they review the application"
+                  ></textarea>
+                </form>
 
-              <button
-                type="button"
-                class="btn btn-style"
-                (click)="submitApplication()"
-                [disabled]="!canSubmitApplication() || isSubmittingApplication"
-              >
-                {{ isSubmittingApplication ? "Submitting..." : "Submit Application" }}
-              </button>
-            </div>
-
-            <div class="payment-block card-subpanel" [class.payment-disabled]="!canOpenPayment()">
-              <div class="payment-head">
-                <div>
-                  <h3>Visa payment</h3>
-                  <p>
-                    The amount is prefilled from the selected visa type. Complete payment only when
-                    this section becomes active.
-                  </p>
-                </div>
-                <span class="mini-badge">
-                  {{ getPaymentStatusLabel(application?.payment_status) }}
-                </span>
+                <button
+                  type="button"
+                  class="btn btn-style"
+                  (click)="submitApplication()"
+                  [disabled]="!canSubmitApplication() || isSubmittingApplication"
+                >
+                  {{ isSubmittingApplication ? "Submitting..." : "Submit Application" }}
+                </button>
               </div>
 
-              <div class="banner banner-success" *ngIf="paymentNotice">
-                {{ paymentNotice }}
+              <div class="payment-block card-subpanel" [class.payment-disabled]="!canOpenPayment()">
+                <div class="payment-head">
+                  <div>
+                    <h3>Visa payment</h3>
+                    <p>
+                      The amount is prefilled from the selected visa type. Complete payment only when
+                      this section becomes active.
+                    </p>
+                  </div>
+                  <span class="mini-badge">
+                    {{ getPaymentStatusLabel(application?.payment_status) }}
+                  </span>
+                </div>
+
+                <div class="banner banner-success" *ngIf="paymentNotice">
+                  {{ paymentNotice }}
+                </div>
+
+                <div class="inline-tip" *ngIf="!canOpenPayment()">
+                  Payment opens after the application reaches a payable status and no paid payment is
+                  already recorded.
+                </div>
+
+                <form [formGroup]="paymentForm" class="field-grid luxe-form">
+                  <div class="field">
+                    <label for="amount">Amount</label>
+                    <input id="amount" type="number" formControlName="amount" placeholder="Visa fee amount" />
+                  </div>
+
+                  <div class="field">
+                    <label for="payment_method">Payment Method</label>
+                    <select
+                      id="payment_method"
+                      formControlName="payment_method"
+                      (change)="onPaymentMethodChange()"
+                    >
+                      <option value="bkash">bKash</option>
+                      <option value="nagad">Nagad</option>
+                      <option value="card">Card</option>
+                      <option value="internet_banking">Internet Banking</option>
+                    </select>
+                  </div>
+
+                  <div class="field" *ngIf="paymentForm.get('payment_method')?.value === 'bkash'">
+                    <label for="bkash">bKash Number</label>
+                    <input id="bkash" type="text" formControlName="bkash" placeholder="Enter bKash account number" />
+                  </div>
+
+                  <div class="field" *ngIf="paymentForm.get('payment_method')?.value === 'nagad'">
+                    <label for="nagad">Nagad Number</label>
+                    <input id="nagad" type="text" formControlName="nagad" placeholder="Enter Nagad account number" />
+                  </div>
+
+                  <div class="field" *ngIf="paymentForm.get('payment_method')?.value === 'card'">
+                    <label for="card">Card Number</label>
+                    <input id="card" type="text" formControlName="card" placeholder="Enter card number" />
+                  </div>
+                </form>
+
+                <button
+                  type="button"
+                  class="btn btn-style"
+                  (click)="payApplication()"
+                  [disabled]="!canOpenPayment() || isPayingApplication"
+                >
+                  {{ isPayingApplication ? "Processing Payment..." : "Pay Visa Fee" }}
+                </button>
               </div>
-
-              <div class="inline-tip" *ngIf="!canOpenPayment()">
-                Payment opens after the application reaches a payable status and no paid payment is
-                already recorded.
-              </div>
-
-              <form [formGroup]="paymentForm" class="field-grid luxe-form">
-                <div class="field">
-                  <label for="amount">Amount</label>
-                  <input id="amount" type="number" formControlName="amount" placeholder="Visa fee amount" />
-                </div>
-
-                <div class="field">
-                  <label for="payment_method">Payment Method</label>
-                  <select
-                    id="payment_method"
-                    formControlName="payment_method"
-                    (change)="onPaymentMethodChange()"
-                  >
-                    <option value="bkash">bKash</option>
-                    <option value="nagad">Nagad</option>
-                    <option value="card">Card</option>
-                    <option value="internet_banking">Internet Banking</option>
-                  </select>
-                </div>
-
-                <div class="field" *ngIf="paymentForm.get('payment_method')?.value === 'bkash'">
-                  <label for="bkash">bKash Number</label>
-                  <input id="bkash" type="text" formControlName="bkash" placeholder="Enter bKash account number" />
-                </div>
-
-                <div class="field" *ngIf="paymentForm.get('payment_method')?.value === 'nagad'">
-                  <label for="nagad">Nagad Number</label>
-                  <input id="nagad" type="text" formControlName="nagad" placeholder="Enter Nagad account number" />
-                </div>
-
-                <div class="field" *ngIf="paymentForm.get('payment_method')?.value === 'card'">
-                  <label for="card">Card Number</label>
-                  <input id="card" type="text" formControlName="card" placeholder="Enter card number" />
-                </div>
-              </form>
-
-              <button
-                type="button"
-                class="btn btn-style"
-                (click)="payApplication()"
-                [disabled]="!canOpenPayment() || isPayingApplication"
-              >
-                {{ isPayingApplication ? "Processing Payment..." : "Pay Visa Fee" }}
-              </button>
             </div>
           </section>
+
+          <div class="step-footer">
+            <div class="step-footer-copy">
+              <span class="section-kicker">Form Navigation</span>
+              <strong>Step {{ getCurrentStepNumber() }} of {{ stepOrder.length }}</strong>
+            </div>
+
+            <div class="step-footer-actions">
+              <button
+                type="button"
+                class="btn btn-outline-secondary rounded-pill px-4"
+                *ngIf="getPreviousStepKey()"
+                (click)="goToPreviousStep()"
+              >
+                Back
+              </button>
+
+              <button
+                type="button"
+                class="btn btn-style"
+                *ngIf="getNextStepKey() as nextStep"
+                [disabled]="!canGoToNextStep()"
+                (click)="goToNextStep()"
+              >
+                Next: {{ getStepLabel(nextStep) }}
+              </button>
+            </div>
+          </div>
         </div>
 
         <aside class="side-column">
+          <section class="summary-card summary-card-focus">
+            <span class="section-kicker">Next Best Action</span>
+            <h3>{{ getNextActionTitle() }}</h3>
+            <p>{{ getNextActionDescription() }}</p>
+
+            <div class="focus-summary-grid">
+              <article class="focus-summary-item">
+                <span>Current Phase</span>
+                <strong>{{ application ? getStatusLabel(application.status) : "Planning" }}</strong>
+              </article>
+
+              <article class="focus-summary-item">
+                <span>Submission</span>
+                <strong>{{ canSubmitApplication() ? "Ready" : "Not Ready" }}</strong>
+              </article>
+
+              <article class="focus-summary-item">
+                <span>Payment</span>
+                <strong>{{ getPaymentStatusLabel(application?.payment_status) }}</strong>
+              </article>
+            </div>
+          </section>
+
           <section class="summary-card summary-card-accent summary-card-primary">
             <span class="section-kicker">Application Summary</span>
             <h3>{{ getApplicationReference() }}</h3>
