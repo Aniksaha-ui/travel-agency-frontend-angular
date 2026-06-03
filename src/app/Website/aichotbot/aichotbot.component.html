@@ -1,0 +1,132 @@
+<section class="chatbot-stage">
+  <div class="stage-toolbar">
+    <button class="toolbar-button" type="button">
+      <i class="fas fa-share-alt"></i>
+      <span>Share</span>
+    </button>
+    <button class="toolbar-icon" type="button" aria-label="More options">
+      <i class="fas fa-ellipsis-h"></i>
+    </button>
+  </div>
+
+  <div class="chat-layout">
+    <div class="chat-messages" #messagesPane *ngIf="hasConversation; else readyState">
+      <div
+        *ngFor="let message of messages"
+        class="message-row"
+        [class.user-row]="message.sender === 'user'"
+        [class.assistant-row]="message.sender === 'assistant'"
+      >
+        <ng-container *ngIf="message.sender === 'user'; else assistantMessage">
+          <div class="message-bubble user-bubble">
+            <p>{{ message.text }}</p>
+          </div>
+        </ng-container>
+
+        <ng-template #assistantMessage>
+          <div class="assistant-message-block" [class.error-block]="message.isError">
+            <div class="assistant-content" *ngIf="message.html; else assistantText">
+              <div class="assistant-html-content" [innerHTML]="message.html"></div>
+            </div>
+
+            <ng-template #assistantText>
+              <div class="assistant-content">
+                <p>{{ message.text }}</p>
+              </div>
+            </ng-template>
+
+            <div class="assistant-actions">
+              <button class="assistant-action" type="button" (click)="copyMessage(message)">
+                <i class="far fa-copy"></i>
+              </button>
+              <button class="assistant-action" type="button">
+                <i class="far fa-thumbs-up"></i>
+              </button>
+              <button class="assistant-action" type="button">
+                <i class="far fa-thumbs-down"></i>
+              </button>
+              <button class="assistant-action" type="button">
+                <i class="fas fa-redo-alt"></i>
+              </button>
+              <button class="assistant-action" type="button">
+                <i class="fas fa-ellipsis-h"></i>
+              </button>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+
+      <div class="message-row assistant-row" *ngIf="isTyping">
+        <div class="assistant-message-block">
+          <div class="typing-bubble">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #readyState>
+      <div class="ready-state">
+        <p class="ready-copy">Ready when you are.</p>
+      </div>
+    </ng-template>
+
+    <div class="composer-area">
+      <form class="chat-composer" novalidate (submit)="onComposerSubmit($event)">
+        <div class="composer-shell">
+          <button class="icon-button muted" type="button" aria-label="Add prompt">
+            <i class="fas fa-plus"></i>
+          </button>
+
+          <input
+            type="text"
+            [formControl]="promptControl"
+            placeholder="Ask anything"
+            autocomplete="off"
+            spellcheck="false"
+          />
+
+          <button class="mode-button" type="button">
+            <span>{{ modeLabel }}</span>
+            <i class="fas fa-angle-down"></i>
+          </button>
+
+          <button class="icon-button muted" type="button" aria-label="Voice input">
+            <i class="fas fa-microphone"></i>
+          </button>
+
+          <button
+            *ngIf="!isTyping; else stopButton"
+            class="submit-button"
+            type="submit"
+            [disabled]="!canSend"
+          >
+            <i class="fas fa-wave-square"></i>
+          </button>
+
+          <ng-template #stopButton>
+            <button class="submit-button stop-button" type="button" (click)="cancelRequest()">
+              <i class="fas fa-stop"></i>
+            </button>
+          </ng-template>
+        </div>
+      </form>
+
+      <div class="quick-prompt-row" *ngIf="!hasConversation">
+        <button
+          *ngFor="let shortcut of shortcuts"
+          type="button"
+          class="quick-prompt-chip"
+          (click)="useShortcut(shortcut.prompt)"
+        >
+          <i [class]="shortcut.icon"></i>
+          <span>{{ shortcut.label }}</span>
+        </button>
+      </div>
+
+      <p class="composer-note">ChatGPT can make mistakes. Check important info.</p>
+    </div>
+  </div>
+</section>

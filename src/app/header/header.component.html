@@ -46,6 +46,10 @@
         </ul>
 
         <div class="d-flex align-items-center search-right">
+          <a class="ai-chat-link me-3" routerLink="/aichotbot" routerLinkActive="active">
+            <i class="fas fa-robot me-2"></i>AI Chat
+          </a>
+
           <form action="#search" method="GET" class="search-header position-relative me-3">
             <input class="form-control" type="search" placeholder="Search..." aria-label="Search" required />
             <button class="btn btn-search" type="submit">
@@ -122,6 +126,11 @@
       <li>
         <a routerLink="/contact" routerLinkActive="active" (click)="toggleMobileMenu()">
           <i class="fas fa-envelope me-3"></i> Contact
+        </a>
+      </li>
+      <li>
+        <a routerLink="/aichotbot" routerLinkActive="active" (click)="toggleMobileMenu()">
+          <i class="fas fa-robot me-3"></i> AI Chat
         </a>
       </li>
 

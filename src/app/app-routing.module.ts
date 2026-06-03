@@ -23,12 +23,14 @@ import { VisaDashboardComponent } from './Website/visa/visa-dashboard/visa-dashb
 import { VisaApplicationFormComponent } from './Website/visa/visa-application-form/visa-application-form.component';
 import { VisaApplicationDetailsComponent } from './Website/visa/visa-application-details/visa-application-details.component';
 import { VisaCatalogComponent } from './Website/visa/visa-catalog/visa-catalog.component';
+import { AichotbotComponent } from './Website/aichotbot/aichotbot.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'tours', component: TourPageComponent },
   { path: 'contact', component: ContactComponent },
+  { path: 'aichotbot', component: AichotbotComponent },
   { path: 'about', component: AboutComponent },
   { path: 'tour/:id', component: TourComponent },
   { path: 'hotel/:id', component: HotelDetailsComponent },
