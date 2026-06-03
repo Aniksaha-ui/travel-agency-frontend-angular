@@ -28,8 +28,7 @@ export class ChatService {
   }
 
   private resolveBaseUrl(): string {
-    const isLocalFrontend = ['localhost', '127.0.0.1'].includes(window.location.hostname);
-    return isLocalFrontend ? 'http://127.0.0.1:8000/api' : environment.apiBaseUrl;
+    return  environment.mcpServerUrl;
   }
 
   private buildHeaders(): HttpHeaders {
