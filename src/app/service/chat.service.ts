@@ -17,7 +17,7 @@ export interface ChatApiResponse {
 export class ChatService {
   constructor(private http: HttpClient) {}
 
-  sendMessage(message: string): Observable<ChatApiResponse> {
+  sendMessage(message: string, history: string[] = []): Observable<ChatApiResponse> {
     const headers = this.buildHeaders();
 
     if (!headers) {
@@ -26,7 +26,7 @@ export class ChatService {
 
     return this.http.post<ChatApiResponse>(
       `${this.resolveBaseUrl()}/chat`,
-      { message },
+      { message, history },
       {
         headers,
       }

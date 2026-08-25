@@ -103,13 +103,14 @@ export class AichotbotComponent implements AfterViewChecked, OnDestroy {
       return;
     }
 
+    const history = this.previousUserMessages();
     this.messages = [...this.messages, this.createMessage('user', { text: message })];
     this.promptControl.setValue('');
     this.isTyping = true;
     this.shouldScrollToBottom = true;
 
     this.requestSubscription?.unsubscribe();
-    this.requestSubscription = this.chatService.sendMessage(message).subscribe({
+    this.requestSubscription = this.chatService.sendMessage(message, history).subscribe({
       next: (response) => {
         const html = this.extractResponseHtml(response);
         const fallbackText =
@@ -214,6 +215,13 @@ export class AichotbotComponent implements AfterViewChecked, OnDestroy {
     const parser = new DOMParser();
     const documentFragment = parser.parseFromString(html, 'text/html');
     return documentFragment.body.textContent?.trim() || '';
+  }
+
+  private previousUserMessages(): string[] {
+    return this.messages
+      .filter((entry) => entry.sender === 'user' && !!entry.text?.trim())
+      .slice(-8)
+      .map((entry) => entry.text!.trim());
   }
 
   private formatTime(): string {
