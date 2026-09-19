@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -22,6 +22,8 @@ type JourneyStepKey = 'draft' | 'applicant' | 'documents' | 'payment';
   styleUrls: ['./visa-application-form.component.css'],
 })
 export class VisaApplicationFormComponent implements OnInit {
+  @Input() modalCountryId: number | null = null;
+  @Input() modalVisaTypeId: number | null = null;
   readonly stepOrder: JourneyStepKey[] = ['draft', 'applicant', 'documents', 'payment'];
 
   applicationId: number | null = null;
@@ -97,12 +99,12 @@ export class VisaApplicationFormComponent implements OnInit {
     this.applicationId = this.parseOptionalNumber(
       this.route.snapshot.queryParamMap.get('applicationId')
     );
-    this.preselectedCountryId = this.parseOptionalNumber(
-      this.route.snapshot.queryParamMap.get('countryId')
-    );
-    this.preselectedVisaTypeId = this.parseOptionalNumber(
-      this.route.snapshot.queryParamMap.get('visaTypeId')
-    );
+    this.preselectedCountryId =
+      this.modalCountryId ??
+      this.parseOptionalNumber(this.route.snapshot.queryParamMap.get('countryId'));
+    this.preselectedVisaTypeId =
+      this.modalVisaTypeId ??
+      this.parseOptionalNumber(this.route.snapshot.queryParamMap.get('visaTypeId'));
 
     this.onPaymentMethodChange();
     this.loadCountries();

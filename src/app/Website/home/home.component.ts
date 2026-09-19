@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   currentComponent: string = 'trip'; // Default to 'trip' component
   isSearchPerformed: boolean = false;
+  isHotelSearchPerformed = false;
 
   hotelForm: FormGroup = new FormGroup({
     hotel_name: new FormControl('', Validators.required),
@@ -51,6 +52,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   isLoadingHotels = true;
   isLoadingPackages = true;
   isLoadingGuides = true;
+  isSearchingHotels = false;
 
   ngOnInit(): void {
     this.getAllTourInformation();
@@ -87,6 +89,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   toggleComponent(component: string) {
     this.currentComponent = component;
+    if (component === 'hotel') {
+      this.isHotelSearchPerformed = false;
+    }
   }
 
   getAllTourInformation() {
@@ -123,16 +128,22 @@ export class HomeComponent implements OnInit, AfterViewInit {
           }
         });
     } else if (this.currentComponent === 'hotel') {
+      if (this.hotelForm.invalid) {
+        this.hotelForm.markAllAsTouched();
+        return;
+      }
+
+      this.isSearchingHotels = true;
       this.hotelService
         .getHotels(this.hotelForm.value)
         .subscribe((res: any) => {
-          console.log('Hotel search response:', res);
-
-          if (res && res.data && res.data.length > 0) {
-            this.hotels = res.data;
-          } else {
-            this.hotels = [];
-          }
+          this.hotels = Array.isArray(res?.data) ? res.data : [];
+          this.isHotelSearchPerformed = true;
+          this.isSearchingHotels = false;
+        }, () => {
+          this.hotels = [];
+          this.isHotelSearchPerformed = true;
+          this.isSearchingHotels = false;
         });
     } else {
       console.error('Unknown component:', this.currentComponent);
@@ -142,6 +153,18 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   handlePackageDetails(packageId: any) {
     this.router.navigateByUrl(`/package/details/${packageId}`);
+  }
+
+  getFacilities(facilities: unknown): string[] {
+    if (typeof facilities !== 'string') {
+      return [];
+    }
+
+    return facilities
+      .split(',')
+      .map((facility) => facility.trim())
+      .filter(Boolean)
+      .slice(0, 4);
   }
 
   getAllGuides() {

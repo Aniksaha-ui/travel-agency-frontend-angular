@@ -1,203 +1,78 @@
-<section class="visa-catalog-shell">
+<main class="visa-page">
   <div class="container">
-    <div class="catalog-hero">
-      <div class="hero-copy">
-        <span class="hero-kicker">Visa Explorer</span>
-        <h1>Browse visa countries, packages, and requirements before you apply.</h1>
-        <p>
-          Customers can explore available destinations, compare visa packages, and review required
-          documents first. Applying starts only after login.
-        </p>
-
-        <div class="hero-actions">
-          <button type="button" class="btn btn-style" (click)="goToApplications()">
-            <i class="fas" [ngClass]="isLoggedIn ? 'fa-briefcase' : 'fa-sign-in-alt'" aria-hidden="true"></i>
-            {{ isLoggedIn ? "My Visa Applications" : "Login To Apply" }}
-          </button>
-        </div>
+    <section class="visa-hero">
+      <div class="visa-hero-copy">
+        <span class="eyebrow"><i class="fas fa-passport"></i> Visa services</span>
+        <h1>Start your next journey with confidence.</h1>
+        <p>Choose a destination to compare visa options, review documents, and apply when you are ready.</p>
       </div>
+      <button type="button" class="my-applications" (click)="goToApplications()"><i class="fas" [ngClass]="isLoggedIn ? 'fa-folder-open' : 'fa-sign-in-alt'"></i>{{ isLoggedIn ? 'My applications' : 'Login to apply' }}</button>
+    </section>
 
-      <div class="hero-panel">
-        <div class="search-box">
-          <i class="fas fa-search" aria-hidden="true"></i>
-          <input
-            type="text"
-            [value]="countrySearch"
-            (input)="onCountrySearch($event)"
-            placeholder="Search visa country, for example den"
-          />
-        </div>
+    <section class="destination-finder">
+      <div class="finder-icon"><i class="fas fa-search"></i></div>
+      <div class="finder-copy"><span>Where are you travelling?</span><strong>Find your destination</strong></div>
+      <label class="country-search"><input type="search" [value]="countrySearch" (input)="onCountrySearch($event)" placeholder="Search by country name or code" aria-label="Search visa countries" /><i class="fas fa-arrow-right"></i></label>
+    </section>
 
-        <div class="panel-stats">
-          <article>
-            <span>Countries</span>
-            <strong>{{ countries.length }}</strong>
-          </article>
-          <article>
-            <span>Packages</span>
-            <strong>{{ visaTypes.length }}</strong>
-          </article>
-          <article>
-            <span>Requirements</span>
-            <strong>{{ requirements.length }}</strong>
-          </article>
-        </div>
-      </div>
-    </div>
+    <div class="error-banner" *ngIf="pageError"><i class="fas fa-exclamation-circle"></i>{{ pageError }}</div>
 
-    <div class="error-banner" *ngIf="pageError">
-      {{ pageError }}
-    </div>
-
-    <div class="catalog-layout">
-      <section class="catalog-card countries-card">
-        <div class="section-head">
-          <div>
-            <span class="section-kicker">Step 1</span>
-            <h2>Select Visa Country</h2>
-          </div>
-        </div>
-
-        <div class="loading-state" *ngIf="isLoadingCountries">Loading visa countries...</div>
-
-        <div class="country-grid" *ngIf="!isLoadingCountries">
-          <button
-            type="button"
-            class="country-card"
-            *ngFor="let country of countries"
-            [class.active]="selectedCountry?.id === country.id"
-            (click)="openCountry(country)"
-          >
-            <div class="country-card-top">
-              <span class="country-flag">
-                <i class="fas fa-globe-asia" aria-hidden="true"></i>
-              </span>
-              <span class="country-code">{{ country.iso_code }}</span>
-            </div>
-
-            <strong>{{ country.name }}</strong>
-            <p>{{ getCountryCountLabel(country) }}</p>
-          </button>
-        </div>
-      </section>
-
-      <section class="catalog-card types-card">
-        <div class="section-head">
-          <div>
-            <span class="section-kicker">Step 2</span>
-            <h2>Visa Packages</h2>
-          </div>
-        </div>
-
-        <div class="empty-state" *ngIf="!selectedCountry && !isLoadingVisaTypes">
-          Choose a country to see available visa packages.
-        </div>
-
-        <div class="empty-state" *ngIf="selectedCountry && !isLoadingVisaTypes && !visaTypes.length">
-          No visa packages are available for this country yet.
-        </div>
-
-        <div class="loading-state" *ngIf="isLoadingVisaTypes">Loading visa packages...</div>
-
-        <div class="type-grid" *ngIf="selectedCountry && !isLoadingVisaTypes && visaTypes.length">
-          <article
-            class="type-card"
-            *ngFor="let visaType of visaTypes"
-            [class.active]="selectedVisaType?.id === visaType.id"
-          >
-            <div class="type-head">
-              <div class="type-icon">
-                <i class="fas fa-passport" aria-hidden="true"></i>
-              </div>
-              <span class="type-badge">Package</span>
-            </div>
-
-            <h3>{{ visaType.visa_name }}</h3>
-            <p>{{ visaType.description || "Review package details and requirements before starting the application." }}</p>
-
-            <div class="type-meta">
-              <div>
-                <span>Fee</span>
-                <strong>{{ visaType.fee ? "৳" + visaType.fee : "Contact Us" }}</strong>
-              </div>
-              <div>
-                <span>Processing</span>
-                <strong>
-                  {{ visaType.processing_days ? visaType.processing_days + " days" : "Varies" }}
-                </strong>
-              </div>
-            </div>
-
-            <div class="type-actions">
-              <button type="button" class="action-link" (click)="openVisaType(visaType)">
-                View Details
-              </button>
-            </div>
-          </article>
-        </div>
-      </section>
-    </div>
-
-    <section class="catalog-card detail-card" *ngIf="selectedVisaType">
-      <div class="detail-head">
-        <div>
-          <span class="section-kicker">Step 3</span>
-          <h2>{{ selectedVisaType.visa_name }}</h2>
-          <p>
-            {{ selectedCountry?.name || selectedVisaType.country_name || "Selected Country" }}
-            visa package details and required documents.
-          </p>
-        </div>
-
-        <button type="button" class="btn btn-style" (click)="goToApply()">
-          <i class="fas" [ngClass]="isLoggedIn ? 'fa-arrow-right' : 'fa-lock'" aria-hidden="true"></i>
-          {{ isLoggedIn ? "Apply Now" : "Login To Apply" }}
+    <section class="country-section">
+      <div class="section-intro"><div><span class="eyebrow">Destinations</span><h2>Where do you want to go?</h2></div><span class="result-count" *ngIf="!isLoadingCountries">{{ countries.length }} destinations</span></div>
+      <div class="loading-state" *ngIf="isLoadingCountries"><i class="fas fa-circle-notch fa-spin"></i> Loading destinations…</div>
+      <div class="country-grid" *ngIf="!isLoadingCountries">
+        <button type="button" class="country-tile" *ngFor="let country of countries" (click)="openCountry(country)">
+          <span class="country-icon"><i class="fas fa-globe-americas"></i></span><span class="country-name">{{ country.name }}</span><span class="country-code">{{ country.iso_code || 'Visa' }}</span><i class="fas fa-arrow-right country-arrow"></i>
         </button>
       </div>
-
-      <div class="detail-grid">
-        <article class="detail-info">
-          <div class="info-row">
-            <span>Country</span>
-            <strong>{{ selectedCountry?.name || selectedVisaType.country_name || "N/A" }}</strong>
-          </div>
-          <div class="info-row">
-            <span>Package</span>
-            <strong>{{ selectedVisaType.visa_name }}</strong>
-          </div>
-          <div class="info-row">
-            <span>Fee</span>
-            <strong>{{ selectedVisaType.fee ? "৳" + selectedVisaType.fee : "Contact Us" }}</strong>
-          </div>
-          <div class="info-row">
-            <span>Processing Time</span>
-            <strong>
-              {{ selectedVisaType.processing_days ? selectedVisaType.processing_days + " days" : "Varies" }}
-            </strong>
-          </div>
-        </article>
-
-        <article class="requirements-panel">
-          <h3>Required Documents</h3>
-          <div class="loading-state small" *ngIf="isLoadingRequirements">Loading requirements...</div>
-
-          <ul class="requirements-list" *ngIf="!isLoadingRequirements && requirements.length > 0">
-            <li *ngFor="let requirement of requirements">
-              <i
-                class="fas"
-                [ngClass]="requirement.is_required ? 'fa-check-circle' : 'fa-circle'"
-                aria-hidden="true"
-              ></i>
-              <span>{{ requirement.document_name }}</span>
-              <small>{{ requirement.is_required ? "Required" : "Optional" }}</small>
-            </li>
-          </ul>
-
-          <div class="empty-state" *ngIf="!isLoadingRequirements && requirements.length === 0">
-            No requirements found for this visa package yet.
-          </div>
-        </article>
-      </div>
+      <div class="empty-state" *ngIf="!isLoadingCountries && !countries.length">No destinations match your search. Try another country name.</div>
     </section>
   </div>
-</section>
+</main>
+
+<div class="visa-modal-backdrop" *ngIf="isVisaModalOpen" (click)="closeVisaModal()">
+  <section class="visa-modal" role="dialog" aria-modal="true" aria-label="Visa options" (click)="$event.stopPropagation()">
+    <header class="modal-header">
+      <div><span class="eyebrow">Visa for</span><h2>{{ selectedCountry?.name }}</h2></div>
+      <button type="button" class="modal-close" (click)="closeVisaModal()" aria-label="Close visa options"><i class="fas fa-times"></i></button>
+    </header>
+
+    <div class="modal-progress"><span class="active">1. Choose option</span><i class="fas fa-chevron-right"></i><span [class.active]="selectedVisaType">2. Requirements</span><i class="fas fa-chevron-right"></i><span [class.active]="selectedVisaType">3. Apply</span></div>
+
+    <div class="modal-content">
+      <section class="modal-options" [class.has-selection]="selectedVisaType">
+        <div class="options-heading"><div><h3>Available visa options</h3><p>Select an option to see its requirements.</p></div><label class="package-search"><i class="fas fa-search"></i><input type="search" [value]="visaTypeSearch" (input)="onVisaTypeSearch($event)" placeholder="Search visa type" aria-label="Search visa types" /></label></div>
+        <div class="loading-state" *ngIf="isLoadingVisaTypes"><i class="fas fa-circle-notch fa-spin"></i> Loading visa options…</div>
+        <div class="modal-type-list" *ngIf="!isLoadingVisaTypes && visaTypes.length">
+          <button type="button" class="modal-type-card" *ngFor="let visaType of visaTypes" [class.active]="selectedVisaType?.id === visaType.id" (click)="openVisaType(visaType)">
+            <span class="type-icon"><i class="fas fa-plane-departure"></i></span>
+            <span class="type-main"><strong>{{ visaType.visa_name }}</strong><small>{{ visaType.processing_days ? visaType.processing_days + ' days processing' : 'Processing time varies' }}</small></span>
+            <span class="type-fee">{{ visaType.fee ? '৳' + visaType.fee : 'Contact us' }}</span><i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+        <div class="empty-state" *ngIf="!isLoadingVisaTypes && !visaTypes.length">No visa options are available for this country yet.</div>
+      </section>
+
+      <section class="modal-details" *ngIf="selectedVisaType; else selectOption">
+        <div class="detail-title"><span class="detail-icon"><i class="far fa-file-alt"></i></span><div><h3>{{ selectedVisaType.visa_name }}</h3><p>Review requirements before applying.</p></div></div>
+        <div class="detail-facts"><div><span>Visa fee</span><strong>{{ selectedVisaType.fee ? '৳' + selectedVisaType.fee : 'Contact us' }}</strong></div><div><span>Processing</span><strong>{{ selectedVisaType.processing_days ? selectedVisaType.processing_days + ' days' : 'Varies' }}</strong></div></div>
+        <h4>Documents to prepare</h4>
+        <div class="loading-state small" *ngIf="isLoadingRequirements"><i class="fas fa-circle-notch fa-spin"></i> Loading requirements…</div>
+        <ul class="requirements-list" *ngIf="!isLoadingRequirements && requirements.length"><li *ngFor="let requirement of requirements"><i class="fas" [ngClass]="requirement.is_required ? 'fa-check-circle' : 'fa-circle'"></i><span>{{ requirement.document_name }}</span><small>{{ requirement.is_required ? 'Required' : 'Optional' }}</small></li></ul>
+        <div class="empty-state" *ngIf="!isLoadingRequirements && !requirements.length">No document requirements have been listed yet.</div>
+        <button type="button" class="apply-button" (click)="goToApply()"><i class="fas" [ngClass]="isLoggedIn ? 'fa-arrow-right' : 'fa-lock'"></i>{{ isLoggedIn ? 'Apply for this visa' : 'Login to apply' }}</button>
+      </section>
+      <ng-template #selectOption><section class="modal-placeholder"><span><i class="fas fa-hand-pointer"></i></span><strong>Select a visa option</strong><p>Its fees, processing time, and document checklist will appear here.</p></section></ng-template>
+    </div>
+  </section>
+</div>
+
+<div class="application-modal-backdrop" *ngIf="isApplicationModalOpen" (click)="closeApplicationModal()">
+  <section class="application-modal" role="dialog" aria-modal="true" aria-label="Visa application" (click)="$event.stopPropagation()">
+    <header class="application-modal-header">
+      <div><span class="eyebrow">Visa application</span><strong>{{ selectedCountry?.name }} — {{ selectedVisaType?.visa_name }}</strong></div>
+      <button type="button" class="modal-close" (click)="closeApplicationModal()" aria-label="Close application"><i class="fas fa-times"></i></button>
+    </header>
+    <app-visa-application-form [modalCountryId]="selectedCountry?.id || null" [modalVisaTypeId]="selectedVisaType?.id || null"></app-visa-application-form>
+  </section>
+</div>

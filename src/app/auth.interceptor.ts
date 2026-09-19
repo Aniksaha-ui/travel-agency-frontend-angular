@@ -3,13 +3,21 @@ import {
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
+  HttpErrorResponse,
   HttpRequest,
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
+import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { AppdataService } from './service/appdata.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
+  constructor(
+    private router: Router,
+    private appdata: AppdataService
+  ) {}
+
   private getAccessToken(): string | null {
     const token =
       localStorage.getItem('access_token') ||
@@ -45,8 +53,35 @@ export class AuthInterceptor implements HttpInterceptor {
         },
       });
 
-      return next.handle(clonedRequest);
+      return this.handleResponse(next.handle(clonedRequest));
     }
-    return next.handle(req);
+    return this.handleResponse(next.handle(req));
+  }
+
+  private handleResponse(response: Observable<HttpEvent<any>>): Observable<HttpEvent<any>> {
+    return response.pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (this.isUnauthenticated(error)) {
+          this.logout();
+        }
+
+        return throwError(() => error);
+      })
+    );
+  }
+
+  private isUnauthenticated(error: HttpErrorResponse): boolean {
+    const message = String(error.error?.message || error.message || '').toLowerCase();
+
+    return error.status === 401 || message.includes('unauthenticated');
+  }
+
+  private logout(): void {
+    ['access_token', 'accessToken', 'token', 'auth_token', 'user', 'isLoggedIn'].forEach((key) =>
+      localStorage.removeItem(key)
+    );
+    this.appdata.userInfo.next(false);
+    this.appdata.loginStatus.next(false);
+    this.router.navigate(['/']);
   }
 }

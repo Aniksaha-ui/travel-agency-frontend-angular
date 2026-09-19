@@ -19,8 +19,29 @@
     backdrop-filter: blur(10px);
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
     transition: all 0.4s ease;
-    padding: 15px 0;
+    padding: 11px 0;
     font-family: var(--font-family);
+}
+
+@media (min-width: 1200px) {
+    #site-header .container {
+        max-width: 1440px;
+    }
+
+    #site-header .navbar {
+        flex-wrap: nowrap;
+        gap: 22px;
+    }
+
+    #site-header .navbar-collapse {
+        min-width: 0;
+    }
+
+    #site-header .navbar-nav {
+        flex: 1 1 auto;
+        justify-content: flex-end;
+        min-width: 0;
+    }
 }
 
 #site-header.fixed-top {
@@ -49,11 +70,12 @@
 }
 
 .navbar-nav .nav-item {
-    padding: 0 10px;
+    padding: 0 8px;
+    white-space: nowrap;
 }
 
 .nav-link {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     color: var(--heading-color) !important;
     text-transform: capitalize;
@@ -81,12 +103,15 @@
 .search-right {
     display: flex;
     align-items: center;
+    flex: 0 0 auto;
 }
 
 .ai-chat-link {
     display: inline-flex;
     align-items: center;
-    padding: 0 18px;
+    gap: 8px;
+    min-height: 40px;
+    padding: 0 16px;
     border-radius: 999px;
     background: linear-gradient(135deg, rgba(255, 74, 82, 0.12), rgba(46, 213, 115, 0.14));
     border: 1px solid rgba(255, 74, 82, 0.18);
@@ -94,6 +119,7 @@
     font-size: 14px;
     font-weight: 700;
     text-decoration: none;
+    white-space: nowrap;
 }
 
 .ai-chat-link:hover,
@@ -146,6 +172,26 @@
     display: flex;
     align-items: center;
     margin-left: 15px;
+}
+
+/* The compact mobile navigation is used before the desktop links can crowd. */
+@media (min-width: 1200px) and (max-width: 1399px) {
+    #site-header .navbar {
+        gap: 10px;
+    }
+
+    .navbar-nav .nav-item {
+        padding: 0 5px;
+    }
+
+    .nav-link {
+        font-size: 13px;
+    }
+
+    .search-header,
+    .theme-switch-wrapper {
+        display: none;
+    }
 }
 
 .theme-switch {

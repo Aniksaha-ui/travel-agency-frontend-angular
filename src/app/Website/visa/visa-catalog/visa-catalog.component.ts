@@ -15,12 +15,15 @@ export class VisaCatalogComponent implements OnInit {
 
   selectedCountry: VisaCountry | null = null;
   selectedVisaType: VisaType | null = null;
+  isVisaModalOpen = false;
+  isApplicationModalOpen = false;
 
   isLoadingCountries = true;
   isLoadingVisaTypes = false;
   isLoadingRequirements = false;
   pageError = '';
   countrySearch = '';
+  visaTypeSearch = '';
 
   constructor(
     private visaService: VisaService,
@@ -47,18 +50,38 @@ export class VisaCatalogComponent implements OnInit {
     this.loadCountries(this.countrySearch.trim());
   }
 
+  onVisaTypeSearch(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.visaTypeSearch = input.value;
+
+    if (this.selectedCountry) {
+      this.loadVisaTypes(this.selectedCountry.id, this.selectedVisaType?.id, this.visaTypeSearch.trim());
+    }
+  }
+
   openCountry(country: VisaCountry): void {
-    this.router.navigate(['/visa/country', country.id]);
+    this.selectedCountry = country;
+    this.selectedVisaType = null;
+    this.requirements = [];
+    this.visaTypeSearch = '';
+    this.isVisaModalOpen = true;
+    this.loadVisaTypes(country.id);
   }
 
   openVisaType(visaType: VisaType): void {
-    const countryId = visaType.country_id || this.selectedCountry?.id;
+    this.selectedVisaType = visaType;
+    this.requirements = [];
+    this.loadRequirements(visaType.id);
+  }
 
-    if (!countryId) {
-      return;
-    }
+  closeVisaModal(): void {
+    this.isVisaModalOpen = false;
+    this.selectedVisaType = null;
+    this.requirements = [];
+  }
 
-    this.router.navigate(['/visa/country', countryId, 'type', visaType.id]);
+  closeApplicationModal(): void {
+    this.isApplicationModalOpen = false;
   }
 
   goToApply(): void {
@@ -72,7 +95,7 @@ export class VisaCatalogComponent implements OnInit {
     };
 
     if (this.isLoggedIn) {
-      this.router.navigate(['/visa/apply'], { queryParams });
+      this.isApplicationModalOpen = true;
       return;
     }
 
@@ -138,6 +161,7 @@ export class VisaCatalogComponent implements OnInit {
         this.selectedCountry = countryId
           ? this.countries.find((country) => country.id === countryId) || null
           : null;
+        this.isVisaModalOpen = !!this.selectedCountry;
 
         this.isLoadingCountries = false;
 
@@ -152,11 +176,11 @@ export class VisaCatalogComponent implements OnInit {
     });
   }
 
-  private loadVisaTypes(countryId: number, visaTypeId?: number): void {
+  private loadVisaTypes(countryId: number, visaTypeId?: number, search?: string): void {
     this.isLoadingVisaTypes = true;
     this.pageError = '';
 
-    this.visaService.getVisaTypes(countryId).subscribe({
+    this.visaService.getVisaTypes(countryId, search).subscribe({
       next: (response) => {
         if (!this.visaService.isSuccess(response.isExecute)) {
           this.pageError = response.message || 'Unable to load visa packages.';
