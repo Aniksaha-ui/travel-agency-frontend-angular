@@ -1,12 +1,15 @@
 <main class="visa-page">
   <div class="container">
     <section class="visa-hero">
-      <div class="visa-hero-copy">
-        <span class="eyebrow"><i class="fas fa-passport"></i> Visa services</span>
-        <h1>Start your next journey with confidence.</h1>
-        <p>Choose a destination to compare visa options, review documents, and apply when you are ready.</p>
+      <div class="visa-hero-intro">
+        <span class="hero-icon"><i class="fas fa-passport"></i></span>
+        <div class="visa-hero-copy">
+          <span class="eyebrow">Visa services</span>
+          <h1>Your next destination starts here.</h1>
+          <p>Explore visa options with a simple guided process built around your chosen destination.</p>
+        </div>
       </div>
-      <button type="button" class="my-applications" (click)="goToApplications()"><i class="fas" [ngClass]="isLoggedIn ? 'fa-folder-open' : 'fa-sign-in-alt'"></i>{{ isLoggedIn ? 'My applications' : 'Login to apply' }}</button>
+      <aside class="visa-hero-cta"><span>Already started?</span><strong>Track your visa application</strong><p>View updates, documents, and payment status in one place.</p><button type="button" class="my-applications" (click)="goToApplications()"><i class="fas" [ngClass]="isLoggedIn ? 'fa-folder-open' : 'fa-sign-in-alt'"></i>{{ isLoggedIn ? 'My applications' : 'Login to apply' }}</button></aside>
     </section>
 
     <section class="destination-finder">
@@ -76,3 +79,30 @@
     <app-visa-application-form [modalCountryId]="selectedCountry?.id || null" [modalVisaTypeId]="selectedVisaType?.id || null"></app-visa-application-form>
   </section>
 </div>
+
+<style>
+  .visa-hero {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 28px;
+    padding: 28px 30px !important;
+    border: 0;
+    border-radius: 24px;
+    background: linear-gradient(125deg, rgb(20, 89, 173), rgb(42, 134, 222));
+    box-shadow: 0 20px 38px rgba(22, 96, 179, .22);
+  }
+  .visa-hero-intro { display: flex; align-items: center; gap: 17px; }
+  .visa-hero .hero-icon { display: grid; place-items: center; flex: 0 0 auto; width: 58px; height: 58px; border: 1px solid rgba(255, 255, 255, .3); border-radius: 17px; background: rgba(255, 255, 255, .15); color: rgb(255, 255, 255); font-size: 1.4rem; }
+  .visa-hero .eyebrow { color: rgb(204, 233, 255); }
+  .visa-hero h1 { max-width: none !important; margin: 5px 0 6px !important; color: rgb(255, 255, 255) !important; font-size: clamp(1.7rem, 2.7vw, 2.45rem) !important; }
+  .visa-hero p { max-width: 620px; color: rgb(226, 241, 255) !important; font-size: .9rem; }
+  .visa-hero-cta { min-width: 245px; padding: 17px; border-radius: 16px; background: rgb(255, 255, 255); box-shadow: 0 12px 22px rgba(8, 55, 114, .2); }
+  .visa-hero-cta span, .visa-hero-cta strong { display: block; }
+  .visa-hero-cta span { color: rgb(75, 120, 165); font-size: .7rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+  .visa-hero-cta strong { margin-top: 5px; color: rgb(23, 71, 124); font-size: .95rem; }
+  .visa-hero-cta p { margin: 6px 0 13px; color: rgb(104, 134, 165) !important; font-size: .76rem; line-height: 1.45; }
+  .visa-hero-cta .my-applications { width: 100%; border-color: rgb(35, 117, 205); background: rgb(35, 117, 205); color: rgb(255, 255, 255); }
+  @media (max-width: 991px) { .visa-hero { grid-template-columns: 1fr !important; } .visa-hero-cta { max-width: 360px; } }
+  @media (max-width: 600px) { .visa-hero { padding: 20px !important; } .visa-hero-intro { align-items: flex-start; } .visa-hero .hero-icon { width: 45px; height: 45px; border-radius: 13px; font-size: 1rem; } .visa-hero-cta { width: 100%; max-width: none; } }
+</style>

@@ -63,7 +63,7 @@ export class VisaApplicationFormComponent implements OnInit {
   });
 
   applicantForm: FormGroup = this.fb.group({
-    full_name: ['', [Validators.required, Validators.maxLength(150)]],
+    full_name: ['', Validators.maxLength(150)],
     passport_number: ['', [Validators.required, Validators.maxLength(50)]],
     passport_expiry: [''],
     date_of_birth: [''],
@@ -93,6 +93,10 @@ export class VisaApplicationFormComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router
   ) {}
+
+  get isVisaSelectionLocked(): boolean {
+    return !!this.modalCountryId && !!this.modalVisaTypeId;
+  }
 
   ngOnInit(): void {
     this.paymentQueryState = this.route.snapshot.queryParamMap.get('payment') || '';
@@ -599,10 +603,7 @@ export class VisaApplicationFormComponent implements OnInit {
   hasCompleteApplicantInfo(): boolean {
     const applicantInfo = this.application?.applicant_info;
 
-    return !!(
-      applicantInfo?.full_name?.trim() &&
-      applicantInfo?.passport_number?.trim()
-    );
+    return !!applicantInfo?.passport_number?.trim();
   }
 
   hasApplicantInfo(): boolean {

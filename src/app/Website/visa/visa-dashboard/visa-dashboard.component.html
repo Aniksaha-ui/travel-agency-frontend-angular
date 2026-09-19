@@ -1,136 +1,149 @@
-<section class="visa-dashboard-shell">
+<main class="visa-dashboard" style="padding-top: 144px">
   <div class="container">
-    <div class="page-hero">
-      <div class="hero-copy">
-        <span class="hero-kicker">Customer Visa Panel</span>
-        <h1>Follow the documented visa process from draft to payment.</h1>
-        <p>
-          Browse countries and visa types, create a draft, add applicant details, upload required
-          documents, submit, and pay from one secure customer workspace.
-        </p>
-
-        <div class="hero-actions">
-          <a routerLink="/visa" class="btn btn-outline-secondary rounded-pill px-4">
-            Browse Visa Countries
-          </a>
-          <a routerLink="/visa/apply" class="btn btn-style">Start New Visa Application</a>
-          <a routerLink="/tickets" class="btn btn-outline-secondary rounded-pill px-4">
-            Need Support
-          </a>
-        </div>
+    <header class="dashboard-header">
+      <div>
+        <h3 style="color: white">
+          <i class="fas fa-passport"></i>
+          <span style="align-items: center; justify-content: center">
+            My visa applications</span
+          >
+        </h3>
       </div>
-
-      <div class="hero-panel">
-        <h3>Process Order</h3>
-        <ol>
-          <li>Create visa application draft</li>
-          <li>Add applicant information</li>
-          <li>Upload required documents</li>
-          <li>Submit application</li>
-          <li>Pay visa fee</li>
-        </ol>
+      <div class="header-actions">
+        <a routerLink="/visa" class="browse-link"
+          ><i class="fas fa-globe"></i> Browse visas</a
+        ><a routerLink="/visa" class="new-application"
+          ><i class="fas fa-plus"></i> New application</a
+        >
       </div>
-    </div>
+    </header>
 
     <div class="notice-banner" *ngIf="paymentNotice">
-      Payment status: {{ paymentNotice | titlecase }}
+      <i class="fas fa-check-circle"></i> Payment status:
+      {{ paymentNotice | titlecase }}
     </div>
-
-    <div class="stats-grid">
-      <div class="stat-card">
-        <span>Total Cases</span>
-        <strong>{{ totalCases }}</strong>
-      </div>
-      <div class="stat-card">
-        <span>Active Cases</span>
-        <strong>{{ activeCases }}</strong>
-      </div>
-      <div class="stat-card">
-        <span>Needs Action</span>
-        <strong>{{ needsActionCount }}</strong>
-      </div>
-      <div class="stat-card">
-        <span>Approved</span>
-        <strong>{{ approvedCount }}</strong>
-      </div>
-    </div>
-
-    <div class="section-head">
-      <div>
-        <span class="section-kicker">Applications</span>
-        <h2>Your Visa Applications</h2>
-      </div>
-
-      <div class="filter-group">
-        <button
-          *ngFor="let filter of filters"
-          type="button"
-          class="filter-chip"
-          [class.active]="activeFilter === filter.value"
-          (click)="setFilter(filter.value)"
-        >
-          {{ filter.label }}
-        </button>
-      </div>
-    </div>
-
     <div class="error-banner" *ngIf="loadError">
-      {{ loadError }}
+      <i class="fas fa-exclamation-circle"></i>{{ loadError }}
     </div>
 
-    <div class="loading-grid" *ngIf="isLoading">
-      <div class="loading-card" *ngFor="let item of [1, 2, 3]"></div>
-    </div>
-
-    <div class="applications-grid" *ngIf="!isLoading && filteredApplications.length > 0">
-      <article class="application-card" *ngFor="let application of filteredApplications">
-        <div class="card-head">
-          <div>
-            <span class="card-kicker">{{ getApplicationReference(application) }}</span>
-            <h3>{{ application.country_name || "Visa Destination" }}</h3>
-            <p>{{ application.visa_name || "Visa Type" }}</p>
-          </div>
-
-          <span class="status-pill" [ngClass]="getStatusClass(application.status)">
-            {{ getStatusLabel(application.status) }}
-          </span>
-        </div>
-
-        <div class="meta-grid">
-          <div>
-            <span class="meta-label">Applied</span>
-            <strong>{{ application.applied_at ? (application.applied_at | date : "mediumDate") : "Draft" }}</strong>
-          </div>
-          <div>
-            <span class="meta-label">Officer</span>
-            <strong>{{ application.assigned_officer_name || "Not Assigned" }}</strong>
-          </div>
-          <div>
-            <span class="meta-label">Payment</span>
-            <strong>{{ getPaymentStatusLabel(application.payment_status) }}</strong>
-          </div>
-        </div>
-
-        <p class="remarks" *ngIf="application.remarks">{{ application.remarks }}</p>
-
-        <div class="card-actions">
-          <a [routerLink]="['/visa/application', application.id]" class="action-link">View Details</a>
-          <a
-            *ngIf="canContinueProcessing(application)"
-            routerLink="/visa/apply"
-            [queryParams]="{ applicationId: application.id }"
-            class="btn btn-outline-primary rounded-pill px-4"
-          >
-            Continue Process
-          </a>
+    <section class="overview-grid">
+      <article>
+        <span class="overview-icon total"><i class="far fa-folder"></i></span>
+        <div>
+          <span>Total applications</span><strong>{{ totalCases }}</strong>
         </div>
       </article>
-    </div>
+      <article>
+        <span class="overview-icon active"><i class="far fa-clock"></i></span>
+        <div>
+          <span>In progress</span><strong>{{ activeCases }}</strong>
+        </div>
+      </article>
+      <article>
+        <span class="overview-icon action"><i class="fas fa-bell"></i></span>
+        <div>
+          <span>Need your action</span><strong>{{ needsActionCount }}</strong>
+        </div>
+      </article>
+      <article>
+        <span class="overview-icon approved"
+          ><i class="far fa-check-circle"></i
+        ></span>
+        <div>
+          <span>Approved</span><strong>{{ approvedCount }}</strong>
+        </div>
+      </article>
+    </section>
 
-    <div class="empty-state" *ngIf="!isLoading && !loadError && filteredApplications.length === 0">
-      <h3>No visa applications found</h3>
-      <p>Start a new application to follow the documented customer visa workflow.</p>
-      <a routerLink="/visa/apply" class="btn btn-style">Create Visa Application</a>
-    </div>
+    <section class="applications-panel">
+      <div class="panel-head">
+        <div>
+          <h2>Applications</h2>
+          <p>Choose an application to view its latest status.</p>
+        </div>
+        <div class="filter-group">
+          <button
+            *ngFor="let filter of filters"
+            type="button"
+            [class.active]="activeFilter === filter.value"
+            (click)="setFilter(filter.value)"
+          >
+            {{ filter.label }}
+          </button>
+        </div>
+      </div>
+
+      <div class="loading-list" *ngIf="isLoading">
+        <div *ngFor="let item of [1, 2, 3]"></div>
+      </div>
+
+      <div
+        class="application-list"
+        *ngIf="!isLoading && filteredApplications.length"
+      >
+        <article
+          class="application-row"
+          *ngFor="let application of filteredApplications"
+        >
+          <div class="destination-mark"><i class="fas fa-globe-asia"></i></div>
+          <div class="application-main">
+            <div class="application-title">
+              <div>
+                <h3>{{ application.country_name || "Visa destination" }}</h3>
+                <span
+                  >{{ application.visa_name || "Visa application" }} ·
+                  {{ getApplicationReference(application) }}</span
+                >
+              </div>
+              <span
+                class="status-pill"
+                [ngClass]="getStatusClass(application.status)"
+                >{{ getStatusLabel(application.status) }}</span
+              >
+            </div>
+            <div class="application-meta">
+              <span
+                ><i class="far fa-calendar"></i>
+                {{
+                  application.applied_at
+                    ? (application.applied_at | date: "mediumDate")
+                    : "Draft saved"
+                }}</span
+              ><span
+                ><i class="far fa-user"></i>
+                {{
+                  application.assigned_officer_name || "Awaiting assignment"
+                }}</span
+              ><span
+                ><i class="far fa-credit-card"></i>
+                {{ getPaymentStatusLabel(application.payment_status) }}</span
+              >
+            </div>
+            <p *ngIf="application.remarks">{{ application.remarks }}</p>
+          </div>
+          <div class="row-actions">
+            <a [routerLink]="['/visa/application', application.id]"
+              >View details <i class="fas fa-arrow-right"></i></a
+            ><a
+              *ngIf="canContinueProcessing(application)"
+              routerLink="/visa/apply"
+              [queryParams]="{ applicationId: application.id }"
+              class="continue-button"
+              >Continue</a
+            >
+          </div>
+        </article>
+      </div>
+
+      <div
+        class="empty-state"
+        *ngIf="!isLoading && !loadError && !filteredApplications.length"
+      >
+        <span><i class="far fa-file-alt"></i></span>
+        <h3>No applications here yet</h3>
+        <p>Choose a destination and start your first visa application.</p>
+        <a routerLink="/visa" class="new-application">Browse visas</a>
+      </div>
+    </section>
   </div>
-</section>
+</main>
